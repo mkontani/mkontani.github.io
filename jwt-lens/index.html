@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JWT Lens — Decode &amp; verify JWTs, 100% offline</title>
+  <meta name="description" content="A Safari extension that decodes and verifies JSON Web Tokens entirely on your device. No network, no tracking, no storage. For macOS, iPhone and iPad." />
+  <link rel="icon" type="image/png" href="/jwt-lens/icon.png" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="JWT Lens — Decode &amp; verify JWTs, 100% offline" />
+  <meta property="og:description" content="Inspect and verify JSON Web Tokens on-device. No network, no tracking." />
+  <meta property="og:url" content="https://mkontani.github.io/jwt-lens/" />
+  <meta property="og:image" content="https://mkontani.github.io/jwt-lens/icon.png" />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #0a0c11;
+      --bg-2: #0e1118;
+      --surface: #13161f;
+      --surface-2: #171b26;
+      --line: rgba(255, 255, 255, .09);
+      --line-bright: rgba(255, 255, 255, .16);
+      --fg: #eceef3;
+      --muted: #9298a6;
+      --faint: #5b6373;
+
+      --pink: #f06595;   /* header   */
+      --purple: #b197fc; /* payload  */
+      --teal: #3bc9db;   /* signature */
+      --amber: #ffc078;
+
+      --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+      --font-body: "Hanken Grotesk", system-ui, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+      --maxw: 1080px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Atmospheric backdrop: tri-color glow + fine grid */
+    body::before {
+      content: "";
+      position: fixed; inset: 0; z-index: -2;
+      background:
+        radial-gradient(60% 50% at 18% 0%, rgba(240, 101, 149, .14), transparent 70%),
+        radial-gradient(55% 45% at 82% 8%, rgba(59, 201, 219, .12), transparent 70%),
+        radial-gradient(70% 60% at 50% 100%, rgba(177, 151, 252, .10), transparent 70%);
+    }
+    body::after {
+      content: "";
+      position: fixed; inset: 0; z-index: -1;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(120% 80% at 50% 0%, #000 30%, transparent 78%);
+      opacity: .5;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+    /* ---------- Nav ---------- */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(12px);
+      background: linear-gradient(180deg, rgba(10, 12, 17, .82), rgba(10, 12, 17, .4));
+      border-bottom: 1px solid var(--line);
+    }
+    nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 800; font-size: 19px; letter-spacing: -.02em; }
+    .brand .mark {
+      width: 26px; height: 26px; border-radius: 7px; display: grid; place-items: center;
+      background: conic-gradient(from 210deg, var(--pink), var(--purple), var(--teal), var(--pink));
+      box-shadow: 0 0 0 1px var(--line-bright), 0 6px 18px rgba(177, 151, 252, .25);
+      font-size: 14px;
+    }
+    .nav-links { display: flex; align-items: center; gap: 28px; font-size: 15px; color: var(--muted); }
+    .nav-links a:hover { color: var(--fg); }
+    .nav-cta {
+      font-family: var(--font-body); font-weight: 600; font-size: 14px;
+      color: #0a0c11; background: var(--fg); padding: 8px 16px; border-radius: 999px;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(255, 255, 255, .14); }
+    @media (max-width: 720px) { .nav-links { display: none; } }
+
+    /* ---------- Hero ---------- */
+    .hero { padding: 88px 0 64px; }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center; }
+    @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
+      color: var(--teal); border: 1px solid var(--line); border-radius: 999px; padding: 6px 13px;
+      background: rgba(59, 201, 219, .06);
+    }
+    .eyebrow .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 0 0 rgba(59,201,219,.6); animation: ping 2.4s ease-out infinite; }
+    @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(59,201,219,.5);} 70%,100% { box-shadow: 0 0 0 9px rgba(59,201,219,0);} }
+
+    h1 {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: clamp(40px, 6.4vw, 70px); line-height: .98; letter-spacing: -.035em;
+      margin: 22px 0 0;
+    }
+    h1 .grad {
+      background: linear-gradient(100deg, var(--pink), var(--purple) 48%, var(--teal));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .lede { margin-top: 20px; font-size: 19px; color: var(--muted); max-width: 30ch; }
+    .lede strong { color: var(--fg); font-weight: 600; }
+
+    .cta-row { display: flex; align-items: center; gap: 14px; margin-top: 32px; flex-wrap: wrap; }
+    .btn-store {
+      display: inline-flex; align-items: center; gap: 11px;
+      background: var(--fg); color: #0a0c11; padding: 13px 20px; border-radius: 14px;
+      font-weight: 600; transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .btn-store:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(255,255,255,.16); }
+    .btn-store svg { width: 22px; height: 22px; }
+    .btn-store .small { display: block; font-size: 10px; font-weight: 500; opacity: .7; line-height: 1; margin-bottom: 2px; }
+    .btn-store .big { display: block; font-size: 17px; line-height: 1; font-family: var(--font-display); font-weight: 700; }
+    .btn-ghost { color: var(--muted); font-weight: 600; padding: 13px 6px; }
+    .btn-ghost:hover { color: var(--fg); }
+    .badge-soon { font-family: var(--font-mono); font-size: 11px; color: var(--amber); border: 1px dashed rgba(255,192,120,.4); border-radius: 999px; padding: 4px 10px; }
+
+    .trust { margin-top: 26px; display: flex; gap: 20px; flex-wrap: wrap; color: var(--faint); font-size: 14px; }
+    .trust span { display: inline-flex; align-items: center; gap: 7px; }
+    .trust .tick { color: var(--teal); }
+
+    /* ---------- Hero token visual ---------- */
+    .scene { position: relative; }
+    .glasspane {
+      background: linear-gradient(180deg, var(--surface), var(--bg-2));
+      border: 1px solid var(--line); border-radius: 18px; overflow: hidden;
+      box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .8), inset 0 1px 0 rgba(255,255,255,.04);
+    }
+    .pane-bar { display: flex; align-items: center; gap: 7px; padding: 12px 15px; border-bottom: 1px solid var(--line); }
+    .pane-bar i { width: 11px; height: 11px; border-radius: 50%; background: #2a2f3b; display: inline-block; }
+    .pane-bar .t { margin-left: 8px; font-family: var(--font-mono); font-size: 12px; color: var(--faint); }
+    .pane-body { padding: 18px 18px 20px; }
+    .lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; }
+
+    .token { font-family: var(--font-mono); font-weight: 700; font-size: 14px; line-height: 1.75; word-break: break-all; }
+    .token .h { color: var(--pink); }
+    .token .p { color: var(--purple); }
+    .token .s { color: var(--teal); }
+    .token .dot { color: var(--faint); }
+    .token .h, .token .p, .token .s { text-shadow: 0 0 18px currentColor; filter: saturate(1.1); }
+
+    .decoded { margin-top: 16px; display: grid; gap: 9px; }
+    .drow { border: 1px solid var(--line); border-left-width: 3px; border-radius: 9px; padding: 9px 12px; background: var(--surface-2); font-family: var(--font-mono); font-size: 12.5px; }
+    .drow.h { border-left-color: var(--pink); }
+    .drow.p { border-left-color: var(--purple); }
+    .drow .key { color: var(--muted); }
+    .drow .v { color: #d7dbe4; }
+    .verified {
+      margin-top: 14px; display: flex; align-items: center; gap: 9px;
+      font-family: var(--font-mono); font-size: 12.5px; color: var(--teal);
+      background: rgba(59, 201, 219, .08); border: 1px solid rgba(59, 201, 219, .25);
+      border-radius: 9px; padding: 9px 12px;
+    }
+    .verified .chk { width: 16px; height: 16px; border-radius: 50%; background: var(--teal); color: #06222a; display: grid; place-items: center; font-size: 11px; font-weight: 700; }
+    .scene .float {
+      position: absolute; right: -10px; top: -16px;
+      font-family: var(--font-mono); font-size: 11px; color: var(--amber);
+      background: rgba(255,192,120,.08); border: 1px solid rgba(255,192,120,.3);
+      padding: 5px 11px; border-radius: 999px; transform: rotate(3deg);
+    }
+
+    /* ---------- Sections ---------- */
+    section.band { padding: 80px 0; border-top: 1px solid var(--line); }
+    .kicker { font-family: var(--font-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--purple); }
+    h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 4vw, 40px); letter-spacing: -.03em; margin: 12px 0 0; }
+    .section-sub { color: var(--muted); margin-top: 12px; max-width: 56ch; }
+
+    .features { margin-top: 44px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 860px) { .features { grid-template-columns: 1fr; } }
+    .feat {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px;
+      position: relative; overflow: hidden; transition: transform .2s ease, border-color .2s ease;
+    }
+    .feat:hover { transform: translateY(-4px); border-color: var(--line-bright); }
+    .feat::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 2px; background: var(--accent, var(--purple)); opacity: .7; }
+    .feat .ic { width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; font-size: 19px; background: var(--surface-2); border: 1px solid var(--line); margin-bottom: 16px; }
+    .feat h3 { font-family: var(--font-display); font-weight: 700; font-size: 19px; letter-spacing: -.01em; }
+    .feat p { color: var(--muted); font-size: 15px; margin-top: 7px; }
+    .feat code { font-family: var(--font-mono); font-size: .85em; color: var(--teal); background: rgba(59,201,219,.08); padding: 1px 6px; border-radius: 5px; }
+
+    /* Privacy band */
+    .privacy { text-align: center; }
+    .privacy h2 { font-size: clamp(30px, 5vw, 52px); }
+    .privacy .big-claim .a { color: var(--pink); } .privacy .big-claim .b { color: var(--purple); } .privacy .big-claim .c { color: var(--teal); }
+    .pills { margin-top: 32px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .pill { font-family: var(--font-mono); font-size: 13px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 9px 16px; background: var(--surface); }
+    .pill b { color: var(--fg); font-weight: 700; }
+
+    .algs { margin-top: 30px; display: flex; gap: 9px; justify-content: center; flex-wrap: wrap; }
+    .alg { font-family: var(--font-mono); font-size: 12px; color: var(--faint); border: 1px solid var(--line); border-radius: 7px; padding: 6px 10px; }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--line); padding: 40px 0 60px; color: var(--faint); }
+    footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+    footer a { color: var(--muted); } footer a:hover { color: var(--fg); }
+    .foot-links { display: flex; gap: 22px; font-size: 15px; }
+
+    /* Motion */
+    .reveal { opacity: 0; animation: rise .8s cubic-bezier(.2, .7, .15, 1) forwards; }
+    @keyframes rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+    .d1 { animation-delay: .04s; } .d2 { animation-delay: .12s; } .d3 { animation-delay: .2s; }
+    .d4 { animation-delay: .3s; } .d5 { animation-delay: .42s; }
+    @media (prefers-reduced-motion: reduce) { .reveal { animation: none; opacity: 1; } html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="wrap">
+      <a class="brand" href="/jwt-lens/"><span class="mark">🔍</span> JWT&nbsp;Lens</a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#privacy">Privacy</a>
+        <a href="/jwt-lens/support.html">Support</a>
+        <a href="/jwt-lens/privacy.html">Privacy&nbsp;Policy</a>
+      </div>
+      <a class="nav-cta" href="#get">Get the app</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow reveal d1"><span class="pulse"></span> Safari extension · on-device</span>
+        <h1 class="reveal d2">See inside any<br /><span class="grad">JSON Web Token.</span></h1>
+        <p class="lede reveal d3">Decode, read, and verify JWTs in a tap — <strong>entirely on your device</strong>. No network. No tracking. Nothing stored.</p>
+
+        <div class="cta-row reveal d4" id="get">
+          <!-- Replace href with the App Store product URL once published -->
+          <a class="btn-store" href="#" aria-label="Coming soon to the App Store">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.36 1.43c.05 1.02-.34 2.02-1 2.77-.69.78-1.84 1.38-2.94 1.29-.07-1 .39-2.04 1.02-2.74.71-.79 1.94-1.36 2.92-1.32zM20.6 17.13c-.55 1.27-.82 1.84-1.53 2.97-.99 1.57-2.39 3.53-4.12 3.54-1.54.02-1.94-1-4.03-.99-2.09.01-2.52 1.01-4.06.99-1.73-.02-3.06-1.79-4.05-3.36-2.77-4.4-3.06-9.56-1.35-12.31 1.21-1.94 3.13-3.08 4.93-3.08 1.84 0 2.99 1.01 4.51 1.01 1.47 0 2.37-1.01 4.5-1.01 1.6 0 3.3.87 4.51 2.38-3.96 2.17-3.32 7.82.74 9.86z"/></svg>
+            <span><span class="small">Coming soon to the</span><span class="big">App&nbsp;Store</span></span>
+          </a>
+          <span class="badge-soon">in review</span>
+          <a class="btn-ghost" href="#features">How it works ↓</a>
+        </div>
+
+        <div class="trust reveal d5">
+          <span><span class="tick">✓</span> Free, no ads</span>
+          <span><span class="tick">✓</span> macOS · iPhone · iPad</span>
+          <span><span class="tick">✓</span> Open about privacy</span>
+        </div>
+      </div>
+
+      <div class="scene reveal d4">
+        <div class="float">exp · in 59 min</div>
+        <div class="glasspane">
+          <div class="pane-bar"><i></i><i></i><i></i><span class="t">JWT Lens</span></div>
+          <div class="pane-body">
+            <div class="lbl">Encoded</div>
+            <div class="token"><span class="h">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</span><span class="dot">.</span><span class="p">eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFkYSBMb3ZlbGFjZSJ9</span><span class="dot">.</span><span class="s">2rJa0xN9x5QZQTvUhAcO…</span></div>
+            <div class="decoded">
+              <div class="drow h"><span class="key">"alg"</span>: <span class="v">"HS256"</span> · <span class="key">"typ"</span>: <span class="v">"JWT"</span></div>
+              <div class="drow p"><span class="key">"sub"</span>: <span class="v">"1234567890"</span> · <span class="key">"name"</span>: <span class="v">"Ada Lovelace"</span></div>
+            </div>
+            <div class="verified"><span class="chk">✓</span> Signature verified · HS256</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="band" id="features">
+    <div class="wrap">
+      <div class="reveal">
+        <span class="kicker">What it does</span>
+        <h2>Everything a token tells you — at a glance.</h2>
+        <p class="section-sub">Built for developers debugging OAuth and OIDC flows, inspecting bearer tokens, or just learning how JWTs work.</p>
+      </div>
+      <div class="features">
+        <div class="feat" style="--accent: var(--pink)">
+          <div class="ic">🎨</div>
+          <h3>Decoded, color-coded</h3>
+          <p>Pretty-printed header and payload, with the classic three-part coloring so structure is obvious instantly.</p>
+        </div>
+        <div class="feat" style="--accent: var(--purple)">
+          <div class="ic">⏱️</div>
+          <h3>Human-readable time</h3>
+          <p><code>exp</code>, <code>iat</code> and <code>nbf</code> in your local time with “expires in 59 minutes”, plus a valid / expired badge.</p>
+        </div>
+        <div class="feat" style="--accent: var(--teal)">
+          <div class="ic">🔏</div>
+          <h3>Verify signatures</h3>
+          <p>Check HS, RS, PS and ES signatures with your secret or public key — computed locally with WebCrypto.</p>
+        </div>
+        <div class="feat" style="--accent: var(--purple)">
+          <div class="ic">📋</div>
+          <h3>Grab &amp; copy</h3>
+          <p>Pull a token straight from the text you’ve selected on a page, and copy any part with one tap.</p>
+        </div>
+        <div class="feat" style="--accent: var(--teal)">
+          <div class="ic">🌗</div>
+          <h3>Light &amp; dark</h3>
+          <p>Follows your system appearance, and reads beautifully either way.</p>
+        </div>
+        <div class="feat" style="--accent: var(--pink)">
+          <div class="ic">🧭</div>
+          <h3>Claim guidance</h3>
+          <p>Plain-English descriptions of standard claims like <code>iss</code>, <code>sub</code> and <code>aud</code>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band privacy" id="privacy">
+    <div class="wrap reveal">
+      <span class="kicker">Privacy</span>
+      <h2 class="big-claim">Nothing <span class="a">leaves</span> your <span class="b">device.</span> <span class="c">Ever.</span></h2>
+      <p class="section-sub" style="margin-inline:auto">JWT Lens makes no network requests. Your tokens and keys are never sent anywhere, never stored, never logged. The whole tool runs in the popup and forgets everything when you close it.</p>
+      <div class="pills">
+        <span class="pill"><b>0</b> network requests</span>
+        <span class="pill"><b>0</b> trackers</span>
+        <span class="pill"><b>0</b> data stored</span>
+        <span class="pill">App&nbsp;Store privacy: <b>Data Not Collected</b></span>
+      </div>
+      <div class="algs">
+        <span class="alg">HS256</span><span class="alg">HS384</span><span class="alg">HS512</span>
+        <span class="alg">RS256</span><span class="alg">RS384</span><span class="alg">RS512</span>
+        <span class="alg">PS256</span><span class="alg">PS384</span><span class="alg">PS512</span>
+        <span class="alg">ES256</span><span class="alg">ES384</span><span class="alg">ES512</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <a class="brand" href="/jwt-lens/"><span class="mark">🔍</span> JWT&nbsp;Lens</a>
+      <div class="foot-links">
+        <a href="/jwt-lens/privacy.html">Privacy</a>
+        <a href="/jwt-lens/support.html">Support</a>
+        <a href="/">More apps</a>
+      </div>
+      <div>© 2026 mkontani</div>
+    </div>
+  </footer>
+
+</body>
+</html>
