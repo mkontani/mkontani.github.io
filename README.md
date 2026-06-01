@@ -20,4 +20,5 @@ Public hub for app/extension **privacy policies** and **support** pages, served 
 
 ## Products
 
-- **JWT Lens** — [privacy](https://mkontani.github.io/jwt-lens/privacy.html) · [support](https://mkontani.github.io/jwt-lens/support.html)
+- **サクラ診断** — [website](https://mkontani.github.io/sakura-grade/) · [privacy](https://mkontani.github.io/sakura-grade/privacy.html) · [support](https://mkontani.github.io/sakura-grade/support.html)
+- **JWT Lens** — [website](https://mkontani.github.io/jwt-lens/) · [privacy](https://mkontani.github.io/jwt-lens/privacy.html) · [support](https://mkontani.github.io/jwt-lens/support.html)

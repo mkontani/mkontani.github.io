@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>サクラ診断 — サポート</title>
+  <link rel="stylesheet" href="/assets/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="site"><a href="/">mkontani</a> · <a href="/sakura-grade/">サクラ診断</a></header>
+    <h1>サクラ診断 — サポート</h1>
+    <p class="muted">Amazon レビューの評価分布を端末内で診断する Chrome 拡張。</p>
+
+    <h2>使い方</h2>
+    <ul>
+      <li>拡張をインストールし、Amazon.co.jp の商品ページを開きます。</li>
+      <li>商品の評価(★)の近くに <strong>A〜F のバッジ</strong>が表示されます。</li>
+      <li>バッジをクリックするとパネルが開き、評価分布のグラフと判定理由が見られます。</li>
+      <li>対応端末では、パネル内に<strong>端末内AI</strong>による文面解析（サクラ度・不自然な点・低評価の要点）も表示されます。</li>
+    </ul>
+
+    <h2>端末内AIについて</h2>
+    <ul>
+      <li>AI解析は Chrome の組み込みAI（Prompt API / Gemini Nano）に対応した端末でのみ動作します。</li>
+      <li>モデル（約2GB）が未ダウンロードの場合は、パネルの<strong>準備ボタン</strong>からダウンロードを開始できます。</li>
+      <li>AIに対応していない端末でも、評価分布による <strong>A〜F 診断</strong>は問題なく利用できます。</li>
+    </ul>
+
+    <h2>バッジが表示されないとき</h2>
+    <ul>
+      <li>商品ページ（<code>/dp/</code> を含むURL）であることを確認してください。レビューが無い商品では表示されません。</li>
+      <li>ページを再読み込みしてみてください。Amazon のページ構成変更により一時的に表示されない場合があります。</li>
+      <li>拡張が有効になっているか、<code>chrome://extensions</code> で確認してください。</li>
+    </ul>
+
+    <h2>プライバシー</h2>
+    <p>すべての処理はあなたの端末内で完結します。レビュー内容も診断結果も外部に送信されません。詳しくは<a href="/sakura-grade/privacy.html">プライバシーポリシー</a>をご覧ください。</p>
+
+    <h2>お問い合わせ</h2>
+    <p>ご質問・不具合報告・機能要望は <a href="mailto:itoama@gmail.com">itoama@gmail.com</a> までお寄せください。</p>
+
+    <footer>© 2026 mkontani · <a href="/">すべてのアプリ</a></footer>
+  </div>
+</body>
+</html>
