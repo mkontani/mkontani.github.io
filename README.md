@@ -22,4 +22,4 @@ Public hub for app/extension **privacy policies** and **support** pages, served 
 
 - **nokori（のこり）** — [website](https://mkontani.github.io/nokori/) · [privacy](https://mkontani.github.io/nokori/privacy.html) · [support](https://mkontani.github.io/nokori/support.html)
 - **サクラ診断** — [website](https://mkontani.github.io/sakura-grade/) · [Chrome Web Store](https://chromewebstore.google.com/detail/kjdodbkbkkncabkdgjapbioggmgnielo) · [privacy](https://mkontani.github.io/sakura-grade/privacy.html) · [support](https://mkontani.github.io/sakura-grade/support.html)
-- **JWT Lens** — [website](https://mkontani.github.io/jwt-lens/) · [privacy](https://mkontani.github.io/jwt-lens/privacy.html) · [support](https://mkontani.github.io/jwt-lens/support.html)
+- **JWT Lens** — [website](https://mkontani.github.io/jwt-lens/) · [App Store](https://apps.apple.com/jp/app/jwt-lens/id6774901745) · [privacy](https://mkontani.github.io/jwt-lens/privacy.html) · [support](https://mkontani.github.io/jwt-lens/support.html)
