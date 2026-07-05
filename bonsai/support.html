@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>サポート — 盆栽 / Bonsai</title>
+<meta name="description" content="盆栽（Bonsai）のサポート・よくある質問・お問い合わせ。">
+<meta name="theme-color" content="#efe9dd">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:#efe9dd; --card:#faf8f2; --ink:#2f3942; --ink-soft:#5a646c;
+    --ink-faint:#8b9299; --sage:#8a9b6e; --sage-deep:#6f7f55; --line:#d8d0bf;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; }
+  body {
+    font-family:"Zen Kaku Gothic New", system-ui, sans-serif;
+    color:var(--ink); background:var(--paper); line-height:1.95;
+    letter-spacing:.02em; -webkit-font-smoothing:antialiased;
+  }
+  body::before {
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:9999; opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .wrap { max-width:760px; margin:0 auto; padding:0 28px; }
+
+  nav { border-bottom:1px solid var(--line); background:color-mix(in srgb,var(--paper) 85%,transparent); backdrop-filter:blur(10px); position:sticky; top:0; z-index:10; }
+  nav .wrap { display:flex; align-items:center; justify-content:space-between; height:64px; max-width:1100px; }
+  .brand { display:flex; align-items:center; gap:11px; font-family:"Zen Old Mincho",serif; font-weight:700; font-size:1.18rem; letter-spacing:.08em; text-decoration:none; color:inherit; }
+  .brand img { width:30px; height:30px; border-radius:8px; }
+  .back { font-size:.9rem; color:var(--ink-soft); text-decoration:none; transition:color .25s; }
+  .back:hover { color:var(--sage-deep); }
+
+  header.page { padding:clamp(56px,9vw,96px) 0 8px; }
+  header.page .kicker { font-size:.78rem; letter-spacing:.3em; text-transform:uppercase; color:var(--sage-deep); margin-bottom:16px; }
+  header.page h1 { font-family:"Zen Old Mincho",serif; font-weight:600; font-size:clamp(2rem,5vw,2.9rem); letter-spacing:.04em; line-height:1.35; }
+
+  main { padding:24px 0 90px; }
+  .lang-label {
+    margin:54px 0 8px; font-family:"Zen Old Mincho",serif; font-size:.8rem; letter-spacing:.28em;
+    text-transform:uppercase; color:var(--sage-deep); display:flex; align-items:center; gap:14px;
+  }
+  .lang-label::after { content:""; flex:1; height:1px; background:var(--line); }
+
+  .lead { font-size:1.08rem; color:var(--ink); margin:22px 0; }
+  h2 { font-family:"Zen Old Mincho",serif; font-weight:600; font-size:1.18rem; letter-spacing:.04em; margin:34px 0 8px; }
+  p { color:var(--ink-soft); margin:10px 0; }
+  strong { color:var(--ink); font-weight:700; }
+  a.inline { color:var(--sage-deep); text-decoration:underline; text-underline-offset:3px; }
+
+  .contact {
+    background:var(--card); border:1px solid var(--line); border-left:3px solid var(--sage);
+    border-radius:14px; padding:24px 26px; margin:28px 0;
+  }
+  .contact .mincho { font-family:"Zen Old Mincho",serif; font-size:1.06rem; color:var(--ink); }
+  .contact a { color:var(--sage-deep); font-weight:500; text-decoration:underline; text-underline-offset:3px; }
+
+  footer { border-top:1px solid var(--line); padding:40px 0 56px; }
+  footer .wrap { max-width:1100px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:center; }
+  .copyright { font-size:.82rem; color:var(--ink-faint); letter-spacing:.04em; }
+  footer a { font-size:.9rem; color:var(--ink-soft); text-decoration:none; }
+  footer a:hover { color:var(--sage-deep); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="index.html" class="brand"><img src="icon.png" alt="Bonsai">盆栽</a>
+    <a href="index.html" class="back">← トップへ</a>
+  </div>
+</nav>
+
+<header class="page">
+  <div class="wrap">
+    <p class="kicker">Support</p>
+    <h1>サポート</h1>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <div class="contact">
+      <p class="mincho">ご質問・ご要望・不具合のご報告は、お気軽にご連絡ください。</p>
+      <p style="margin-top:10px;"><a href="mailto:itoama@gmail.com">itoama@gmail.com</a></p>
+    </div>
+
+    <!-- 日本語 -->
+    <p class="lang-label">よくある質問</p>
+
+    <h2>データはどこに保存されますか?</h2>
+    <p>すべてお使いの端末内にのみ保存されます。外部サーバーへの送信はありません。詳しくは<a class="inline" href="privacy.html">プライバシーポリシー</a>をご覧ください。</p>
+
+    <h2>課金や広告はありますか?</h2>
+    <p>ありません。締切・ペナルティ・スタミナ・広告のない、静かな設計です。</p>
+
+    <h2>進捗が引き継げません / 機種変更したい</h2>
+    <p>データは端末内に保存されるため、端末（または OS）のバックアップ・復元の対象になります。現在、アプリ独自のクラウド同期はありません。</p>
+
+    <h2>水やりのリマインダが届きません</h2>
+    <p>通知は任意（オプトイン）です。アプリの設定で通知を有効にし、iOS の「設定 &gt; 通知」で許可されているかご確認ください。</p>
+
+    <h2>木がなかなか育ちません</h2>
+    <p>盆栽は実際の時間に合わせてゆっくり育つ設計です。急かされず、日々ひと呼吸ずつ。品評可能になるまでの目安日数はカードや整形画面に表示されます。</p>
+
+    <!-- English -->
+    <p class="lang-label">FAQ (English)</p>
+
+    <h2>Where is my data stored?</h2>
+    <p>Entirely on your device. Nothing is sent to any server. See the <a class="inline" href="privacy.html">Privacy Policy</a> for details.</p>
+
+    <h2>Are there ads or in-app purchases?</h2>
+    <p>No. Bonsai is a calm app with no ads, no purchases, and no deadlines, penalties, or energy timers.</p>
+
+    <h2>How do I get in touch?</h2>
+    <p>Email <a class="inline" href="mailto:itoama@gmail.com">itoama@gmail.com</a> with any questions, requests, or bug reports.</p>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="copyright">© 2026 Bonsai. All rights reserved.</span>
+    <a href="index.html">← トップへ戻る</a>
+  </div>
+</footer>
+
+</body>
+</html>
