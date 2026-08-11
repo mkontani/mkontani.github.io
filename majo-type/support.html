@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>サポート — まじょっこたいぴんぐ</title>
+<meta name="description" content="まじょっこたいぴんぐのサポート・よくある質問・お問い合わせ。">
+<meta name="theme-color" content="#05020e">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --night:#05020e; --card:#140b23; --straw:#f0a93d; --skin:#fdcc90;
+    --bone:#cecab9; --ink-soft:#a9a4bd; --ink-faint:#7d7896; --line:#2a2440;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; }
+  body {
+    font-family:"Zen Kaku Gothic New", system-ui, sans-serif;
+    color:var(--bone); background:var(--night); line-height:1.95;
+    letter-spacing:.02em; -webkit-font-smoothing:antialiased;
+  }
+  img { image-rendering:pixelated; }
+  .wrap { max-width:760px; margin:0 auto; padding:0 28px; }
+
+  nav { border-bottom:1px solid var(--line); background:rgba(5,2,14,.85); backdrop-filter:blur(10px); position:sticky; top:0; z-index:10; }
+  nav .wrap { display:flex; align-items:center; justify-content:space-between; height:64px; max-width:1100px; }
+  .brand { display:flex; align-items:center; gap:11px; font-family:"DotGothic16",monospace; font-size:1.05rem; letter-spacing:.06em; text-decoration:none; color:var(--straw); }
+  .brand img { width:30px; height:30px; border-radius:8px; }
+  .back { font-size:.9rem; color:var(--ink-soft); text-decoration:none; transition:color .25s; }
+  .back:hover { color:var(--straw); }
+
+  header.page { padding:clamp(56px,9vw,96px) 0 8px; }
+  header.page .kicker { font-size:.78rem; letter-spacing:.3em; text-transform:uppercase; color:var(--straw); margin-bottom:16px; }
+  header.page h1 { font-family:"DotGothic16",monospace; font-size:clamp(1.7rem,4.4vw,2.4rem); letter-spacing:.06em; line-height:1.45; color:var(--skin); }
+
+  main { padding:24px 0 90px; }
+  .lang-label {
+    margin:54px 0 8px; font-family:"DotGothic16",monospace; font-size:.8rem; letter-spacing:.28em;
+    text-transform:uppercase; color:var(--straw); display:flex; align-items:center; gap:14px;
+  }
+  .lang-label::after { content:""; flex:1; height:1px; background:var(--line); }
+
+  h2 { font-family:"DotGothic16",monospace; font-size:1.12rem; letter-spacing:.04em; margin:34px 0 8px; color:var(--skin); }
+  p { color:var(--ink-soft); margin:10px 0; }
+  strong { color:var(--bone); font-weight:700; }
+  a.inline { color:var(--straw); text-decoration:underline; text-underline-offset:3px; }
+  kbd {
+    font-family:"DotGothic16",monospace; color:var(--skin); background:var(--card);
+    border:1px solid var(--line); border-radius:6px; padding:1px 8px; font-size:.94em;
+  }
+
+  .contact {
+    background:var(--card); border:1px solid var(--line); border-left:3px solid var(--straw);
+    border-radius:14px; padding:24px 26px; margin:28px 0;
+  }
+  .contact .dot { font-family:"DotGothic16",monospace; font-size:1.02rem; color:var(--skin); letter-spacing:.04em; }
+  .contact a { color:var(--straw); font-weight:500; text-decoration:underline; text-underline-offset:3px; }
+
+  .env { border:1px solid var(--line); border-radius:14px; overflow:hidden; margin:24px 0; }
+  .env div { display:flex; gap:16px; padding:12px 22px; border-bottom:1px solid var(--line); font-size:.95rem; }
+  .env div:last-child { border-bottom:0; }
+  .env span:first-child { font-family:"DotGothic16",monospace; color:var(--straw); min-width:7.5em; letter-spacing:.04em; }
+  .env span:last-child { color:var(--ink-soft); }
+
+  footer { border-top:1px solid var(--line); padding:40px 0 56px; }
+  footer .wrap { max-width:1100px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:center; }
+  .copyright { font-size:.82rem; color:var(--ink-faint); letter-spacing:.04em; }
+  footer a { font-size:.9rem; color:var(--ink-soft); text-decoration:none; }
+  footer a:hover { color:var(--straw); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="index.html" class="brand"><img src="icon.png" alt="">まじょっこたいぴんぐ</a>
+    <a href="index.html" class="back">← トップへ</a>
+  </div>
+</nav>
+
+<header class="page">
+  <div class="wrap">
+    <p class="kicker">Support</p>
+    <h1>サポート</h1>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <div class="contact">
+      <p class="dot">ご質問・ご要望・不具合のご報告は、お気軽にご連絡ください。</p>
+      <p style="margin-top:10px;"><a href="mailto:itoama@gmail.com">itoama@gmail.com</a></p>
+      <p style="margin-top:6px; font-size:.88rem;">不具合のご報告には、端末の機種と iOS のバージョン、起きたときの状況を添えていただけると助かります。</p>
+    </div>
+
+    <div class="env">
+      <div><span>対応端末</span><span>iPhone</span></div>
+      <div><span>対応OS</span><span>iOS 18.0 以降</span></div>
+      <div><span>言語</span><span>日本語</span></div>
+      <div><span>ネットワーク</span><span>不要（オフラインで動作します）</span></div>
+    </div>
+
+    <!-- 日本語 -->
+    <p class="lang-label">よくある質問</p>
+
+    <h2>どうやって遊びますか?</h2>
+    <p>魔女が島から島へ飛びます。画面上のお題をフリック入力で打ってください。正しく打つと高度が上がり、手が止まると降下して着水します。何島まで渡れるかを競います。</p>
+
+    <h2>「小゛゜」キーはどう使いますか?</h2>
+    <p>このキーは文字を入力するのではなく、<strong>直前に入力した文字を変換</strong>します。押すたびに小文字 → 濁点 → 半濁点の順に巡回し、末尾まで行くと元に戻ります。たとえば <kbd>は</kbd> は「ば → ぱ → は」、<kbd>つ</kbd> は「っ → づ → つ」と変わります。iOS 標準のかなキーボードと同じ挙動です。</p>
+
+    <h2>打ち間違えたときは、消さなくていいのですか?</h2>
+    <p>はい。違う方向へフリックした入力は<strong>無効になるだけ</strong>で、文字は入りません。消す操作は要らないので、そのまま正しい方向へ打ち直してください。失うのは時間だけです。</p>
+
+    <h2>フリックの方向がわかりません</h2>
+    <p>はじめのうちは、次に打つキーと方向を矢印でお知らせします。また、キーを押したまま指を離さずにいると、そのキーから出る文字が上下左右に展開されます。指を離す前なら方向を選び直せます。</p>
+
+    <h2>音が鳴りません</h2>
+    <p>タイトル画面の <kbd>BGM</kbd> と <kbd>こうかおん</kbd> が ON になっているかご確認ください。あわせて、端末の消音（サイレント）スイッチと音量もご確認ください。</p>
+
+    <h2>記録はどこに保存されますか?</h2>
+    <p>ハイスコアと音の設定は、お使いの端末の中にだけ保存されます。外部への送信はありません。詳しくは<a class="inline" href="privacy.html">プライバシーポリシー</a>をご覧ください。</p>
+
+    <h2>機種変更したら記録は引き継げますか?</h2>
+    <p>データは端末内に保存されるため、端末（または iCloud）のバックアップ・復元の対象になります。アプリ独自のクラウド同期はありません。<strong>アプリを削除すると記録も消えます。</strong></p>
+
+    <h2>iPad でも遊べますか?</h2>
+    <p>iPhone 向けに作っているため、iPad では iPhone 互換モードでの動作になります。キーの大きさが実機のキーボードと変わってしまうので、練習には iPhone をおすすめします。</p>
+
+    <h2>課金や広告はありますか?</h2>
+    <p>ありません。アプリ内課金も、広告も、アカウント登録もありません。</p>
+
+    <h2>言葉を追加してほしい / 難易度を変えたい</h2>
+    <p>ご要望はメールでお寄せください。出題される言葉や難易度の調整は、今後の更新で検討します。</p>
+
+    <!-- English -->
+    <p class="lang-label">FAQ (English)</p>
+
+    <h2>How do I play?</h2>
+    <p>A witch flies from island to island. Type the word shown on screen using Japanese flick input. Correct strokes gain altitude; if you stop typing, the witch descends and lands in the sea. See how many islands you can cross.</p>
+
+    <h2>What does the 「小゛゜」 key do?</h2>
+    <p>It does not enter a character — it <strong>transforms the one you just typed</strong>, cycling through small form → dakuten → handakuten and back. This matches the behavior of the standard iOS kana keyboard.</p>
+
+    <h2>Do I need to delete my mistakes?</h2>
+    <p>No. A flick in the wrong direction is simply ignored — no character is entered, so there is nothing to erase. All you lose is time.</p>
+
+    <h2>Where is my data stored?</h2>
+    <p>Your high score and sound settings are stored only on your device. Nothing is sent anywhere. See the <a class="inline" href="privacy.html">Privacy Policy</a> for details.</p>
+
+    <h2>Are there ads or in-app purchases?</h2>
+    <p>No. There are no ads, no in-app purchases, and no accounts.</p>
+
+    <h2>How do I get in touch?</h2>
+    <p>Email <a class="inline" href="mailto:itoama@gmail.com">itoama@gmail.com</a> with any questions, requests, or bug reports.</p>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="copyright">© 2026 まじょっこたいぴんぐ. All rights reserved.</span>
+    <a href="index.html">← トップへ戻る</a>
+  </div>
+</footer>
+
+</body>
+</html>
