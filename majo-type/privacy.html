@@ -31,6 +31,13 @@
   .brand img { width:30px; height:30px; border-radius:8px; }
   .back { font-size:.9rem; color:var(--ink-soft); text-decoration:none; transition:color .25s; }
   .back:hover { color:var(--straw); }
+  /* 狭い画面ではブランド名が折り返して 64px の行に収まらなくなる。 */
+  @media (max-width:520px) {
+    nav .wrap { padding:0 16px; }
+    .brand { font-size:.85rem; gap:8px; white-space:nowrap; }
+    .brand img { width:26px; height:26px; }
+    .back { font-size:.8rem; }
+  }
 
   header.page { padding:clamp(56px,9vw,96px) 0 8px; }
   header.page .kicker { font-size:.78rem; letter-spacing:.3em; text-transform:uppercase; color:var(--straw); margin-bottom:16px; }
