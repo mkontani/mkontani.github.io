@@ -87,7 +87,7 @@
   <div class="wrap">
     <p class="kicker">Privacy Policy</p>
     <h1>プライバシーポリシー</h1>
-    <p class="updated">最終更新日: 2026-09-01</p>
+    <p class="updated">最終更新日: 2026-09-06</p>
   </div>
 </header>
 
@@ -133,6 +133,7 @@
     <ul>
       <li>機種変更でデータが消えないよう、<strong>あなた自身の iCloud プライベートデータベース</strong>にゲームの進行を同期します。</li>
       <li>同期するもの: 煮干しの残高、持ち物、庭のスロット、図鑑の状態、発見した区画 ID</li>
+      <li>猫ごとの「なつき度(親密度)」と最後に来た日時も、同じく端末とあなたの iCloud プライベートデータベースだけに保存し、外部には出ません。</li>
       <li><strong>同期しないもの: 歩数、緯度経度、進行中のおさんぽ</strong></li>
       <li>ここは Apple が提供する、あなたのアカウントの領域です。<strong>開発者はその中身を見ることができません</strong>。</li>
       <li>iCloud にサインインしていなくても、端末の中だけで遊べます。</li>
@@ -184,7 +185,7 @@
 
     <p><strong>Location.</strong> "While Using the App" only; "Always" is never requested. Location is used in two places: while the Map tab is open (to fill in the cell you are standing in), and during a walk <strong>that you start and end yourself</strong> — including while the screen is off, which is why <code>UIBackgroundModes: location</code> is declared. <strong>Latitude and longitude are never stored.</strong> The app stores only a geohash-precision-7 cell ID (e.g. <code>xn76urx</code>, roughly 150 m across) and the time you first entered it. Background tracking stops when the walk ends, and a walk ends automatically after 20 minutes without movement. Denying access is fine — 16 of the 20 cats need no location at all.</p>
 
-    <p><strong>iCloud (CloudKit).</strong> Game progress is synced to <strong>your own private iCloud database</strong> so a new device keeps your cats. Synced: niboshi balance, inventory, yard slots, catalogue state, discovered cell IDs. <strong>Not synced: step counts, coordinates, walks in progress.</strong> This is Apple's storage inside your account; <strong>the developer cannot read it.</strong> The app works without an iCloud account.</p>
+    <p><strong>iCloud (CloudKit).</strong> Game progress is synced to <strong>your own private iCloud database</strong> so a new device keeps your cats. Synced: niboshi balance, inventory, yard slots, catalogue state, discovered cell IDs. Each cat's affection level and last-visit date are stored the same way — on-device and in your private iCloud database only; nothing leaves the device. <strong>Not synced: step counts, coordinates, walks in progress.</strong> This is Apple's storage inside your account; <strong>the developer cannot read it.</strong> The app works without an iCloud account.</p>
 
     <p><strong>Notifications.</strong> Local only; there is no push server. Three kinds, all opt-in: "the food ran out", one daily reminder (18:00 by default), and an encounter notice when a walk you started passes through a cell where a cat lives (sent only while the screen is off; while the app is in the foreground you see an in-app banner instead).</p>
 
