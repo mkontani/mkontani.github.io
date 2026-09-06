@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>サポート — てくてくねこ</title>
+<meta name="description" content="てくてくねこのサポート・よくある質問・お問い合わせ。">
+<meta name="theme-color" content="#f5f1e3">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:#f5f1e3; --card:#fffdf6; --ink:#332f22; --ink-soft:#655f4c;
+    --ink-faint:#928c76; --grass:#5a9a68; --grass-deep:#417a50; --niboshi:#dd9c46; --line:#ded4b7;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; }
+  body {
+    font-family:"Zen Kaku Gothic New", system-ui, sans-serif;
+    color:var(--ink); background:var(--paper); line-height:1.95;
+    letter-spacing:.02em; -webkit-font-smoothing:antialiased;
+  }
+  img { image-rendering:pixelated; }
+  .wrap { max-width:760px; margin:0 auto; padding:0 28px; }
+
+  nav { border-bottom:1px solid var(--line); background:rgba(245,241,227,.86); backdrop-filter:blur(10px); position:sticky; top:0; z-index:10; }
+  nav .wrap { display:flex; align-items:center; justify-content:space-between; height:64px; max-width:1100px; }
+  .brand { display:flex; align-items:center; gap:11px; font-family:"DotGothic16",monospace; font-size:1.05rem; letter-spacing:.06em; text-decoration:none; color:var(--grass-deep); }
+  .brand img { width:30px; height:30px; border-radius:8px; }
+  .back { font-size:.9rem; color:var(--ink-soft); text-decoration:none; transition:color .25s; }
+  .back:hover { color:var(--grass-deep); }
+  @media (max-width:520px) {
+    nav .wrap { padding:0 16px; }
+    .brand { font-size:.85rem; gap:8px; white-space:nowrap; }
+    .brand img { width:26px; height:26px; }
+    .back { font-size:.8rem; }
+  }
+
+  header.page { padding:clamp(56px,9vw,96px) 0 8px; }
+  header.page .kicker { font-size:.78rem; letter-spacing:.3em; text-transform:uppercase; color:var(--grass-deep); margin-bottom:16px; }
+  header.page h1 { font-family:"DotGothic16",monospace; font-size:clamp(1.7rem,4.4vw,2.4rem); letter-spacing:.06em; line-height:1.45; color:var(--ink); }
+
+  main { padding:24px 0 90px; }
+  .lang-label {
+    margin:54px 0 8px; font-family:"DotGothic16",monospace; font-size:.8rem; letter-spacing:.28em;
+    text-transform:uppercase; color:var(--grass-deep); display:flex; align-items:center; gap:14px;
+  }
+  .lang-label::after { content:""; flex:1; height:1px; background:var(--line); }
+
+  h2 { font-family:"DotGothic16",monospace; font-size:1.08rem; letter-spacing:.03em; margin:32px 0 8px; color:var(--ink); }
+  p { color:var(--ink-soft); margin:10px 0; }
+  strong { color:var(--ink); font-weight:700; }
+  a.inline { color:var(--grass-deep); text-decoration:underline; text-underline-offset:3px; }
+  code { font-family:"DotGothic16",monospace; color:var(--niboshi); background:var(--card); border:1px solid var(--line); border-radius:5px; padding:1px 6px; font-size:.92em; }
+
+  .contact {
+    background:var(--card); border:1px solid var(--line); border-left:3px solid var(--grass);
+    border-radius:14px; padding:24px 26px; margin:28px 0;
+  }
+  .contact .dot { font-family:"DotGothic16",monospace; font-size:1rem; color:var(--ink); letter-spacing:.03em; }
+  .contact a { color:var(--grass-deep); font-weight:500; text-decoration:underline; text-underline-offset:3px; }
+
+  .env { border:1px solid var(--line); border-radius:14px; overflow:hidden; margin:24px 0; background:var(--card); }
+  .env div { display:flex; gap:16px; padding:12px 22px; border-bottom:1px solid var(--line); font-size:.95rem; }
+  .env div:last-child { border-bottom:0; }
+  .env span:first-child { font-family:"DotGothic16",monospace; color:var(--grass-deep); min-width:7.5em; letter-spacing:.03em; }
+  .env span:last-child { color:var(--ink-soft); }
+
+  footer { border-top:1px solid var(--line); padding:40px 0 56px; }
+  footer .wrap { max-width:1100px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:center; }
+  .copyright { font-size:.82rem; color:var(--ink-faint); letter-spacing:.04em; }
+  footer a { font-size:.9rem; color:var(--ink-soft); text-decoration:none; }
+  footer a:hover { color:var(--grass-deep); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="index.html" class="brand"><img src="icon.png" alt="">てくてくねこ</a>
+    <a href="index.html" class="back">← トップへ</a>
+  </div>
+</nav>
+
+<header class="page">
+  <div class="wrap">
+    <p class="kicker">Support</p>
+    <h1>サポート</h1>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <p>てくてくねこは、歩数を煮干しに換算して庭に猫を呼ぶ、サーバーを持たない「歩くゲーム」です。</p>
+
+    <div class="contact">
+      <p class="dot">ご質問・ご要望・不具合のご報告は、お気軽にご連絡ください。</p>
+      <p style="margin-top:10px;"><a href="mailto:itoama@gmail.com">itoama@gmail.com</a></p>
+      <p style="margin-top:6px; font-size:.88rem;">不具合のご報告には、iOS のバージョン・iPhone の機種名・起きたときの状況を添えていただけると助かります。</p>
+    </div>
+
+    <div class="env">
+      <div><span>対応端末</span><span>iPhone</span></div>
+      <div><span>対応OS</span><span>iOS 18.0 以降</span></div>
+      <div><span>言語</span><span>日本語 / English</span></div>
+      <div><span>ネットワーク</span><span>不要(サーバーを持ちません)</span></div>
+    </div>
+
+    <!-- 日本語 -->
+    <p class="lang-label">よくある質問</p>
+
+    <h2>歩数がゲームに反映されません</h2>
+    <p>「ヘルスケア」App、または「モーションとフィットネス」の許可を確認してください。どちらか一方が許可されていれば動作します。歩数が煮干しなどに反映されるのは、餌を置いてから 30 分ごとの訪問枠がめぐってきたタイミングです。歩いてすぐには反映されません。</p>
+
+    <h2>位置情報の許可はいつ必要ですか?</h2>
+    <p>地図タブを開いているときと、「おさんぽ」を開始しているあいだだけです。「常に許可」を求めることはありません。おさんぽ中でなければ位置情報は使いません。</p>
+
+    <h2>「おさんぽ」はいつ終わりますか?</h2>
+    <p>20 分間動きがないと自動的に終了します。開始してから最長 3 時間で自動的に終了することもあります。もちろん自分で終了することもできます。</p>
+
+    <h2>データはどこに保存されますか?</h2>
+    <p>お使いの端末と、あなた自身の iCloud プライベートデータベースにのみ保存されます。開発者のサーバーは無く、開発者がデータの中身を見ることはできません。詳しくは<a class="inline" href="privacy.html">プライバシーポリシー</a>をご覧ください。</p>
+
+    <h2>データを削除したいときは?</h2>
+    <p>アプリを削除すれば、端末上のデータは消えます。iCloud 側のデータは、iOS の「設定」→ 自分の名前 → iCloud → アカウントのストレージを管理 → 「てくてくねこ」から削除できます。</p>
+
+    <!-- English -->
+    <p class="lang-label">FAQ (English)</p>
+
+    <h2>My step count isn't showing up</h2>
+    <p>Check that either the Health app or Motion &amp; Fitness permission is allowed — either one alone is enough. Steps are converted into rewards each time a 30-minute visit slot comes around after you've put out food, not instantly as you walk.</p>
+
+    <h2>When does the app need location access?</h2>
+    <p>Only while the Map tab is open, and only while you have a walk in progress. "Always" access is never requested, and the app does not use location outside of a walk.</p>
+
+    <h2>When does a walk end?</h2>
+    <p>Automatically after 20 minutes without movement, or automatically after 3 hours at the latest. You can also end it yourself at any time.</p>
+
+    <h2>Where is my data stored?</h2>
+    <p>Only on your device and in your own private iCloud database. There is no developer server, and the developer cannot see the contents. See the <a class="inline" href="privacy.html">Privacy Policy</a> for details.</p>
+
+    <h2>How do I delete my data?</h2>
+    <p>Deleting the app removes the data on your device. To remove the iCloud copy, go to iOS Settings → your name → iCloud → Manage Account Storage → "Tekuteku Neko" and delete it.</p>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="copyright">© 2026 てくてくねこ. All rights reserved.</span>
+    <a href="index.html">← トップへ戻る</a>
+  </div>
+</footer>
+
+</body>
+</html>

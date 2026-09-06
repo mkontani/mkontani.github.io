@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>プライバシーポリシー — てくてくねこ</title>
+<meta name="description" content="てくてくねこのプライバシーポリシー。サーバーを持たず、歩数や位置情報は端末の外に出ません。広告・解析・アカウント登録もありません。">
+<meta name="theme-color" content="#f5f1e3">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:#f5f1e3; --card:#fffdf6; --ink:#332f22; --ink-soft:#655f4c;
+    --ink-faint:#928c76; --grass:#5a9a68; --grass-deep:#417a50; --niboshi:#dd9c46; --line:#ded4b7;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; }
+  body {
+    font-family:"Zen Kaku Gothic New", system-ui, sans-serif;
+    color:var(--ink); background:var(--paper); line-height:1.95;
+    letter-spacing:.02em; -webkit-font-smoothing:antialiased;
+  }
+  img { image-rendering:pixelated; }
+  .wrap { max-width:760px; margin:0 auto; padding:0 28px; }
+
+  nav { border-bottom:1px solid var(--line); background:rgba(245,241,227,.86); backdrop-filter:blur(10px); position:sticky; top:0; z-index:10; }
+  nav .wrap { display:flex; align-items:center; justify-content:space-between; height:64px; max-width:1100px; }
+  .brand { display:flex; align-items:center; gap:11px; font-family:"DotGothic16",monospace; font-size:1.05rem; letter-spacing:.06em; text-decoration:none; color:var(--grass-deep); }
+  .brand img { width:30px; height:30px; border-radius:8px; }
+  .back { font-size:.9rem; color:var(--ink-soft); text-decoration:none; transition:color .25s; }
+  .back:hover { color:var(--grass-deep); }
+  @media (max-width:520px) {
+    nav .wrap { padding:0 16px; }
+    .brand { font-size:.85rem; gap:8px; white-space:nowrap; }
+    .brand img { width:26px; height:26px; }
+    .back { font-size:.8rem; }
+  }
+
+  header.page { padding:clamp(56px,9vw,96px) 0 8px; }
+  header.page .kicker { font-size:.78rem; letter-spacing:.3em; text-transform:uppercase; color:var(--grass-deep); margin-bottom:16px; }
+  header.page h1 { font-family:"DotGothic16",monospace; font-size:clamp(1.7rem,4.4vw,2.4rem); letter-spacing:.06em; line-height:1.45; color:var(--ink); }
+  .updated { margin-top:18px; color:var(--ink-faint); font-size:.9rem; letter-spacing:.04em; }
+
+  main { padding:24px 0 90px; }
+  .lang-label {
+    margin:54px 0 8px; font-family:"DotGothic16",monospace; font-size:.8rem; letter-spacing:.28em;
+    text-transform:uppercase; color:var(--grass-deep); display:flex; align-items:center; gap:14px;
+  }
+  .lang-label::after { content:""; flex:1; height:1px; background:var(--line); }
+
+  .lead { font-size:1.06rem; color:var(--ink); margin:22px 0; }
+  h2 { font-family:"DotGothic16",monospace; font-size:1.2rem; letter-spacing:.04em; margin:40px 0 12px; color:var(--ink); }
+  h3 { font-family:"DotGothic16",monospace; font-size:1.02rem; letter-spacing:.03em; margin:26px 0 8px; color:var(--grass-deep); }
+  p { color:var(--ink-soft); margin:12px 0; }
+  ul { margin:14px 0 14px 2px; }
+  li { list-style:none; position:relative; padding-left:24px; color:var(--ink-soft); margin:11px 0; }
+  li::before { content:"—"; position:absolute; left:0; color:var(--grass-deep); font-weight:700; }
+  strong { color:var(--ink); font-weight:700; }
+  a.inline { color:var(--grass-deep); text-decoration:underline; text-underline-offset:3px; }
+  code { font-family:"DotGothic16",monospace; color:var(--niboshi); background:var(--card); border:1px solid var(--line); border-radius:5px; padding:1px 6px; font-size:.92em; }
+
+  .highlight {
+    background:var(--card); border:1px solid var(--line); border-left:3px solid var(--grass);
+    border-radius:14px; padding:22px 26px; margin:24px 0; font-family:"DotGothic16",monospace;
+    font-size:1.04rem; color:var(--ink); letter-spacing:.03em; line-height:1.75;
+  }
+
+  footer { border-top:1px solid var(--line); padding:40px 0 56px; }
+  footer .wrap { max-width:1100px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:center; }
+  .copyright { font-size:.82rem; color:var(--ink-faint); letter-spacing:.04em; }
+  footer a { font-size:.9rem; color:var(--ink-soft); text-decoration:none; }
+  footer a:hover { color:var(--grass-deep); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="index.html" class="brand"><img src="icon.png" alt="">てくてくねこ</a>
+    <a href="index.html" class="back">← トップへ</a>
+  </div>
+</nav>
+
+<header class="page">
+  <div class="wrap">
+    <p class="kicker">Privacy Policy</p>
+    <h1>プライバシーポリシー</h1>
+    <p class="updated">最終更新日: 2026-09-01</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <!-- 日本語 -->
+    <p class="lang-label">日本語</p>
+
+    <h2>まとめ</h2>
+    <div class="highlight">てくてくねこは、サーバーを持ちません。開発者があなたのデータを受け取ることはありません。</div>
+    <p>広告も、解析ツールも、第三者への提供も、アカウント登録もありません。</p>
+
+    <h2>開発者が受け取るもの</h2>
+    <p><strong>ありません。</strong> このアプリは開発者が運営するサーバーへ、いかなるデータも送信しません。</p>
+
+    <h2>アプリが端末で使うもの</h2>
+
+    <h3>歩数(ヘルスケア / モーションとフィットネス)</h3>
+    <ul>
+      <li>「ヘルスケア」App と端末の CoreMotion(モーションとフィットネス)の<strong>両方</strong>から歩数を<strong>読み取り専用</strong>で読み、大きい方を採用します。書き込みは一切しません。</li>
+      <li>どちらか一方を拒否しても、もう一方だけで動作します(両方拒否すると、その日は歩いた分の報酬が入りません)。</li>
+      <li>読んだ歩数は、その場でゲーム内通貨(煮干し)と拾いものに換算し、<strong>保存せずに捨てます</strong>。</li>
+      <li><strong>歩数そのものは端末の外に出ません。iCloud にも保存しません</strong>(Apple の審査ガイドライン 5.1.3(ii))。</li>
+      <li>許可しなくてもアプリは動きます。その場合、歩いた分の報酬が入らないだけです。</li>
+    </ul>
+
+    <h3>位置情報</h3>
+    <ul>
+      <li>許可の種類は「<strong>Appの使用中のみ許可</strong>」だけです。「常に許可」は要求しません。</li>
+      <li>位置情報を使うのは次の 2 つの場面だけです。
+        <ul style="margin-top:8px;">
+          <li>地図タブを開いているとき(いまいる区画を 1 つ塗る)</li>
+          <li>「おさんぽ」を<strong>あなたが開始してから終わるまで</strong>(画面を消している間も含みます。これは歩いた経路を区画として塗るためで、<code>UIBackgroundModes: location</code> を宣言しています)</li>
+        </ul>
+      </li>
+      <li><strong>緯度経度を保存することはありません。</strong> 保存するのは geohash 精度 7 の区画 ID(例: <code>xn76urx</code>、約 150m 四方)と、その区画を最初に通った日時だけです。</li>
+      <li>「おさんぽ」を終えると背景での位置取得は止まります。20 分間動きがなければ自動で終了します。</li>
+      <li>許可しなくてもアプリは動きます。20 匹のうち 16 匹は位置情報なしで会えます。</li>
+    </ul>
+
+    <h3>iCloud(CloudKit)</h3>
+    <ul>
+      <li>機種変更でデータが消えないよう、<strong>あなた自身の iCloud プライベートデータベース</strong>にゲームの進行を同期します。</li>
+      <li>同期するもの: 煮干しの残高、持ち物、庭のスロット、図鑑の状態、発見した区画 ID</li>
+      <li><strong>同期しないもの: 歩数、緯度経度、進行中のおさんぽ</strong></li>
+      <li>ここは Apple が提供する、あなたのアカウントの領域です。<strong>開発者はその中身を見ることができません</strong>。</li>
+      <li>iCloud にサインインしていなくても、端末の中だけで遊べます。</li>
+    </ul>
+
+    <h3>通知</h3>
+    <ul>
+      <li>ローカル通知のみです。プッシュ通知サーバーは持っていません。</li>
+      <li>送るのは次の 3 種類だけで、どれもあなたが許可した場合だけ届きます: 「餌切れのお知らせ」、「1 日 1 回のお知らせ(既定 18:00)」、そして「おさんぽ」中に猫のいる区画へ入ったときの遭遇通知(画面を消しているときだけ届きます。アプリを開いている間は通知の代わりに画面内のバナーで知らせます)。</li>
+    </ul>
+
+    <h2>トラッキングについて</h2>
+    <ul>
+      <li><strong>トラッキングは行いません。</strong> 広告識別子(IDFA)を使わず、App Tracking Transparency の許可も求めません。</li>
+      <li>第三者の SDK(解析・広告・クラッシュレポート)を一切組み込んでいません。</li>
+    </ul>
+
+    <h2>データの削除</h2>
+    <p>次のどれでも消せます。</p>
+    <ul>
+      <li>アプリ内の 設定 →「このアプリのデータを削除」(端末と、同じ iCloud アカウントの端末から消えます)</li>
+      <li>アプリをアンインストールする</li>
+      <li>iOS の 設定 → Apple ID → iCloud → アプリを管理 から本アプリのデータを削除する</li>
+    </ul>
+    <p>「ヘルスケア」App に保存されているあなたの歩数は、本アプリが作ったものではないため、本アプリからは削除できません。「ヘルスケア」App で操作してください。</p>
+
+    <h2>子どものプライバシー</h2>
+    <p>年齢制限は 4+ ですが、13 歳未満の子どもを対象に設計したアプリではなく、Kids カテゴリにも参加していません。子どもから個人情報を意図的に収集することはありません(そもそも誰からも収集していません)。</p>
+
+    <h2>ポリシーの変更</h2>
+    <p>変更した場合は、このページの最終更新日を改めます。重要な変更のときはアプリのアップデート情報にも記載します。</p>
+
+    <h2>お問い合わせ</h2>
+    <p><a class="inline" href="mailto:itoama@gmail.com">itoama@gmail.com</a>(開発者 mkontani)</p>
+
+    <!-- English -->
+    <p class="lang-label">English</p>
+
+    <h2>Summary</h2>
+    <div class="highlight">Tekuteku Neko has no server. The developer never receives your data.</div>
+    <p>There are no ads, no analytics, no third-party SDKs, and no accounts.</p>
+
+    <h2>What the developer collects</h2>
+    <p><strong>Nothing.</strong> The app does not transmit any data to a server operated by the developer.</p>
+
+    <h2>What the app uses on your device</h2>
+
+    <p><strong>Step count (HealthKit and Motion &amp; Fitness).</strong> The app reads steps from both HealthKit and the device's CoreMotion pedometer, read-only, and uses whichever count is larger; it never writes to Health. Denying either one is fine — the app keeps working on the other alone (denying both means no reward for walking that day). Steps are converted into in-game currency immediately and then discarded. <strong>Step counts never leave your device and are never stored in iCloud</strong> (App Review Guideline 5.1.3(ii)).</p>
+
+    <p><strong>Location.</strong> "While Using the App" only; "Always" is never requested. Location is used in two places: while the Map tab is open (to fill in the cell you are standing in), and during a walk <strong>that you start and end yourself</strong> — including while the screen is off, which is why <code>UIBackgroundModes: location</code> is declared. <strong>Latitude and longitude are never stored.</strong> The app stores only a geohash-precision-7 cell ID (e.g. <code>xn76urx</code>, roughly 150 m across) and the time you first entered it. Background tracking stops when the walk ends, and a walk ends automatically after 20 minutes without movement. Denying access is fine — 16 of the 20 cats need no location at all.</p>
+
+    <p><strong>iCloud (CloudKit).</strong> Game progress is synced to <strong>your own private iCloud database</strong> so a new device keeps your cats. Synced: niboshi balance, inventory, yard slots, catalogue state, discovered cell IDs. <strong>Not synced: step counts, coordinates, walks in progress.</strong> This is Apple's storage inside your account; <strong>the developer cannot read it.</strong> The app works without an iCloud account.</p>
+
+    <p><strong>Notifications.</strong> Local only; there is no push server. Three kinds, all opt-in: "the food ran out", one daily reminder (18:00 by default), and an encounter notice when a walk you started passes through a cell where a cat lives (sent only while the screen is off; while the app is in the foreground you see an in-app banner instead).</p>
+
+    <h2>Tracking</h2>
+    <p><strong>None.</strong> No IDFA, no App Tracking Transparency prompt, no analytics, advertising, or crash-reporting SDKs.</p>
+
+    <h2>Deleting your data</h2>
+    <p>Use Settings → "Delete this app's data" in the app, uninstall the app, or remove the app's data from iOS Settings → Apple ID → iCloud → Manage. Step counts stored in the Health app were not created by this app and must be removed in the Health app.</p>
+
+    <h2>Children</h2>
+    <p>Rated 4+. The app is not directed at children under 13 and does not participate in the Kids Category. No personal information is knowingly collected from anyone.</p>
+
+    <h2>Changes and contact</h2>
+    <p>Changes are reflected in the "last updated" date above. Contact: <a class="inline" href="mailto:itoama@gmail.com">itoama@gmail.com</a> (developer: mkontani).</p>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="copyright">© 2026 てくてくねこ. All rights reserved.</span>
+    <a href="index.html">← トップへ戻る</a>
+  </div>
+</footer>
+
+</body>
+</html>
