@@ -126,7 +126,7 @@
       </li>
       <li><strong>緯度経度を保存することはありません。</strong> 保存するのは geohash 精度 7 の区画 ID(例: <code>xn76urx</code>、約 150m 四方)と、その区画を最初に通った日時だけです。</li>
       <li>「おさんぽ」を終えると背景での位置取得は止まります。20 分間動きがなければ自動で終了します。</li>
-      <li>許可しなくてもアプリは動きます。32 匹のうち 24 匹は位置情報なしで会えます。</li>
+      <li>許可しなくてもアプリは動きます。<strong>位置情報が要るのは「その場所にしか住まない猫」だけ</strong>で、それ以外の猫は位置情報なしで会えます。</li>
     </ul>
 
     <h3>iCloud(CloudKit)</h3>
@@ -142,7 +142,7 @@
     <h3>通知</h3>
     <ul>
       <li>ローカル通知のみです。プッシュ通知サーバーは持っていません。</li>
-      <li>送るのは次の 5 種類だけで、どれもあなたが許可した場合だけ届きます: 「餌切れのお知らせ」、「1 日 1 回のお知らせ(既定 18:00)」、「おさんぽ」中に猫のいる区画へ入ったときの遭遇通知(画面を消しているときだけ届きます。アプリを開いている間は通知の代わりに画面内のバナーで知らせます)、猫がなついたときの「なついた」通知、そして猫からおみやげをもらったときの「おみやげ」通知(この 2 つも 1 日の上限 2 本の内側です)。</li>
+      <li>送るのは次のものだけで、どれもあなたが許可した場合だけ届きます: 「餌切れのお知らせ」、「1 日 1 回のお知らせ(既定 18:00)」、「おさんぽ」中に猫のいる区画へ入ったときの遭遇通知(画面を消しているときだけ届きます。アプリを開いている間は通知の代わりに画面内のバナーで知らせます)、猫がなついたときの「なついた」通知、そして猫からおみやげをもらったときの「おみやげ」通知(この 2 つも 1 日の上限 2 本の内側です)。</li>
     </ul>
 
     <h2>トラッキングについて</h2>
@@ -183,7 +183,7 @@
 
     <p><strong>Step count (HealthKit and Motion &amp; Fitness).</strong> The app reads steps from both HealthKit and the device's CoreMotion pedometer, read-only, and uses whichever count is larger; it never writes to Health. Denying either one is fine — the app keeps working on the other alone (denying both means no reward for walking that day). Steps are converted into in-game currency immediately and then discarded. <strong>Step counts never leave your device and are never stored in iCloud</strong> (App Review Guideline 5.1.3(ii)).</p>
 
-    <p><strong>Location.</strong> "While Using the App" only; "Always" is never requested. Location is used in two places: while the Map tab is open (to fill in the cell you are standing in), and during a walk <strong>that you start and end yourself</strong> — including while the screen is off, which is why <code>UIBackgroundModes: location</code> is declared. <strong>Latitude and longitude are never stored.</strong> The app stores only a geohash-precision-7 cell ID (e.g. <code>xn76urx</code>, roughly 150 m across) and the time you first entered it. Background tracking stops when the walk ends, and a walk ends automatically after 20 minutes without movement. Denying access is fine — 24 of the 32 cats need no location at all.</p>
+    <p><strong>Location.</strong> "While Using the App" only; "Always" is never requested. Location is used in two places: while the Map tab is open (to fill in the cell you are standing in), and during a walk <strong>that you start and end yourself</strong> — including while the screen is off, which is why <code>UIBackgroundModes: location</code> is declared. <strong>Latitude and longitude are never stored.</strong> The app stores only a geohash-precision-7 cell ID (e.g. <code>xn76urx</code>, roughly 150 m across) and the time you first entered it. Background tracking stops when the walk ends, and a walk ends automatically after 20 minutes without movement. Denying access is fine — location is only needed for the cats that live in one particular place; every other cat can be met without it.</p>
 
     <p><strong>iCloud (CloudKit).</strong> Game progress is synced to <strong>your own private iCloud database</strong> so a new device keeps your cats. Synced: niboshi balance, inventory, yard slots, catalogue state, discovered cell IDs. Each cat's affection level and last-visit date are stored the same way — on-device and in your private iCloud database only; nothing leaves the device. <strong>Not synced: step counts, coordinates, walks in progress.</strong> This is Apple's storage inside your account; <strong>the developer cannot read it.</strong> The app works without an iCloud account.</p>
 
