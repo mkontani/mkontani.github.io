@@ -57,7 +57,8 @@
   .btn { display:inline-flex; align-items:center; gap:10px; font-family:"Zen Kaku Gothic New",sans-serif; font-weight:500; padding:13px 26px; border-radius:999px; font-size:.96rem; text-decoration:none; transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
   .btn-ghost { color:var(--ink); border:1px solid var(--line); background:var(--card); }
   .btn-ghost:hover { border-color:var(--grass); color:var(--grass-deep); transform:translateY(-2px); }
-  .btn-disabled { background:color-mix(in srgb, var(--ink) 8%, transparent); color:var(--ink-faint); cursor:default; font-family:"DotGothic16",monospace; letter-spacing:.04em; }
+  .btn-primary { background:var(--grass-deep); color:var(--card); border:1px solid var(--grass-deep); box-shadow:0 6px 18px rgba(65,122,80,.22); }
+  .btn-primary:hover { background:var(--grass); border-color:var(--grass); transform:translateY(-2px); box-shadow:0 10px 24px rgba(65,122,80,.28); }
 
   .badge-row { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:6px; }
   .badge {
@@ -114,6 +115,7 @@
     <span class="links">
       <a href="#loop">あそびかた</a>
       <a href="#cats">猫たち</a>
+      <a href="https://apps.apple.com/jp/app/id6807918602" target="_blank" rel="noopener">App Store</a>
       <a href="privacy.html">プライバシー</a>
     </span>
   </div>
@@ -126,8 +128,7 @@
     <p class="lead">歩数を煮干しに換算して、庭に餌を置くだけ。しばらくしてアプリを開くと、猫が遊びに来ています。外を歩けば、その場所にしかいない猫に会えることも。猫は歩いた報酬です。</p>
 
     <div class="cta-row">
-      <!-- App Store 審査通過後、下の <span> を実際のストアリンクの <a class="btn"> に差し替える -->
-      <span class="btn btn-disabled">App Store で準備中</span>
+      <a href="https://apps.apple.com/jp/app/id6807918602" class="btn btn-primary" target="_blank" rel="noopener">App Store で入手</a>
       <a href="#loop" class="btn btn-ghost">あそびかたを見る</a>
     </div>
     <div class="badge-row">
@@ -207,6 +208,7 @@
   <div class="wrap">
     <span class="copyright">© 2026 mkontani</span>
     <span>
+      <a href="https://apps.apple.com/jp/app/id6807918602" target="_blank" rel="noopener">App Store</a>
       <a href="#loop">あそびかた</a>
       <a href="privacy.html">プライバシー</a>
       <a href="support.html">サポート</a>
