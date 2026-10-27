@@ -175,9 +175,10 @@
   .feat p { font-size: .94rem; color: var(--ink-soft); line-height: 1.8; }
 
   /* ---------- Showcase ---------- */
+  /* 7 枚を 4 + 3 の 2 段に並べる (横幅いっぱいだと 5 + 2 に割れるため、4 枚分の幅に絞る) */
   .shots {
     display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start;
-    gap: 34px 20px; max-width: var(--maxw); margin: 0 auto; padding: 50px 28px 16px;
+    gap: 34px 20px; max-width: calc(4 * 182px + 3 * 20px + 56px); margin: 0 auto; padding: 50px 28px 16px;
   }
   .shot { flex: 0 0 auto; width: clamp(150px, 16vw, 182px); text-align: center; }
   .shot .frame {
@@ -323,9 +324,11 @@
   <div class="shots">
     <div class="shot reveal"><div class="frame"><img src="assets/screenshots/01-home.png" alt="ホーム"></div><span>ホーム ｜ 残額と予算バー</span></div>
     <div class="shot reveal"><div class="frame"><img src="assets/screenshots/02-input.png" alt="入力"></div><span>入力 ｜ 専用テンキー</span></div>
-    <div class="shot reveal"><div class="frame"><img src="assets/screenshots/03-calendar.png" alt="カレンダー"></div><span>カレンダー ｜ 日別・超過表示</span></div>
-    <div class="shot reveal"><div class="frame"><img src="assets/screenshots/04-stats.png" alt="統計"></div><span>統計 ｜ 予算の残り</span></div>
-    <div class="shot reveal"><div class="frame"><img src="assets/screenshots/05-recurring.png" alt="定期支出"></div><span>設定 ｜ 毎月の定期支出</span></div>
+    <div class="shot reveal"><div class="frame"><img src="assets/screenshots/03-date.png" alt="日付の選択"></div><span>日付 ｜ 過去も先の予定も</span></div>
+    <div class="shot reveal"><div class="frame"><img src="assets/screenshots/04-calendar.png" alt="カレンダー"></div><span>カレンダー ｜ 日別・超過表示</span></div>
+    <div class="shot reveal"><div class="frame"><img src="assets/screenshots/05-stats.png" alt="統計"></div><span>統計 ｜ 予算の残り</span></div>
+    <div class="shot reveal"><div class="frame"><img src="assets/screenshots/06-recurring.png" alt="定期支出"></div><span>定期支出 ｜ 毎月自動で計上</span></div>
+    <div class="shot reveal"><div class="frame"><img src="assets/screenshots/07-settings.png" alt="設定"></div><span>設定 ｜ iCloud 同期・テーマ</span></div>
   </div>
 </section>
 
