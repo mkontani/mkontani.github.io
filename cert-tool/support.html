@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cert Tool — Support</title>
+  <link rel="icon" type="image/png" href="/cert-tool/icon.png" />
+  <link rel="stylesheet" href="/assets/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="site"><a href="/">mkontani</a> · <a href="/cert-tool/">Cert Tool</a></header>
+    <h1>Cert Tool — Support</h1>
+    <p class="muted">Inspect, lint and generate X.509 certificates and keys — 100% in your browser.</p>
+
+    <h2>Using Cert Tool</h2>
+    <ul>
+      <li>Install Cert Tool from the <a href="https://chromewebstore.google.com/detail/cert-tool/ojgmjpfknnlfcfjcljkdcfpbpgciefkk" target="_blank" rel="noopener">Chrome Web Store</a>.</li>
+      <li>Click the toolbar icon to open the popup, then pick a tab: <strong>Gen KeyPair</strong>, <strong>Gen CSR</strong>, <strong>Derive PubKey</strong>, <strong>Inspector</strong> or <strong>Lint</strong>.</li>
+      <li>To check the certificates on a page, click <strong>Scan this page</strong> on the Inspector tab. Hover over or click a badge for details.</li>
+      <li>To check one block, select it, right-click, and choose <strong>Inspect certificate with Cert Tool</strong>.</li>
+    </ul>
+
+    <h2>Common questions</h2>
+    <h3>Scan this page says it can’t scan the page</h3>
+    <p>Chrome doesn’t let extensions read its own pages, such as <code>chrome://</code> pages, the Chrome Web Store, and other extensions’ pages. Copy the certificate into the Inspector tab instead.</p>
+    <h3>A certificate on the page has no badge</h3>
+    <p>Cert Tool skips private keys, blocks that are cut off (no END line), and text the page hides. If the certificate is in a collapsed section, expand it and scan again.</p>
+    <h3>Does Cert Tool check whether a certificate is trusted?</h3>
+    <p>No. Cert Tool shows what the certificate says. It doesn’t verify signatures, build chains to a trusted root, or check revocation.</p>
+    <h3>Are my keys sent anywhere?</h3>
+    <p>No. Cert Tool makes no network requests and stores nothing. See the <a href="/cert-tool/privacy.html">Privacy Policy</a>.</p>
+
+    <h2>Get help</h2>
+    <p>Bug reports and feature requests: <a href="https://github.com/mkontani/cert-tool-extension/issues" target="_blank" rel="noopener">GitHub issues</a> or <a href="mailto:itoama@gmail.com">itoama@gmail.com</a>. What changed in each version is listed in the <a href="https://github.com/mkontani/cert-tool-extension/blob/main/CHANGELOG.md" target="_blank" rel="noopener">changelog</a>.</p>
+
+    <footer>© 2026 mkontani · <a href="/">All apps</a></footer>
+  </div>
+</body>
+</html>
