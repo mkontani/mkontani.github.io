@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cert Tool — Privacy Policy</title>
+  <link rel="icon" type="image/png" href="/cert-tool/icon.png" />
+  <link rel="stylesheet" href="/assets/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="site"><a href="/">mkontani</a> · <a href="/cert-tool/">Cert Tool</a></header>
+    <h1>Cert Tool — Privacy Policy</h1>
+    <p class="muted">Last updated: 2026-11-01</p>
+
+    <p>Cert Tool is a Chrome extension. It generates keys and CSRs, inspects certificates, and lints them. Everything runs inside your browser. Cert Tool has no server, no account, and no analytics, and it makes no network requests.</p>
+
+    <h2>What Cert Tool handles</h2>
+    <ul>
+      <li><strong>Text you enter in the popup</strong>, such as certificates, CSRs, private keys, and CSR fields (names, organizations, email addresses).</li>
+      <li><strong>Keys and CSRs that Cert Tool generates</strong> for you.</li>
+      <li><strong>Web page content, only when you ask.</strong> Cert Tool reads the text of the current tab when you click <strong>Scan this page</strong> or choose <strong>Inspect certificate with Cert Tool</strong> on a selection. It reads only that tab, only at that moment, and only to find PEM blocks. It does not parse private key blocks it finds on pages; it skips them.</li>
+    </ul>
+
+    <h2>How it is used</h2>
+    <p>Cert Tool uses this data only to show you results: decoded fields, validity, lint findings, and derived public keys. The data is processed in memory on your device. Certificate text from a page goes only to the extension's own background worker for parsing.</p>
+
+    <h2>Storage</h2>
+    <p>Cert Tool does not store any of this data. It uses no extension storage, cookies, or local storage.</p>
+    <ul>
+      <li>Popup results are gone when the popup closes.</li>
+      <li>Badges and cards on a page are gone when the page is reloaded or closed.</li>
+      <li>A file is saved only when you click a save button, to the location you choose.</li>
+      <li>Text is copied to the clipboard only when you click a copy button.</li>
+    </ul>
+
+    <h2>Sharing</h2>
+    <p>No data leaves your device. Cert Tool does not sell, transfer, or share user data with anyone. It does not use data for advertising or to determine creditworthiness.</p>
+    <p>The use of information received by Cert Tool adheres to the <a href="https://developer.chrome.com/docs/webstore/program-policies/policies" target="_blank" rel="noopener">Chrome Web Store User Data Policy</a>, including the Limited Use requirements.</p>
+
+    <h2>Permissions</h2>
+    <ul>
+      <li><code>downloads</code>: saves the keys and CSRs you generate, when you click a save button.</li>
+      <li><code>activeTab</code>, <code>scripting</code>: read the current page, only when you click <strong>Scan this page</strong> or the menu item.</li>
+      <li><code>contextMenus</code>: adds <strong>Inspect certificate with Cert Tool</strong> to the right-click menu for selected text.</li>
+    </ul>
+
+    <h2>Children's privacy</h2>
+    <p>Cert Tool does not collect data from anyone, including children.</p>
+
+    <h2>Changes to this policy</h2>
+    <p>If this policy changes, the updated version will be posted at this URL with a new “Last updated” date. The same policy is kept in the <a href="https://github.com/mkontani/cert-tool-extension/blob/main/PRIVACY.md" target="_blank" rel="noopener">source repository</a>, where its history is visible.</p>
+
+    <h2>Contact</h2>
+    <p>For questions about this policy, contact <a href="mailto:itoama@gmail.com">itoama@gmail.com</a> or open an issue on <a href="https://github.com/mkontani/cert-tool-extension/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+
+    <footer>© 2026 mkontani · <a href="/">All apps</a></footer>
+  </div>
+</body>
+</html>

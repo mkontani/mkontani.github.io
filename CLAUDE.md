@@ -35,6 +35,16 @@ There are **two distinct page styles** — don't mix them:
 
 **Exception — `nokori/`** (migrated from the former `nokori-site` repo): its `privacy.html` is also fully self-contained with its own inline CSS (Zen Old Mincho / Zen Kaku Gothic New fonts, `--paper`/`--ink`/`--sage` design tokens duplicated in both files — keep both `:root` blocks in sync). Images live in `nokori/assets/` (`app-icon.png`, `screenshots/*.png`) and are referenced with relative paths. Its landing page reveal animation degrades gracefully without JS (`<html class="js">` gate + IntersectionObserver fallback) — preserve that. Only `nokori/support.html` uses the shared hub style.
 
+**Exception — `cert-tool/`**: its landing page uses the light "security paper" look of the Chrome Web Store screenshots (Schibsted Grotesk, `--paper: #eaeff6`, ink `#14213d`, violet `#7c3aed`, a guilloché ring drawn by inline JS) instead of the dark default.
+- **Hero**: a real PEM block plus replicas of the extension's on-page badge and details card.
+  - The certificate is fictional, from a throwaway PKI whose keys were discarded. It is valid until 2027-05-07.
+  - The card text was copied from the extension's own output for that certificate, so a visitor who runs Scan this page sees the same thing.
+  - Days left are computed live in the page's JS, mirroring `src/page/validity.ts` in the extension repo.
+  - If you change the certificate, regenerate the card text from the extension.
+- **`cert-tool/privacy.html`** mirrors `PRIVACY.md` in `mkontani/cert-tool-extension`. Keep the two in sync.
+- **`cert-tool/screens/*.webp`** are WebP copies of that repo's `screenshots/store/*.png`.
+- **The `/cert-tool-extension/` path** belongs to that repo's own Pages site, a live demo of the popup. Never add a folder with that name here.
+
 ## Adding a new product
 
 1. Copy an existing `/<product>/` folder (e.g. `jwt-lens/`) and edit the text, theme colors, and OG meta URLs.

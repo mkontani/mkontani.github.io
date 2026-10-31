@@ -20,6 +20,7 @@ Public hub for app/extension **privacy policies** and **support** pages, served 
 
 ## Products
 
+- **Cert Tool** — [website](https://mkontani.github.io/cert-tool/) · [Chrome Web Store](https://chromewebstore.google.com/detail/cert-tool/ojgmjpfknnlfcfjcljkdcfpbpgciefkk) · [privacy](https://mkontani.github.io/cert-tool/privacy.html) · [support](https://mkontani.github.io/cert-tool/support.html)
 - **てくてくねこ** — [website](https://mkontani.github.io/tekuteku-neko/) · [privacy](https://mkontani.github.io/tekuteku-neko/privacy.html) · [support](https://mkontani.github.io/tekuteku-neko/support.html)
 - **盆栽 / Bonsai** — [website](https://mkontani.github.io/bonsai/) · [privacy](https://mkontani.github.io/bonsai/privacy.html) · [support](https://mkontani.github.io/bonsai/support.html)
 - **まじょっこたいぴんぐ** — [website](https://mkontani.github.io/majo-type/) · [App Store](https://apps.apple.com/jp/app/id6802051469) · [privacy](https://mkontani.github.io/majo-type/privacy.html) · [support](https://mkontani.github.io/majo-type/support.html)
