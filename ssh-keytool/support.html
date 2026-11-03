@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SSH Keytool — Support</title>
+  <link rel="icon" type="image/png" href="/ssh-keytool/icon.png" />
+  <link rel="stylesheet" href="/assets/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="site"><a href="/">mkontani</a> · <a href="/ssh-keytool/">SSH Keytool</a></header>
+    <h1>SSH Keytool — Support</h1>
+    <p class="muted">Generate, convert and inspect SSH keys and certificates — 100% offline in your browser.</p>
+
+    <h2>Using SSH Keytool</h2>
+    <ul>
+      <li>Install SSH Keytool from the <a href="https://chromewebstore.google.com/detail/ssh-keytool/ppomhlbhgiaefnionnblaiaolpkjagkc" target="_blank" rel="noopener">Chrome Web Store</a>, or use the <a href="https://mkontani.github.io/ssh-keytool-extension/" target="_blank" rel="noopener">web version</a>.</li>
+      <li>Click the toolbar icon to open the popup, then pick a tab: <strong>Generate</strong>, <strong>Derive</strong>, <strong>Cert</strong>, <strong>Convert</strong> or <strong>FIDO</strong>.</li>
+      <li>Use the <strong>Copy</strong> buttons to copy keys, commands and snippets. Nothing is saved, so copy what you need before you close the popup.</li>
+    </ul>
+
+    <h2>Common questions</h2>
+    <h3>Can SSH Keytool create a FIDO (<code>ed25519-sk</code> / <code>ecdsa-sk</code>) key?</h3>
+    <p>No. A FIDO key is created on the security key itself, which a browser can’t do for SSH. Use <strong>FIDO › Command Builder</strong> to get the <code>ssh-keygen</code> command, run it with your security key plugged in, then paste the result into <strong>FIDO › Inspect Key</strong> to check it.</p>
+    <h3>macOS says “No FIDO SecurityKeyProvider specified”</h3>
+    <p>The <code>ssh-keygen</code> that ships with macOS has no FIDO support. Install a FIDO-enabled OpenSSH, for example with Homebrew (<code>brew install openssh</code>), and run its <code>ssh-keygen</code> instead.</p>
+    <h3>Why can’t I convert my FIDO key?</h3>
+    <p>A FIDO private key file is only a handle for the security key and exists only in OpenSSH format. To change its passphrase, run <code>ssh-keygen -p -f &lt;file&gt;</code>.</p>
+    <h3>I chose PKCS#1 with a passphrase, but got PKCS#8</h3>
+    <p>Encrypted PKCS#1 is non-standard, so SSH Keytool writes an encrypted PKCS#8 key instead and shows a note. PKCS#1 is also RSA-only: Ed25519 and ECDSA keys can’t be exported as PKCS#1.</p>
+    <h3>Why is there a warning when I encrypt to PuTTY PPK?</h3>
+    <p>PPK v2 protects the key with a weak, unsalted SHA-1-based scheme. Prefer OpenSSH or PKCS#8 if the software you use accepts them.</p>
+    <h3>My encrypted FIDO key file won’t unlock</h3>
+    <p>SSH Keytool supports the <code>aes128/192/256-ctr</code> and <code>aes128/192/256-cbc</code> ciphers (<code>ssh-keygen</code> uses <code>aes256-ctr</code> by default). <code>chacha20-poly1305@openssh.com</code> and AES-GCM aren’t supported yet, and neither are FIDO certificates (<code>sk-*-cert-v01@openssh.com</code>).</p>
+    <h3>Are my keys sent anywhere?</h3>
+    <p>No. SSH Keytool makes no network requests and stores nothing. See the <a href="/ssh-keytool/privacy.html">Privacy Policy</a>.</p>
+
+    <h2>Get help</h2>
+    <p>Bug reports and feature requests: <a href="https://github.com/mkontani/ssh-keytool-extension/issues" target="_blank" rel="noopener">GitHub issues</a> or <a href="mailto:itoama@gmail.com">itoama@gmail.com</a>. What changed in each version is listed on the <a href="https://github.com/mkontani/ssh-keytool-extension/releases" target="_blank" rel="noopener">releases page</a>.</p>
+
+    <footer>© 2026 mkontani · <a href="/">All apps</a></footer>
+  </div>
+</body>
+</html>

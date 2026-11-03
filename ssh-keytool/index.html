@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SSH Keytool — SSH keys, offline in your browser</title>
+  <meta name="description" content="A Chrome extension that generates, converts and inspects SSH keys and certificates — including FIDO security keys — entirely on your device. No network requests, nothing stored." />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#070d1a" />
+  <link rel="canonical" href="https://mkontani.github.io/ssh-keytool/" />
+  <link rel="icon" type="image/png" href="/ssh-keytool/icon.png" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="mkontani" />
+  <meta property="og:title" content="SSH Keytool — SSH keys, offline in your browser" />
+  <meta property="og:description" content="Generate, convert and inspect SSH keys and certificates, including FIDO security keys. No network requests, nothing stored." />
+  <meta property="og:url" content="https://mkontani.github.io/ssh-keytool/" />
+  <meta property="og:image" content="https://mkontani.github.io/ssh-keytool/og.jpg" />
+  <meta property="og:image:width" content="1400" />
+  <meta property="og:image:height" content="560" />
+  <meta property="og:image:alt" content="SSH Keytool — SSH keys, offline in your browser" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://mkontani.github.io/ssh-keytool/og.jpg" />
+  <meta name="twitter:image:alt" content="SSH Keytool — SSH keys, offline in your browser" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #070d1a;
+      --bg-2: #0a1426;
+      --surface: #0e1a2f;
+      --surface-2: #13223c;
+      --line: rgba(148, 190, 255, .10);
+      --line-bright: rgba(148, 190, 255, .20);
+      --fg: #eaf1fb;
+      --muted: #a2b2c9;
+      --faint: #7385a0;
+      --teal: #2dd4bf;
+      --blue: #60a5fa;
+      --grad: linear-gradient(95deg, var(--blue), var(--teal));
+
+      /* popup replica (the extension's own Tailwind grays) */
+      --ui-panel: #1f2937;
+      --ui-field: #111827;
+      --ui-border: #374151;
+      --ui-label: #9ca3af;
+      --ui-code: #050a13;
+      --ui-btn: #2563eb;
+
+      --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+      --font-body: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+      --maxw: 1100px;
+      --gutter: clamp(16px, 4vw, 28px);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font: 17px/1.6 var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed; inset: 0; z-index: -2;
+      background:
+        radial-gradient(55% 45% at 85% 0%, rgba(45, 212, 191, .13), transparent 70%),
+        radial-gradient(50% 45% at 10% 10%, rgba(96, 165, 250, .12), transparent 70%),
+        linear-gradient(180deg, var(--bg-2), var(--bg) 60%);
+    }
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 2px solid var(--teal); outline-offset: 3px; border-radius: 6px;
+    }
+    .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
+    .mono { font-family: var(--font-mono); }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+    .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    @media (forced-colors: active) { .grad { background: none; color: CanvasText; } }
+
+    /* ---------- Nav ---------- */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      background: rgba(7, 13, 26, .72);
+      border-bottom: 1px solid var(--line);
+    }
+    nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--font-display); font-weight: 800; font-size: 19px; letter-spacing: -.02em; }
+    .brand img { width: 28px; height: 28px; border-radius: 7px; }
+    .nav-links { display: flex; align-items: center; gap: 26px; font-size: 15px; color: var(--muted); }
+    .nav-links a { text-decoration: none; }
+    .nav-links a:hover { color: var(--fg); }
+    .nav-cta {
+      flex: none; text-decoration: none;
+      font-weight: 600; font-size: 14px; color: #04121b; background: var(--fg);
+      padding: 8px 16px; border-radius: 999px;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(45, 212, 191, .25); }
+    @media (max-width: 760px) { .nav-links { display: none; } }
+
+    /* ---------- Hero ---------- */
+    .hero { position: relative; padding: clamp(56px, 9vw, 96px) 0 clamp(64px, 9vw, 104px); overflow: hidden; }
+    .circuit { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; opacity: .5; pointer-events: none; }
+    .hero-grid { display: grid; grid-template-columns: 1.08fr .92fr; gap: clamp(40px, 6vw, 72px); align-items: center; }
+    @media (max-width: 920px) { .hero-grid { grid-template-columns: 1fr; } }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--teal); border: 1px solid rgba(45, 212, 191, .28); border-radius: 999px; padding: 6px 13px;
+      background: rgba(45, 212, 191, .06);
+    }
+    .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 10px var(--teal); }
+    h1 {
+      margin: 22px 0 0;
+      font-family: var(--font-display); font-weight: 800;
+      font-size: clamp(42px, 6.6vw, 74px); line-height: .98; letter-spacing: -.035em;
+    }
+    .lede { margin: 22px 0 0; font-size: clamp(17px, 2vw, 19px); color: var(--muted); max-width: 40ch; text-wrap: pretty; }
+    .lede strong { color: var(--fg); font-weight: 600; }
+
+    .cta-row { display: flex; align-items: center; gap: 10px 20px; margin-top: 32px; flex-wrap: wrap; }
+    .btn-store {
+      display: inline-flex; align-items: center; gap: 12px; text-decoration: none;
+      background: var(--fg); color: #04121b; padding: 12px 20px 12px 16px; border-radius: 14px;
+      font-weight: 600; transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .btn-store:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(45, 212, 191, .28); }
+    .btn-store svg { width: 26px; height: 26px; flex: none; }
+    .btn-store .small { display: block; font-size: 11px; font-weight: 500; opacity: .7; line-height: 1.1; }
+    .btn-store .big { display: block; font-family: var(--font-display); font-weight: 700; font-size: 18px; line-height: 1.1; }
+    .btn-ghost { color: var(--muted); font-weight: 600; text-decoration: none; padding: 8px 2px; }
+    .btn-ghost:hover { color: var(--fg); }
+
+    .trust { margin: 26px 0 0; padding: 0; list-style: none; display: flex; gap: 8px 20px; flex-wrap: wrap; color: var(--faint); font-size: 14px; }
+    .trust li::before { content: "✓"; color: var(--teal); margin-right: 7px; }
+
+    /* ---------- Popup replica ---------- */
+    .scene { position: relative; justify-self: center; width: min(100%, 440px); margin: 0; }
+    .scene .float {
+      position: absolute; right: -8px; top: -16px; z-index: 2;
+      font-family: var(--font-mono); font-size: 11.5px; color: var(--teal);
+      background: rgba(4, 18, 27, .9); border: 1px solid rgba(45, 212, 191, .35);
+      padding: 5px 11px; border-radius: 999px; transform: rotate(3deg);
+    }
+    .popup {
+      background: var(--ui-panel); border: 1px solid #2b3647; border-radius: 18px; padding: 20px;
+      box-shadow: 0 40px 90px -30px rgba(0, 0, 0, .85), 0 0 0 1px rgba(255, 255, 255, .03), 0 0 80px -20px rgba(45, 212, 191, .25);
+      font-family: Inter, var(--font-body); font-size: 13px; color: #e5e7eb;
+    }
+    .popup-head { display: flex; align-items: center; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--ui-border); }
+    .popup-head img { width: 26px; height: 26px; border-radius: 5px; }
+    .popup-head b { font-size: 17px; font-weight: 700; }
+    .tabs { display: flex; gap: 4px; margin: 14px 0 16px; }
+    .tabs span { flex: 1; text-align: center; padding: 5px 0; border-radius: 6px; color: var(--ui-label); font-weight: 500; }
+    .tabs .on { background: var(--ui-border); color: #fff; }
+    .field-label { display: block; font-size: 11.5px; color: var(--ui-label); font-weight: 500; margin: 0 0 6px; }
+    .fake-select, .fake-input {
+      background: var(--ui-field); border: 1px solid var(--ui-border); border-radius: 6px; padding: 8px 10px; margin-bottom: 14px;
+    }
+    .fake-select { display: flex; justify-content: space-between; width: 52%; }
+    .fake-select::after { content: "⌄"; color: var(--ui-label); }
+    .fake-input { color: #6b7280; }
+    .fake-btn { background: var(--ui-btn); color: #fff; text-align: center; font-weight: 600; font-size: 14px; border-radius: 6px; padding: 9px; margin-bottom: 16px; }
+    .out-head { display: flex; justify-content: space-between; align-items: baseline; }
+    .out-head .copy { color: var(--blue); font-size: 12px; }
+    .code {
+      margin: 0 0 12px; background: var(--ui-code); border: 1px solid #1d2635; border-radius: 6px; padding: 9px 10px;
+      font: 11.5px/1.55 var(--font-mono); color: #d1d5db; white-space: pre-wrap; word-break: break-all;
+    }
+    .code.fade { position: relative; max-height: 92px; overflow: hidden; }
+    .code.fade::after { content: ""; position: absolute; inset: auto 0 0 0; height: 34px; background: linear-gradient(transparent, var(--ui-code)); }
+    .code:last-child { margin-bottom: 0; }
+
+    /* ---------- Sections ---------- */
+    section.band { padding: clamp(64px, 9vw, 96px) 0; border-top: 1px solid var(--line); scroll-margin-top: 64px; }
+    .kicker { font-family: var(--font-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--teal); }
+    h2 { margin: 12px 0 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 4vw, 42px); line-height: 1.1; letter-spacing: -.03em; }
+    .section-sub { margin: 14px 0 0; color: var(--muted); max-width: 58ch; }
+    code.inline { font-family: var(--font-mono); font-size: .86em; color: var(--teal); background: rgba(45, 212, 191, .08); padding: 1px 6px; border-radius: 5px; }
+
+    .features { list-style: none; margin: 44px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    @media (max-width: 900px) { .features { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 600px) { .features { grid-template-columns: 1fr; } }
+    .feat {
+      position: relative; overflow: hidden;
+      background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px;
+      transition: border-color .2s ease;
+    }
+    .feat:hover { border-color: var(--line-bright); }
+    .feat::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 2px; background: var(--grad); opacity: .6; }
+    .feat .tab { font-family: var(--font-mono); font-size: 11px; color: var(--faint); border: 1px solid var(--line-bright); border-radius: 6px; padding: 1px 7px; }
+    .feat h3 { margin: 14px 0 0; font-family: var(--font-display); font-weight: 700; font-size: 20px; letter-spacing: -.01em; }
+    .feat p { margin: 8px 0 0; color: var(--muted); font-size: 15px; }
+
+    .formats { margin-top: 40px; display: grid; gap: 12px; }
+    .formats div { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .formats dt { width: 92px; flex: none; font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
+    .formats dd { margin: 0; font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); border: 1px solid var(--line-bright); border-radius: 7px; padding: 4px 10px; background: var(--surface); }
+
+    /* ---------- FIDO ---------- */
+    .fido-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(32px, 5vw, 56px); align-items: start; margin-top: 8px; }
+    @media (max-width: 920px) { .fido-grid { grid-template-columns: 1fr; } }
+    .fido-notes { margin: 22px 0 0; padding: 0; list-style: none; display: grid; gap: 12px; color: var(--muted); font-size: 15px; }
+    .fido-notes li { padding-left: 22px; position: relative; }
+    .fido-notes li::before { content: "→"; position: absolute; left: 0; color: var(--teal); }
+
+    .builder { background: var(--surface); border: 1px solid var(--line-bright); border-radius: 18px; padding: 20px; }
+    .builder form { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding-bottom: 16px; margin-bottom: 16px; border-bottom: 1px solid var(--line); font-size: 14px; }
+    .builder form[hidden] { display: none; }
+    .builder select {
+      font: inherit; color: var(--fg); background: var(--bg-2); border: 1px solid var(--line-bright); border-radius: 8px; padding: 5px 8px;
+    }
+    .builder label { display: inline-flex; align-items: center; gap: 7px; cursor: pointer; color: var(--muted); }
+    .builder input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--teal); margin: 0; }
+    .step { font-family: var(--font-mono); font-size: 11.5px; color: var(--faint); margin: 0 0 6px; }
+    .step + .term { margin-bottom: 14px; }
+    .term {
+      margin: 0; background: var(--ui-code); border: 1px solid #16213a; border-radius: 10px; padding: 12px 14px;
+      font: 12.5px/1.6 var(--font-mono); color: #d7e3f4; white-space: pre-wrap; word-break: break-word;
+    }
+    .term:last-child { margin-bottom: 0; }
+    .term .p { color: var(--teal); user-select: none; }
+
+    /* ---------- Screens ---------- */
+    .shots {
+      margin-top: 40px; display: grid; grid-auto-flow: column; grid-auto-columns: min(820px, 86vw); gap: 18px;
+      overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+      padding: 4px var(--gutter) 18px; margin-inline: calc(var(--gutter) * -1);
+      scroll-padding-inline: var(--gutter);
+      scrollbar-color: var(--line-bright) transparent;
+    }
+    .shots:focus-visible { outline: 2px solid var(--teal); outline-offset: -2px; border-radius: 12px; }
+    .shots figure { margin: 0; scroll-snap-align: start; }
+    .shots img { display: block; width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line-bright); box-shadow: 0 24px 60px -30px rgba(0, 0, 0, .8); }
+    .shots figcaption { margin-top: 10px; font-size: 14px; color: var(--faint); }
+    .shots-hint { margin: 6px 0 0; font-size: 13px; color: var(--faint); }
+
+    /* ---------- Privacy ---------- */
+    .privacy { text-align: center; }
+    .privacy h2 { font-size: clamp(30px, 5vw, 52px); }
+    .privacy .section-sub { margin-inline: auto; }
+    .pills { margin: 32px 0 0; padding: 0; list-style: none; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .pills li { font-family: var(--font-mono); font-size: 13px; color: var(--muted); border: 1px solid var(--line-bright); border-radius: 999px; padding: 9px 16px; background: var(--surface); }
+    .pills b { color: var(--fg); }
+    .pills a { color: var(--fg); }
+    .web-version { margin: 28px 0 0; color: var(--faint); font-size: 15px; }
+    .web-version a { color: var(--fg); text-underline-offset: 3px; }
+
+    /* ---------- Footer ---------- */
+    footer { border-top: 1px solid var(--line); padding: 36px 0 56px; color: var(--faint); font-size: 15px; }
+    footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap; }
+    .foot-links { display: flex; gap: 8px 22px; flex-wrap: wrap; }
+    .foot-links a { color: var(--muted); text-decoration: none; }
+    .foot-links a:hover { color: var(--fg); }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .nav-cta, .btn-store, .feat { transition: none; }
+      .nav-cta:hover, .btn-store:hover { transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav aria-label="SSH Keytool">
+    <div class="wrap">
+      <a class="brand" href="/ssh-keytool/" aria-current="page"><img src="/ssh-keytool/icon.png" alt="" width="28" height="28" /> SSH Keytool</a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#fido">FIDO keys</a>
+        <a href="#privacy">Privacy</a>
+        <a href="/ssh-keytool/support.html">Support</a>
+      </div>
+      <a class="nav-cta" href="https://chromewebstore.google.com/detail/ssh-keytool/ppomhlbhgiaefnionnblaiaolpkjagkc" target="_blank" rel="noopener">Add to Chrome</a>
+    </div>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <svg class="circuit" viewBox="0 0 1200 640" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+        <g fill="none" stroke="#2dd4bf" stroke-opacity=".22" stroke-width="1.2">
+          <path d="M-20 120H260l60 60h180" /><circle cx="504" cy="180" r="4" />
+          <path d="M-20 520h200l70-70h150" /><circle cx="424" cy="450" r="4" />
+          <path d="M1220 80H980l-50 50H760" /><circle cx="756" cy="130" r="4" />
+          <path d="M1220 560H1010l-60-60H840" /><circle cx="836" cy="500" r="4" />
+          <path d="M600 -20v70l40 40v60" /><circle cx="640" cy="194" r="4" />
+          <path d="M1100 660V600l-40-40v-80" /><circle cx="1060" cy="476" r="4" />
+          <path d="M120 660V590l50-50h90" /><circle cx="264" cy="540" r="4" />
+        </g>
+      </svg>
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow"><span class="dot" aria-hidden="true"></span>Chrome extension · 100% offline</span>
+          <h1>SSH keys,<br /><span class="grad">offline in your browser.</span></h1>
+          <p class="lede">Generate, convert and inspect SSH keys and certificates — including <strong>FIDO security keys</strong>. Everything runs on your device; <strong>no key is ever sent anywhere.</strong></p>
+
+          <div class="cta-row" id="get">
+            <a class="btn-store" href="https://chromewebstore.google.com/detail/ssh-keytool/ppomhlbhgiaefnionnblaiaolpkjagkc" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 11H19V7a2 2 0 0 0-2-2h-4V3.5a2.5 2.5 0 0 0-5 0V5H4a2 2 0 0 0-2 2v3.8h1.5a2.7 2.7 0 0 1 0 5.4H2V20a2 2 0 0 0 2 2h3.8v-1.5a2.7 2.7 0 0 1 5.4 0V22H17a2 2 0 0 0 2-2v-4h1.5a2.5 2.5 0 0 0 0-5z"/></svg>
+              <span><span class="small">Available in the</span><span class="big">Chrome Web Store</span></span>
+            </a>
+            <a class="btn-ghost" href="https://mkontani.github.io/ssh-keytool-extension/" target="_blank" rel="noopener">Try the web version ↗</a>
+          </div>
+
+          <ul class="trust">
+            <li>Free, no account</li>
+            <li>Works fully offline</li>
+            <li>RSA · ECDSA · Ed25519</li>
+          </ul>
+        </div>
+
+        <figure class="scene">
+          <span class="float" aria-hidden="true">0 network requests</span>
+          <div class="popup" aria-hidden="true">
+            <div class="popup-head"><img src="/ssh-keytool/icon.png" alt="" width="26" height="26" /><b class="grad">SSH Keytool</b></div>
+            <div class="tabs"><span class="on">Generate</span><span>Derive</span><span>Cert</span><span>Convert</span><span>FIDO</span></div>
+            <span class="field-label">Algorithm</span>
+            <div class="fake-select">ED25519</div>
+            <span class="field-label">Passphrase (Optional)</span>
+            <div class="fake-input">Enter passphrase to encrypt key...</div>
+            <div class="fake-btn">Generate Key Pair</div>
+            <div class="out-head"><span class="field-label">Private Key</span><span class="copy">Copy</span></div>
+            <pre class="code fade">-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+QyNTUxOQAAACBG3RR7Wx6VP5zUBFXrFnMbuki8AWUljuKojRQVUnJvDQAAAJCSWmp9klpq
+fQAAAAtzc2gtZWQyNTUxOQAAACBG3RR7Wx6VP5zUBFXrFnMbuki8AWUljuKojRQVUnJvDQ</pre>
+            <div class="out-head"><span class="field-label">Public Key</span><span class="copy">Copy</span></div>
+            <pre class="code">ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEbdFHtbHpU/nNQEVesWcxu6SLwBZSWO4qiNFBVScm8N alice@laptop</pre>
+          </div>
+          <figcaption class="sr-only">The SSH Keytool popup on its Generate tab, showing a new Ed25519 key pair with Copy buttons for the private and public key.</figcaption>
+        </figure>
+      </div>
+    </header>
+
+    <section class="band" id="features" aria-labelledby="features-title">
+      <div class="wrap">
+        <span class="kicker">Five tabs, one popup</span>
+        <h2 id="features-title">Everything you reach for <span class="mono">ssh-keygen</span>&nbsp;for.</h2>
+        <p class="section-sub">Paste a key, get an answer. No terminal, no temp files, no copying secrets into a website you don’t control.</p>
+
+        <ul class="features">
+          <li class="feat">
+            <span class="tab">Generate</span>
+            <h3>New key pairs</h3>
+            <p>RSA 2048 / 4096, ECDSA P-256 / P-384 / P-521 and Ed25519, with an optional passphrase. Copy the private and public key with one click.</p>
+          </li>
+          <li class="feat">
+            <span class="tab">Derive</span>
+            <h3>Public key from a private key</h3>
+            <p>Lost the <code class="inline">.pub</code> file? Paste the private key, enter its passphrase if it has one, and get the public key back.</p>
+          </li>
+          <li class="feat">
+            <span class="tab">Cert</span>
+            <h3>Read SSH certificates</h3>
+            <p>Key ID, principals, validity window, extensions and critical options of any OpenSSH certificate, at a glance.</p>
+          </li>
+          <li class="feat">
+            <span class="tab">Convert</span>
+            <h3>Switch key formats</h3>
+            <p>OpenSSH, PKCS#1, PKCS#8 and PuTTY PPK v2. The source format is detected for you. Add, change or remove the passphrase in the same step.</p>
+          </li>
+          <li class="feat">
+            <span class="tab">FIDO</span>
+            <h3>Security key commands</h3>
+            <p>Build the <code class="inline">ssh-keygen</code> command for <code class="inline">ed25519-sk</code> / <code class="inline">ecdsa-sk</code>, plus matching <code class="inline">authorized_keys</code>, <code class="inline">sshd_config</code> and git signing snippets.</p>
+          </li>
+          <li class="feat">
+            <span class="tab">FIDO</span>
+            <h3>Inspect FIDO keys</h3>
+            <p>Application, SHA256 fingerprint and touch / PIN / resident flags of an <code class="inline">sk-</code> key — even from a passphrase-protected key file.</p>
+          </li>
+        </ul>
+
+        <dl class="formats">
+          <div><dt>Keys</dt><dd>RSA 2048</dd><dd>RSA 4096</dd><dd>ECDSA P-256</dd><dd>ECDSA P-384</dd><dd>ECDSA P-521</dd><dd>Ed25519</dd></div>
+          <div><dt>Formats</dt><dd>OpenSSH</dd><dd>PKCS#1</dd><dd>PKCS#8</dd><dd>PuTTY PPK v2</dd></div>
+          <div><dt>FIDO</dt><dd>ed25519-sk</dd><dd>ecdsa-sk</dd></div>
+          <div><dt>Certs</dt><dd>*-cert-v01@openssh.com</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="band" id="fido" aria-labelledby="fido-title">
+      <div class="wrap fido-grid">
+        <div>
+          <span class="kicker">Hardware security keys</span>
+          <h2 id="fido-title">FIDO keys, without the man page.</h2>
+          <p class="section-sub">A FIDO key lives on a YubiKey or similar, so no browser can create it for you. SSH Keytool writes the exact commands instead — and reads the result back.</p>
+          <ul class="fido-notes">
+            <li>Pick the algorithm and the <strong>resident</strong>, <strong>PIN</strong> and <strong>touch</strong> options; every user-entered value is shell-quoted.</li>
+            <li>Get the server side too: an <code class="inline">authorized_keys</code> line with the right options, and an optional <code class="inline">PubkeyAuthOptions</code> line.</li>
+            <li>On macOS, the built-in <code class="inline">ssh-keygen</code> has no FIDO support — the builder tells you to use Homebrew’s OpenSSH.</li>
+          </ul>
+        </div>
+
+        <div class="builder">
+          <form id="fido-form" hidden aria-label="Try the command builder">
+            <select name="alg" aria-label="Algorithm">
+              <option value="ed25519-sk" selected>ed25519-sk</option>
+              <option value="ecdsa-sk">ecdsa-sk</option>
+            </select>
+            <label><input type="checkbox" name="resident" /> Resident</label>
+            <label><input type="checkbox" name="pin" checked /> Require PIN</label>
+            <label><input type="checkbox" name="notouch" /> No touch</label>
+          </form>
+          <div aria-live="polite">
+            <p class="step">1. Generate (run on your machine)</p>
+            <pre class="term"><span class="p" aria-hidden="true">$ </span><span id="out-cmd">ssh-keygen -t ed25519-sk -O application=ssh:work -O verify-required -C alice@laptop -f ~/.ssh/id_ed25519_sk</span></pre>
+            <p class="step">2. Server: ~/.ssh/authorized_keys</p>
+            <pre class="term" id="out-ak">verify-required &lt;contents of ~/.ssh/id_ed25519_sk.pub&gt;</pre>
+            <p class="step">3. Optional: sshd_config</p>
+            <pre class="term" id="out-sshd">PubkeyAuthOptions touch-required verify-required</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="screens" aria-labelledby="screens-title">
+      <div class="wrap">
+        <span class="kicker">Screenshots</span>
+        <h2 id="screens-title">The real popup.</h2>
+        <div class="shots" tabindex="0" role="region" aria-label="Screenshots, scroll sideways">
+          <figure>
+            <img src="/ssh-keytool/screens/1-generate.webp" width="1280" height="800" alt="The Generate tab with a new Ed25519 key pair and Copy buttons for both keys." />
+            <figcaption>Generate — RSA, ECDSA and Ed25519 with an optional passphrase.</figcaption>
+          </figure>
+          <figure>
+            <img src="/ssh-keytool/screens/2-fido-builder.webp" width="1280" height="800" alt="The FIDO Command Builder with ed25519-sk and Require PIN selected, showing the ssh-keygen command and authorized_keys line." loading="lazy" />
+            <figcaption>FIDO Command Builder — the ssh-keygen command and a matching authorized_keys line.</figcaption>
+          </figure>
+          <figure>
+            <img src="/ssh-keytool/screens/3-fido-inspect.webp" width="1280" height="800" alt="The FIDO Inspect Key panel showing type, application, fingerprint, encryption and touch and PIN flags of a key file." loading="lazy" />
+            <figcaption>FIDO Inspect — fingerprint, application and flags, even from encrypted key files.</figcaption>
+          </figure>
+          <figure>
+            <img src="/ssh-keytool/screens/4-convert.webp" width="1280" height="800" alt="The Convert tab turning an OpenSSH private key into an encrypted PKCS#8 key." loading="lazy" />
+            <figcaption>Convert — OpenSSH, PKCS#1, PKCS#8 and PuTTY PPK v2.</figcaption>
+          </figure>
+          <figure>
+            <img src="/ssh-keytool/screens/5-inspect-cert.webp" width="1280" height="800" alt="The Cert tab showing an SSH certificate's key ID, principals, validity and extensions." loading="lazy" />
+            <figcaption>Cert — key ID, principals, validity and extensions.</figcaption>
+          </figure>
+        </div>
+        <p class="shots-hint">Scroll sideways for all five.</p>
+      </div>
+    </section>
+
+    <section class="band privacy" id="privacy" aria-labelledby="privacy-title">
+      <div class="wrap">
+        <span class="kicker">Privacy</span>
+        <h2 id="privacy-title">Your private keys <span class="grad">never leave the popup.</span></h2>
+        <p class="section-sub">SSH Keytool makes no network requests and stores nothing. Keys are generated and parsed in memory on your device, and everything is gone when you close the popup.</p>
+        <ul class="pills">
+          <li><b>0</b> network requests</li>
+          <li><b>0</b> bytes stored</li>
+          <li><b>1</b> permission: clipboardWrite</li>
+          <li>Source on <a href="https://github.com/mkontani/ssh-keytool-extension" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+        <p class="web-version">Rather not install anything? The same app runs as a page at <a href="https://mkontani.github.io/ssh-keytool-extension/" target="_blank" rel="noopener">mkontani.github.io/ssh-keytool-extension</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <a class="brand" href="/ssh-keytool/"><img src="/ssh-keytool/icon.png" alt="" width="28" height="28" /> SSH Keytool</a>
+      <div class="foot-links">
+        <a href="/ssh-keytool/privacy.html">Privacy Policy</a>
+        <a href="/ssh-keytool/support.html">Support</a>
+        <a href="https://github.com/mkontani/ssh-keytool-extension" target="_blank" rel="noopener">GitHub</a>
+        <a href="/">More apps</a>
+      </div>
+      <div>© 2026 mkontani</div>
+    </div>
+  </footer>
+
+  <script>
+    // FIDO command builder demo. Mirrors buildKeygenCommand / buildAuthorizedKeysLine /
+    // buildSshdConfigLine in src/utils/fidoCommands.ts of mkontani/ssh-keytool-extension.
+    // Demo-only choices, to match store screenshot 2: application (ssh:work) and comment
+    // (alice@laptop) are fixed, Require PIN starts checked (the extension starts with all
+    // options off), and an empty sshd_config result shows a comment instead of nothing.
+    (() => {
+      const form = document.getElementById('fido-form');
+      const cmd = document.getElementById('out-cmd');
+      const ak = document.getElementById('out-ak');
+      const sshd = document.getElementById('out-sshd');
+      if (!form || !cmd || !ak || !sshd) return;
+
+      const render = () => {
+        const alg = form.elements.alg.value;
+        const resident = form.elements.resident.checked;
+        const pin = form.elements.pin.checked;
+        const noTouch = form.elements.notouch.checked;
+        const path = `~/.ssh/id_${alg.replace('-', '_')}`;
+
+        cmd.textContent = [
+          'ssh-keygen', '-t', alg, '-O', 'application=ssh:work',
+          ...(resident ? ['-O', 'resident'] : []),
+          ...(pin ? ['-O', 'verify-required'] : []),
+          ...(noTouch ? ['-O', 'no-touch-required'] : []),
+          '-C', 'alice@laptop', '-f', path,
+        ].join(' ');
+
+        const akOptions = [noTouch && 'no-touch-required', pin && 'verify-required'].filter(Boolean);
+        const pub = `<contents of ${path}.pub>`;
+        ak.textContent = akOptions.length ? `${akOptions.join(',')} ${pub}` : pub;
+
+        const sshdKeywords = [!noTouch && 'touch-required', pin && 'verify-required'].filter(Boolean);
+        sshd.textContent = sshdKeywords.length
+          ? `PubkeyAuthOptions ${sshdKeywords.join(' ')}`
+          : '# nothing to enforce server-wide';
+      };
+
+      form.addEventListener('change', render);
+      form.hidden = false;
+      render();
+    })();
+  </script>
+</body>
+</html>
