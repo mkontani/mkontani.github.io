@@ -55,6 +55,13 @@ There are **three page styles** — don't mix them:
 - **`cert-tool/screens/*.webp`** are WebP copies of that repo's `screenshots/store/*.png`.
 - **The `/cert-tool-extension/` path** belongs to that repo's own Pages site, a live demo of the popup. Never add a folder with that name here.
 
+**`ssh-keytool/`** (Chrome extension SSH Keytool, source in `mkontani/ssh-keytool-extension`) follows the dark default, recolored to the extension's own navy / teal (`#2dd4bf`) / blue (`#60a5fa`) with circuit traces from its store promo tile.
+- **Hero**: an HTML replica of the popup's Generate tab. Its key pair is a throwaway Ed25519 key whose private half was deleted after generation; only the public key and the first three lines of the private key file are shown (header + public part, no secret bytes). Keep it that way — never paste a full private key into a page.
+- **FIDO section**: a small command builder demo. Its inline JS mirrors `buildKeygenCommand`, `buildAuthorizedKeysLine` and `buildSshdConfigLine` in that repo's `src/utils/fidoCommands.ts`; update it if those change. The form is `hidden` until JS runs, and the static output matches its default state. Its defaults follow store screenshot 2 (application `ssh:work`, comment `alice@laptop`, Require PIN on), not the extension's all-off defaults.
+- **`ssh-keytool/screens/*.webp`** are WebP copies of that repo's `assets/webstore/0*.png`; `og.jpg` is its `promo-marquee-1400x560.png`.
+- **`ssh-keytool/privacy.html`** has no counterpart in the extension repo (it has no `PRIVACY.md`). It was written from the code: no network requests, no storage, only the `clipboardWrite` permission. Re-check it when the extension gains permissions or I/O.
+- **The `/ssh-keytool-extension/` path** belongs to that repo's own Pages site (the full app as a web page, linked as "web version"). Never add a folder with that name here.
+
 ## Adding a new product
 
 1. Copy an existing `/<product>/` folder (e.g. `jwt-lens/`) and edit the text, theme colors, and OG meta URLs.
