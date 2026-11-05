@@ -62,6 +62,20 @@ There are **three page styles** — don't mix them:
 - **`ssh-keytool/privacy.html`** has no counterpart in the extension repo (it has no `PRIVACY.md`). It was written from the code: no network requests, no storage, only the `clipboardWrite` permission. Re-check it when the extension gains permissions or I/O.
 - **The `/ssh-keytool-extension/` path** belongs to that repo's own Pages site (the full app as a web page, linked as "web version"). Never add a folder with that name here.
 
+**Exception — `chrometchi/`** (Chrome extension Chrometchi, a pixel-art virtual pet; source in `mkontani/chrometchi-extension`) uses the light pastel look of its Chrome Web Store images instead of the dark default.
+- **Look**: the palette of that repo's `e2e/store/compose.ts`: ink `#2b2233`, cream `#fff4e0`, white cards with a 4px ink border and a hard 6px ink shadow, and a dot pattern. The bands follow the store screenshots' order (pink, mint, yellow, lavender, night). Headings use DotGothic16; body text uses Zen Maru Gothic.
+- **Two languages in one page**: every piece of copy exists as a `lang="ja"` / `lang="en"` pair. CSS shows only the pair matching `<html data-lang>`. An inline script in `<head>` picks the language before first paint (`?lang=`, then the visitor's choice saved in `localStorage`, then the browser's first language). Without JS the page is Japanese and the switch is hidden. Add both languages whenever you change copy. `privacy.html` and `support.html` hold both languages one after the other (`#ja`, `#en`).
+- **Walking pet**: a pet walks along the bottom of the landing page. It mirrors the extension's "Walk on web pages" feature.
+  - Its inline JS mirrors that repo's `src/roam/constants.ts` and `src/roam/gait.ts`: rest and walk times, frame times, gait speeds, hop and bob heights.
+  - Clicking it shows the happy frame and a bubble. As in the extension (`src/roam/view.ts`), the pet stands still while the bubble is open.
+  - The bubble closes after a few seconds unless it is hovered or focused. Escape or a second click also closes it.
+  - "Hide on this page" hides the pet, and the walk section's button brings it back. Focus moves to the button that replaces the one clicked.
+  - With reduced motion it sits still.
+- **Art**: `chrometchi/art/` holds copies of that repo's `src/assets` at the same paths. They are pixel art, so copy them as-is and show them only at whole multiples (2× / 3×). The one exception is the life-stage strip on screens narrower than 360px: there five 64px sprites do not fit, so it shows them at 48px.
+  - `popup-{ja,en}.webp` are the real popup captured at 3× (1080×1386, lossless WebP).
+  - `og.jpg` is that repo's `screenshots/ja/promo_marquee.png`.
+- **`chrometchi/privacy.html`** mirrors `docs/store/privacy-policy.md` in the extension repo. Keep the two in sync.
+
 ## Adding a new product
 
 1. Copy an existing `/<product>/` folder (e.g. `jwt-lens/`) and edit the text, theme colors, and OG meta URLs.
