@@ -46,7 +46,7 @@
 
   <style>
     :root {
-      /* The store images' palette (e2e/store/compose.ts in mkontani/chrometchi-extension). */
+      /* The store images' palette (the extension's store image composer). */
       --ink: #2b2233;
       --sub: #5b4d66;
       --cream: #fff4e0;
@@ -402,7 +402,7 @@
         <div>
           <h2 id="care-title"><span lang="ja">お世話するほど、<br />すくすく育つ</span><span lang="en">A little care<br />goes a long way</span></h2>
           <p class="body" lang="ja">ごはんとおやつ、うんちのおそうじ、びょうきのときのくすり、夜の消灯。すきま時間のお世話で、ペットは元気に育ちます。なでると、うれしそうに笑います。上のバーには、いまの育ちの段階と「何時間目」かも出ます。</p>
-          <p class="body" lang="en">Meals and treats, cleaning up, medicine when it is sick and lights out at bedtime. A moment of care between tabs keeps your pet healthy, and a pat makes it light up. The top bar shows its stage and which hour of it you are in.</p>
+          <p class="body" lang="en">Meals and treats, cleaning up, medicine when it is sick and lights out at bedtime. A moment of care between tabs keeps your pet healthy, and a pat makes it light up. The top bar shows its stage and the hour within it.</p>
         </div>
         <div class="stack">
           <ol class="card plain growth" aria-label="育ち方" data-label-ja="育ち方" data-label-en="Life stages">
@@ -471,7 +471,7 @@
           <h2 id="rooms-title"><span lang="ja">おへやを、<br />じぶんらしく</span><span lang="en">Make it<br />feel like home</span></h2>
           <p class="body" lang="ja">いろいろなへやに もようがえ。家具をかざって、アクセサリーで おしゃれも。新しいおへやは、遊びながら増えていきます。</p>
           <p class="body" lang="en">Switch rooms, place furniture and dress your pet up. New rooms unlock as you play.</p>
-          <p class="body" lang="ja">コインは、ミッションや ずかんの達成、おわかれのときにたまります。育ったおへやとかぐによって、進化する姿が変わることもあります。</p>
+          <p class="body" lang="ja">コインは、ミッションや ずかんの達成、おわかれのときにたまります。育ったおへやと家具によって、進化する姿が変わることもあります。</p>
           <p class="body" lang="en">Coins come from missions, Zukan milestones and farewells. The room and its furniture can change what your pet grows into.</p>
         </div>
         <div class="stack">
@@ -482,7 +482,7 @@
               <li class="room-tile"><img class="px bgimg" src="/chrometchi/art/ui/bg/sweets_day.png" alt="" width="88" height="68" /><img class="px item" style="--n:32" src="/chrometchi/art/ui/decor/toypiano.png" alt="" width="32" height="32" /></li>
             </ul>
             <div class="shelf" aria-hidden="true">
-              <span class="label"><span lang="ja">かぐ</span><span lang="en">Furniture</span></span>
+              <span class="label"><span lang="ja">家具</span><span lang="en">Furniture</span></span>
               <ul class="plain dec">
                 <li><img class="px" style="--n:32" src="/chrometchi/art/ui/decor/lamp.png" alt="" width="32" height="32" /></li>
                 <li><img class="px" style="--n:32" src="/chrometchi/art/ui/decor/plant.png" alt="" width="32" height="32" /></li>
@@ -514,8 +514,8 @@
       <div class="wrap split flip">
         <div>
           <h2 id="zukan-title"><span lang="ja">育て方で、<br />進化が変わる</span><span lang="en">Raise it your way,<br />see what it becomes</span></h2>
-          <p class="body" lang="ja">何を食べ、何で遊び、どれだけ大事にされたか。お世話のしかたで、おとなの姿が決まります。めったに会えない、ひみつの姿も。出会った姿は、これまで育てたペットの思い出といっしょに、ずかんにずっと残ります。ふ化・進化・おわかれにはみじかいシーンが流れ、「おもいで」にはさいごの姿・進化の道すじ・おわかれの理由・いっしょにいた時間が残ります。</p>
-          <p class="body" lang="en">What it eats, how you play and how well you look after it decide its adult form. Some forms are rare and secret. Every form you meet stays in your Zukan, along with memories of the pets you raised before. Hatching, evolving and saying goodbye each play a short scene, and the Memories section keeps each pet's last form, evolution path, time together and why the farewell happened.</p>
+          <p class="body" lang="ja">何を食べ、何で遊び、どれだけ大事にされたか。お世話のしかたで、おとなの姿が決まります。めったに会えない、ひみつの姿も。出会った姿は、ずかんにずっと残ります。ふ化・進化・おわかれにはみじかいシーンが流れ、「おもいで」には、これまで育てたペットのさいごの姿・進化の道すじ・おわかれの理由・いっしょにいた時間がまとまります。</p>
+          <p class="body" lang="en">What it eats, how you play and how well you look after it decide its adult form. Some forms are rare and secret. Every form you meet stays in your Zukan,. Hatching, evolving and saying goodbye each play a short scene, and the Memories section keeps each pet's last form, evolution path, time together and why the farewell happened.</p>
         </div>
         <div class="card zukan">
           <div class="zukan-head"><span lang="ja">ずかん</span><span lang="en">Zukan</span></div>
@@ -672,7 +672,7 @@
 
     // A pet walks along the bottom of this page, the way the extension's "Walk on web pages" does.
     // The timings and gaits mirror src/roam/constants.ts and src/roam/gait.ts in
-    // mkontani/chrometchi-extension: rest 1.5–5 s facing you, walk 3–8 s in its gait, mirrored when
+    // As in the extension: rest 1.5–5 s facing you, walk 3–8 s in its gait, mirrored when
     // heading left. With reduced motion it sits still. Click it to talk; it can hide on this page.
     (() => {
       const roamer = document.getElementById('roamer');
