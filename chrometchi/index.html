@@ -272,8 +272,8 @@
     .room-tile .bgimg { left: 0; top: 0; width: calc(88px * var(--u)); height: calc(68px * var(--u)); }
     .room-tile .item { left: 6%; bottom: 4%; width: calc(var(--n) * 1px * var(--u)); height: calc(var(--n) * 1px * var(--u)); }
     .room-tile .item.r { left: auto; right: 6%; }
-    .room-tile figcaption { position: absolute; left: 0; right: 0; top: 0; text-align: center; font: 12px/1.6 var(--font-dot); background: rgba(255, 244, 224, .88); border-bottom: 2px solid var(--ink); }
     .shelf { display: flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 6px 12px; margin: 12px 0 0; padding-top: 12px; border-top: 3px dashed #e3d6dc; font: 14px var(--font-dot); }
+    .shelf--flush { border-top: 0; margin-top: 0; padding-top: 0; }
     .shelf .label { color: var(--sub); flex: none; }
     .shelf ul { display: flex; align-items: flex-end; gap: 6px; }
     .shelf img { width: calc(var(--n) * 1px * var(--k, 1)); height: calc(var(--n) * 1px * var(--k, 1)); }
@@ -389,7 +389,7 @@
           </div>
           <div class="popup">
             <img lang="ja" src="/chrometchi/popup-ja.webp" width="1080" height="1386" alt="Chrometchi のポップアップ。家具のある部屋にドラゴンのペットがいて、上におなか・ごきげん・げんきのハートと「おとな 1時間目」の表示、下にごはん・あそぶ・おでかけ・もようがえなどのボタンがあります。" />
-            <img lang="en" src="/chrometchi/popup-en.webp" width="1080" height="1386" alt="The Chrometchi popup: a dragon pet in a furnished room, with Hunger, Mood and Vitality hearts and an "Adult, hour 1" label above and buttons such as Feed, Play, Go out and Decorate below." />
+            <img lang="en" src="/chrometchi/popup-en.webp" width="1080" height="1386" alt="The Chrometchi popup: a dragon pet in a furnished room, with Hunger, Mood and Vitality hearts and an Adult, hour 1 label above, and buttons such as Feed, Play, Go out and Decorate below." />
           </div>
           <img class="px deco" src="/chrometchi/art/ui/effects/star.png" alt="" width="48" height="48" style="left:-22px;top:-20px" />
           <img class="px deco" src="/chrometchi/art/ui/effects/note.png" alt="" width="48" height="48" style="left:22%;bottom:-26px" />
@@ -490,7 +490,7 @@
                 <li><img class="px" style="--n:32" src="/chrometchi/art/ui/decor/armchair.png" alt="" width="32" height="32" /></li>
               </ul>
             </div>
-            <div class="shelf" aria-hidden="true" style="border-top:0;margin-top:0;padding-top:0">
+            <div class="shelf shelf--flush" aria-hidden="true">
               <span class="label"><span lang="ja">アクセサリー</span><span lang="en">Accessories</span></span>
               <ul class="plain acc">
                 <li><img class="px" style="--n:16" src="/chrometchi/art/ui/acc/crown.png" alt="" width="16" height="16" /></li>
