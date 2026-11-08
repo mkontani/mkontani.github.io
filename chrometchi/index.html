@@ -262,6 +262,25 @@
     }
     .try button[hidden] { display: none; }
 
+    /* ---------- Rooms and dress-up ---------- */
+    .rooms { --u: 1; padding: 14px; }
+    @media (min-width: 680px) and (max-width: 880px) { .rooms { --u: 2; } }
+    @media (min-width: 1100px) { .rooms { --u: 2; } }
+    .room-tiles { display: grid; grid-template-columns: repeat(3, max-content); justify-content: center; gap: 6px; }
+    .room-tile { position: relative; width: calc(88px * var(--u)); height: calc(68px * var(--u)); border: 3px solid var(--ink); border-radius: 8px; overflow: hidden; background: var(--cream); box-sizing: content-box; }
+    .room-tile img { position: absolute; }
+    .room-tile .bgimg { left: 0; top: 0; width: calc(88px * var(--u)); height: calc(68px * var(--u)); }
+    .room-tile .item { left: 6%; bottom: 4%; width: calc(var(--n) * 1px * var(--u)); height: calc(var(--n) * 1px * var(--u)); }
+    .room-tile .item.r { left: auto; right: 6%; }
+    .room-tile figcaption { position: absolute; left: 0; right: 0; top: 0; text-align: center; font: 12px/1.6 var(--font-dot); background: rgba(255, 244, 224, .88); border-bottom: 2px solid var(--ink); }
+    .shelf { display: flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 6px 12px; margin: 12px 0 0; padding-top: 12px; border-top: 3px dashed #e3d6dc; font: 14px var(--font-dot); }
+    .shelf .label { color: var(--sub); flex: none; }
+    .shelf ul { display: flex; align-items: flex-end; gap: 6px; }
+    .shelf img { width: calc(var(--n) * 1px * var(--k, 1)); height: calc(var(--n) * 1px * var(--k, 1)); }
+    .shelf .acc { --k: 3; }
+    .shelf .dec { --k: 2; }
+    @media (max-width: 420px) { .chips.rooms-chips li { font-size: 15px; gap: 12px; } }
+
     .night-card { background: #2a3170; border: 4px solid var(--cream); border-radius: 16px; box-shadow: 6px 6px 0 #0f1236; padding: 28px; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 220px; }
     .night-card .sleeper { width: 128px; height: 128px; }
     .night-card .zzz { width: 48px; height: 48px; align-self: flex-start; }
@@ -324,6 +343,7 @@
       <div class="nav-links">
         <a href="#care"><span lang="ja">育てる</span><span lang="en">Raise</span></a>
         <a href="#play"><span lang="ja">遊ぶ</span><span lang="en">Play</span></a>
+        <a href="#rooms"><span lang="ja">おへや</span><span lang="en">Rooms</span></a>
         <a href="#zukan"><span lang="ja">ずかん</span><span lang="en">Zukan</span></a>
         <a href="#walk"><span lang="ja">おさんぽ</span><span lang="en">Walks</span></a>
         <a href="#privacy"><span lang="ja">プライバシー</span><span lang="en">Privacy</span></a>
@@ -368,8 +388,8 @@
             <div class="page"><i style="width:70%"></i><i style="width:92%"></i><i style="width:58%"></i><i style="width:84%"></i><i class="block"></i><i style="width:66%"></i><i style="width:48%"></i></div>
           </div>
           <div class="popup">
-            <img lang="ja" src="/chrometchi/popup-ja.webp" width="1080" height="1386" alt="Chrometchi のポップアップ。部屋の中でドラゴンのペットが笑っていて、上におなか・ごきげん・げんきのハート、下にごはん・あそぶ・おでかけなどのボタンがあります。" />
-            <img lang="en" src="/chrometchi/popup-en.webp" width="1080" height="1386" alt="The Chrometchi popup: a dragon pet smiling in its room, with Hunger, Mood and Vitality hearts above and buttons such as Feed, Play and Go out below." />
+            <img lang="ja" src="/chrometchi/popup-ja.webp" width="1080" height="1386" alt="Chrometchi のポップアップ。家具のある部屋にドラゴンのペットがいて、上におなか・ごきげん・げんきのハートと「おとな 1時間目」の表示、下にごはん・あそぶ・おでかけ・もようがえなどのボタンがあります。" />
+            <img lang="en" src="/chrometchi/popup-en.webp" width="1080" height="1386" alt="The Chrometchi popup: a dragon pet in a furnished room, with Hunger, Mood and Vitality hearts and an "Adult, hour 1" label above and buttons such as Feed, Play, Go out and Decorate below." />
           </div>
           <img class="px deco" src="/chrometchi/art/ui/effects/star.png" alt="" width="48" height="48" style="left:-22px;top:-20px" />
           <img class="px deco" src="/chrometchi/art/ui/effects/note.png" alt="" width="48" height="48" style="left:22%;bottom:-26px" />
@@ -381,8 +401,8 @@
       <div class="wrap split">
         <div>
           <h2 id="care-title"><span lang="ja">お世話するほど、<br />すくすく育つ</span><span lang="en">A little care<br />goes a long way</span></h2>
-          <p class="body" lang="ja">ごはんとおやつ、うんちのおそうじ、びょうきのときのくすり、夜の消灯。すきま時間のお世話で、ペットは元気に育ちます。なでると、うれしそうに笑います。</p>
-          <p class="body" lang="en">Meals and treats, cleaning up, medicine when it is sick and lights out at bedtime. A moment of care between tabs keeps your pet healthy, and a pat makes it light up.</p>
+          <p class="body" lang="ja">ごはんとおやつ、うんちのおそうじ、びょうきのときのくすり、夜の消灯。すきま時間のお世話で、ペットは元気に育ちます。なでると、うれしそうに笑います。上のバーには、いまの育ちの段階と「何時間目」かも出ます。</p>
+          <p class="body" lang="en">Meals and treats, cleaning up, medicine when it is sick and lights out at bedtime. A moment of care between tabs keeps your pet healthy, and a pat makes it light up. The top bar shows its stage and which hour of it you are in.</p>
         </div>
         <div class="stack">
           <ol class="card plain growth" aria-label="育ち方" data-label-ja="育ち方" data-label-en="Life stages">
@@ -445,12 +465,57 @@
       </div>
     </section>
 
+    <section class="band t-pink" id="rooms" aria-labelledby="rooms-title">
+      <div class="wrap split">
+        <div>
+          <h2 id="rooms-title"><span lang="ja">おへやを、<br />じぶんらしく</span><span lang="en">Make it<br />feel like home</span></h2>
+          <p class="body" lang="ja">いろいろなへやに もようがえ。家具をかざって、アクセサリーで おしゃれも。新しいおへやは、遊びながら増えていきます。</p>
+          <p class="body" lang="en">Switch rooms, place furniture and dress your pet up. New rooms unlock as you play.</p>
+          <p class="body" lang="ja">コインは、ミッションや ずかんの達成、おわかれのときにたまります。育ったおへやとかぐによって、進化する姿が変わることもあります。</p>
+          <p class="body" lang="en">Coins come from missions, Zukan milestones and farewells. The room and its furniture can change what your pet grows into.</p>
+        </div>
+        <div class="stack">
+          <div class="card rooms">
+            <ul class="plain room-tiles" aria-hidden="true">
+              <li class="room-tile"><img class="px bgimg" src="/chrometchi/art/ui/bg/beach_day.png" alt="" width="88" height="68" /><img class="px item" style="--n:24" src="/chrometchi/art/ui/decor/ball.png" alt="" width="24" height="24" /></li>
+              <li class="room-tile"><img class="px bgimg" src="/chrometchi/art/ui/bg/space_day.png" alt="" width="88" height="68" /><img class="px item r" style="--n:32" src="/chrometchi/art/ui/decor/telescope.png" alt="" width="32" height="32" /></li>
+              <li class="room-tile"><img class="px bgimg" src="/chrometchi/art/ui/bg/sweets_day.png" alt="" width="88" height="68" /><img class="px item" style="--n:32" src="/chrometchi/art/ui/decor/toypiano.png" alt="" width="32" height="32" /></li>
+            </ul>
+            <div class="shelf" aria-hidden="true">
+              <span class="label"><span lang="ja">かぐ</span><span lang="en">Furniture</span></span>
+              <ul class="plain dec">
+                <li><img class="px" style="--n:32" src="/chrometchi/art/ui/decor/lamp.png" alt="" width="32" height="32" /></li>
+                <li><img class="px" style="--n:32" src="/chrometchi/art/ui/decor/plant.png" alt="" width="32" height="32" /></li>
+                <li><img class="px" style="--n:32" src="/chrometchi/art/ui/decor/fishbowl.png" alt="" width="32" height="32" /></li>
+                <li><img class="px" style="--n:32" src="/chrometchi/art/ui/decor/armchair.png" alt="" width="32" height="32" /></li>
+              </ul>
+            </div>
+            <div class="shelf" aria-hidden="true" style="border-top:0;margin-top:0;padding-top:0">
+              <span class="label"><span lang="ja">アクセサリー</span><span lang="en">Accessories</span></span>
+              <ul class="plain acc">
+                <li><img class="px" style="--n:16" src="/chrometchi/art/ui/acc/crown.png" alt="" width="16" height="16" /></li>
+                <li><img class="px" style="--n:20" src="/chrometchi/art/ui/acc/wizardhat.png" alt="" width="20" height="20" /></li>
+                <li><img class="px" style="--n:16" src="/chrometchi/art/ui/acc/bowtie.png" alt="" width="16" height="16" /></li>
+                <li><img class="px" style="--n:20" src="/chrometchi/art/ui/acc/strawhat.png" alt="" width="20" height="20" /></li>
+                <li><img class="px" style="--n:16" src="/chrometchi/art/ui/acc/ribbon.png" alt="" width="16" height="16" /></li>
+              </ul>
+            </div>
+          </div>
+          <ul class="card plain chips rooms-chips">
+            <li><img class="px" src="/chrometchi/art/ui/icons/decorate.png" alt="" width="48" height="48" /><span lang="ja">へやを えらんで もようがえ</span><span lang="en">Pick a room and redecorate</span></li>
+            <li><img class="px" src="/chrometchi/art/ui/icons/shop.png" alt="" width="48" height="48" /><span lang="ja">コインで 家具とアクセサリー</span><span lang="en">Buy furniture and accessories with coins</span></li>
+            <li><img class="px" src="/chrometchi/art/ui/icons/coin.png" alt="" width="48" height="48" /><span lang="ja">ミッションと ずかんで コインがたまる</span><span lang="en">Earn coins from missions and the Zukan</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <section class="band t-lavender" id="zukan" aria-labelledby="zukan-title">
       <div class="wrap split flip">
         <div>
           <h2 id="zukan-title"><span lang="ja">育て方で、<br />進化が変わる</span><span lang="en">Raise it your way,<br />see what it becomes</span></h2>
-          <p class="body" lang="ja">何を食べ、何で遊び、どれだけ大事にされたか。お世話のしかたで、おとなの姿が決まります。めったに会えない、ひみつの姿も。出会った姿は、これまで育てたペットの思い出といっしょに、ずかんにずっと残ります。</p>
-          <p class="body" lang="en">What it eats, how you play and how well you look after it decide its adult form. Some forms are rare and secret. Every form you meet stays in your Zukan, along with memories of the pets you raised before.</p>
+          <p class="body" lang="ja">何を食べ、何で遊び、どれだけ大事にされたか。お世話のしかたで、おとなの姿が決まります。めったに会えない、ひみつの姿も。出会った姿は、これまで育てたペットの思い出といっしょに、ずかんにずっと残ります。ふ化・進化・おわかれにはみじかいシーンが流れ、「おもいで」にはさいごの姿・進化の道すじ・おわかれの理由・いっしょにいた時間が残ります。</p>
+          <p class="body" lang="en">What it eats, how you play and how well you look after it decide its adult form. Some forms are rare and secret. Every form you meet stays in your Zukan, along with memories of the pets you raised before. Hatching, evolving and saying goodbye each play a short scene, and the Memories section keeps each pet's last form, evolution path, time together and why the farewell happened.</p>
         </div>
         <div class="card zukan">
           <div class="zukan-head"><span lang="ja">ずかん</span><span lang="en">Zukan</span></div>
@@ -553,6 +618,7 @@
       <a class="brand" href="/chrometchi/"><img class="px" src="/chrometchi/icon.png" alt="" width="32" height="32" /><span>Chrometchi</span></a>
       <div class="foot-links">
         <a href="/chrometchi/privacy.html"><span lang="ja">プライバシーポリシー</span><span lang="en">Privacy Policy</span></a>
+        <a href="/chrometchi/updates.html"><span lang="ja">更新のおしらせ</span><span lang="en">What's new</span></a>
         <a href="/chrometchi/support.html"><span lang="ja">サポート</span><span lang="en">Support</span></a>
         <a href="/"><span lang="ja">ほかのアプリ</span><span lang="en">More apps</span></a>
       </div>
