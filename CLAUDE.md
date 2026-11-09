@@ -76,6 +76,17 @@ There are **three page styles** — don't mix them:
   - `og.jpg` is that repo's `screenshots/ja/promo_marquee.png`.
 - **`chrometchi/privacy.html`** mirrors `docs/store/privacy-policy.md` in the extension repo. Keep the two in sync.
 
+**Exception — `status-cat/`** (Chrome extension Status Cat: pixel cats at the bottom of every page act out its HTTP status; source in the private `mkontani/status-cat-extension`) uses the light look of its store promo tiles instead of the dark default.
+- **Look**: the tiles' palette from that repo's `scripts/generate_promo.py`: a cream wall `#faf2e4` with faint pixel paw prints (the inline SVG in `--paws`), a floor `#eedcc0` / `#e2ccaa`, ink `#2b2b2b`, and white cards with a 4px ink border and a hard 6px shadow. Headings use DotGothic16; body text uses Zen Maru Gothic.
+- **Status chips** (`.code`) take the toolbar badge colours from that repo's `lib/status.js` (2xx `#1e9e4a`, 3xx `#2f6fde`, 4xx `#e07a00`, 5xx and ERR `#d93025`) as a border and a light tint, with ink text, because white on those colours is too faint to read.
+- **Two languages in one page**, built as in `chrometchi/` (the `localStorage` key is `status-cat-lang`). Unlike Chrometchi, the page is English without JS, because the extension's default locale is English.
+- **Images**: only the store assets, never the raw sprites. The extension's `sprites/` are all rights reserved, which is also why its repo is private.
+  - `screens/*.webp` are lossless WebP copies of that repo's `promo/store/screenshot-*.png`.
+  - `screens/err-box.png` is a 300x330 crop of `promo/store/marquee-promo-tile.png` at x 22, y 130 (the cat in the box). It is shown at half size, on a CSS floor whose top edge lines up with the tile's.
+  - `og.jpg` is the marquee tile.
+  - `icon.png` is that repo's `icons/icon128.png`. `/assets/apps/status-cat.png` is the same icon on the cream wall, made opaque because the profile tiles are dark.
+- **`status-cat/privacy.html`** mirrors `promo/store/privacy-policy.md` in the extension repo. Keep the two in sync, and in step with what the extension stores (for example `HISTORY_LIMIT` in its `lib/tab-record.js`). The store's Privacy practices tab links to this page.
+
 ## Adding a new product
 
 1. Copy an existing `/<product>/` folder (e.g. `jwt-lens/`) and edit the text, theme colors, and OG meta URLs.

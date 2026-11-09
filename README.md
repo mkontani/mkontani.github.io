@@ -24,6 +24,7 @@ Personal site of mkontani (software engineer) and public hub for app/extension *
 
 ## Products
 
+- **Status Cat** — [website](https://mkontani.github.io/status-cat/) · [Chrome Web Store](https://chromewebstore.google.com/detail/status-cat/dgcgckglemgioniphgmbodafcandnmdf) · [privacy](https://mkontani.github.io/status-cat/privacy.html) · [support](https://mkontani.github.io/status-cat/support.html)
 - **Chrometchi** — [website](https://mkontani.github.io/chrometchi/) · [Chrome Web Store](https://chromewebstore.google.com/detail/chrometchi/jdblpfjgdackcbckjjkgcmlkcmdplfki) · [privacy](https://mkontani.github.io/chrometchi/privacy.html) · [support](https://mkontani.github.io/chrometchi/support.html)
 - **SSH Keytool** — [website](https://mkontani.github.io/ssh-keytool/) · [Chrome Web Store](https://chromewebstore.google.com/detail/ssh-keytool/ppomhlbhgiaefnionnblaiaolpkjagkc) · [privacy](https://mkontani.github.io/ssh-keytool/privacy.html) · [support](https://mkontani.github.io/ssh-keytool/support.html)
 - **Cert Tool** — [website](https://mkontani.github.io/cert-tool/) · [Chrome Web Store](https://chromewebstore.google.com/detail/cert-tool/ojgmjpfknnlfcfjcljkdcfpbpgciefkk) · [privacy](https://mkontani.github.io/cert-tool/privacy.html) · [support](https://mkontani.github.io/cert-tool/support.html)
