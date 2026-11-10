@@ -16,20 +16,23 @@
     <h2>Using Cert Tool</h2>
     <ul>
       <li>Install Cert Tool from the <a href="https://chromewebstore.google.com/detail/cert-tool/ojgmjpfknnlfcfjcljkdcfpbpgciefkk" target="_blank" rel="noopener">Chrome Web Store</a>.</li>
-      <li>Click the toolbar icon to open the popup, then pick a tab: <strong>Gen KeyPair</strong>, <strong>Gen CSR</strong>, <strong>Derive PubKey</strong>, <strong>Inspector</strong> or <strong>Lint</strong>.</li>
+      <li>Click the toolbar icon to open the popup. It opens on the <strong>Inspector</strong> tab; the other tabs are <strong>Gen KeyPair</strong>, <strong>Gen CSR</strong>, <strong>Derive PubKey</strong> and <strong>Lint</strong>.</li>
+      <li>To see the certificate chain of the site you’re on, click <strong>Show this site’s certificate</strong> on the Inspector tab.</li>
       <li>To check the certificates on a page, click <strong>Scan this page</strong> on the Inspector tab. Hover over or click a badge for details.</li>
       <li>To check one block, select it, right-click, and choose <strong>Inspect certificate with Cert Tool</strong>.</li>
     </ul>
 
     <h2>Common questions</h2>
-    <h3>Scan this page says it can’t scan the page</h3>
-    <p>Chrome doesn’t let extensions read its own pages, such as <code>chrome://</code> pages, the Chrome Web Store, and other extensions’ pages. Copy the certificate into the Inspector tab instead.</p>
+    <h3>Cert Tool says it can’t read the page</h3>
+    <p>Chrome doesn’t let extensions read its own pages, such as <code>chrome://</code> pages, the Chrome Web Store, and other extensions’ pages. <strong>Show this site’s certificate</strong> also needs a page loaded over HTTPS. Copy the certificate into the Inspector tab instead.</p>
+    <h3>Why does Chrome say Cert Tool “started debugging this browser”?</h3>
+    <p><strong>Show this site’s certificate</strong> reads the certificate through Chrome’s debugger, the only way Chrome lets extensions read it. The bar shows while Cert Tool reads it, and Cert Tool detaches right after. This is also why Chrome asks you to approve “Access the page debugger backend” when you install or update Cert Tool.</p>
     <h3>A certificate on the page has no badge</h3>
     <p>Cert Tool skips private keys, blocks that are cut off (no END line), and text the page hides. If the certificate is in a collapsed section, expand it and scan again.</p>
     <h3>Does Cert Tool check whether a certificate is trusted?</h3>
-    <p>No. Cert Tool shows what the certificate says. It doesn’t verify signatures, build chains to a trusted root, or check revocation.</p>
+    <p>Not by itself. Cert Tool shows what a certificate says. It doesn’t verify signatures, build chains to a trusted root, or check revocation. The exception is <strong>Show this site’s certificate</strong>: it shows the chain Chrome verified for the site, and whether Chrome accepted it.</p>
     <h3>Are my keys sent anywhere?</h3>
-    <p>No. Cert Tool makes no network requests and stores nothing. See the <a href="/cert-tool/privacy.html">Privacy Policy</a>.</p>
+    <p>No. Cert Tool sends nothing to its developer or anyone else, and stores nothing. The only request it causes is a HEAD request without cookies to the site you’re on, when you click <strong>Show this site’s certificate</strong>. See the <a href="/cert-tool/privacy.html">Privacy Policy</a>.</p>
 
     <h2>Get help</h2>
     <p>Bug reports and feature requests: <a href="https://github.com/mkontani/cert-tool-extension/issues" target="_blank" rel="noopener">GitHub issues</a> or <a href="mailto:itoama@gmail.com">itoama@gmail.com</a>. What changed in each version is listed in the <a href="https://github.com/mkontani/cert-tool-extension/blob/main/CHANGELOG.md" target="_blank" rel="noopener">changelog</a>.</p>
