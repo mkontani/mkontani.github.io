@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Cert Tool: read X.509 certificates on any page</title>
-  <meta name="description" content="A Chrome extension that badges every certificate on a web page with its name and days left, and lints, inspects and generates certificates, CSRs and keys. Everything runs in your browser." />
+  <meta name="description" content="A Chrome extension that badges every certificate on a web page with its name and days left, shows the certificate chain of the site you’re on, and lints, inspects and generates certificates, CSRs and keys. Everything runs in your browser." />
   <link rel="icon" type="image/png" href="/cert-tool/icon.png" />
 
   <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Cert Tool: read X.509 certificates on any page" />
-  <meta property="og:description" content="Badges every certificate on a page with its name and days left. Lints, inspects and generates too, all in your browser." />
+  <meta property="og:description" content="Badges every certificate on a page with its name and days left, and shows the chain of the site you’re on. Lints, inspects and generates too, all in your browser." />
   <meta property="og:url" content="https://mkontani.github.io/cert-tool/" />
   <meta property="og:image" content="https://mkontani.github.io/cert-tool/icon.png" />
   <meta name="twitter:card" content="summary" />
@@ -190,6 +190,23 @@
       background: var(--sheet); border-radius: 12px; box-shadow: 0 0 0 1px rgba(20, 33, 61, .07), 0 10px 30px rgba(20, 33, 61, .08);
     }
     .way p { margin: 10px 0 0; color: var(--slate); max-width: 46ch; }
+    /* The third way spans both columns: the replica on the left, the text on the right. */
+    .way.wide { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; }
+    .way.wide .shot { grid-row: 1 / span 2; margin-bottom: 0; }
+    .way.wide h3 { align-self: end; }
+    /* A replica of the Inspector after Show this site’s certificate: the summary and the chain with its roles. */
+    .site { width: min(400px, 100%); padding: 14px; border-radius: 10px; background: var(--ov-bg); color: var(--ov-fg); font: 13px/1.45 var(--ui); }
+    .site-sum { padding: 10px 12px; border: 1px solid rgba(6, 182, 212, .35); border-radius: 8px; background: rgba(6, 182, 212, .08); }
+    .site-host { display: flex; align-items: center; gap: 6px; font-weight: 600; color: #fff; }
+    .site-host svg { color: #06b6d4; }
+    .site-tls { margin-top: 2px; color: #cbd5e1; }
+    .site-note { margin-top: 4px; color: var(--ov-muted); font-size: 12px; }
+    .site-chain { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; }
+    .site-chain li { display: flex; align-items: baseline; gap: 6px; padding: 4px 8px; border: 1px solid transparent; border-radius: 6px; color: #cbd5e1; font-size: 12px; }
+    .site-chain li.on { border-color: rgba(139, 92, 246, .45); background: rgba(139, 92, 246, .18); color: #c4b5fd; }
+    .site-chain .n { color: var(--ov-muted); }
+    .site-chain .role { color: var(--ov-muted); font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+    .site-chain li.on .n, .site-chain li.on .role { color: #c4b5fd; }
     .way b { color: var(--ink); font-weight: 600; }
     .legend { display: grid; gap: 12px; justify-items: start; }
     .legend li { display: flex; align-items: center; gap: 14px; }
@@ -248,6 +265,8 @@
     @media (max-width: 920px) {
       .hero-grid, .panel, .privacy-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; }
       .ways-grid { grid-template-columns: minmax(0, 1fr); }
+      .way.wide { display: block; }
+      .way.wide .shot { margin-bottom: 24px; }
       .rosette { width: 600px; height: 600px; }
     }
     @media (max-width: 520px) {
@@ -356,7 +375,7 @@ lE04fNybj+gu+smLAjASawg4lQd3Efqh5BJ1LHZyZf3qsV2wBX4RxlsnZXBZ0V8H
     <section aria-labelledby="ways-title">
       <div class="wrap">
         <h2 id="ways-title">Check certificates where you find them</h2>
-        <p class="sub">Runbooks, pull requests, tickets and CI logs. Cert Tool reads a page only when you ask it to, never in the background.</p>
+        <p class="sub">Runbooks, pull requests, tickets and CI logs, and the site itself. Cert Tool reads a page only when you ask it to, never in the background.</p>
 
         <div class="ways-grid">
           <div class="way">
@@ -381,6 +400,24 @@ lE04fNybj+gu+smLAjASawg4lQd3Efqh5BJ1LHZyZf3qsV2wBX4RxlsnZXBZ0V8H
             </div>
             <h3>Or only what you selected</h3>
             <p>Select a PEM block, right-click it, and choose <b>Inspect certificate with Cert Tool</b>. This works in code viewers and form fields too.</p>
+          </div>
+          <div class="way wide">
+            <div class="shot">
+              <div class="site" role="img" aria-label="The Inspector after Show this site’s certificate: shop.example.com over TLS 1.3, verified by Chrome, with its chain labeled leaf, intermediate and root.">
+                <div class="site-sum">
+                  <div class="site-host"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>shop.example.com</div>
+                  <div class="site-tls">TLS 1.3 · X25519MLKEM768 · AES_128_GCM</div>
+                  <div class="site-note">Verified by Chrome, from the leaf up to a root it trusts.</div>
+                </div>
+                <ul class="site-chain">
+                  <li class="on"><span class="n">1</span><span class="role">Leaf</span>shop.example.com</li>
+                  <li><span class="n">2</span><span class="role">Intermediate</span>Example Issuing CA R1</li>
+                  <li><span class="n">3</span><span class="role">Root</span>Example Root CA</li>
+                </ul>
+              </div>
+            </div>
+            <h3>And the site you’re on</h3>
+            <p>Click <b>Show this site’s certificate</b> on the Inspector tab. Cert Tool loads the chain Chrome verified for the site, from the leaf up to the root, with the TLS version and cipher. Chrome shows a “started debugging this browser” bar while Cert Tool reads it.</p>
           </div>
         </div>
 
@@ -465,8 +502,8 @@ lE04fNybj+gu+smLAjASawg4lQd3Efqh5BJ1LHZyZf3qsV2wBX4RxlsnZXBZ0V8H
     <section id="privacy" aria-labelledby="privacy-title">
       <div class="wrap privacy-grid">
         <div>
-          <h2 id="privacy-title">Nothing leaves your browser</h2>
-          <p>Cert Tool has no server and makes no network requests. It doesn’t store what you paste or what it reads from a page. Results are gone when you close the popup or reload the page.</p>
+          <h2 id="privacy-title">Nothing you paste leaves your browser</h2>
+          <p>Cert Tool has no server and sends nothing to its developer or anyone else. The only request it causes is a HEAD request without cookies to the site you’re on, when you click Show this site’s certificate. It doesn’t store what you paste or what it reads from a page. Results are gone when you close the popup or reload the page.</p>
           <p><a href="/cert-tool/privacy.html">Read the privacy policy</a></p>
         </div>
         <table class="perms">
@@ -476,6 +513,7 @@ lE04fNybj+gu+smLAjASawg4lQd3Efqh5BJ1LHZyZf3qsV2wBX4RxlsnZXBZ0V8H
             <tr><td><code>downloads</code></td><td>Save the keys and CSRs you generate, when you click a save button</td></tr>
             <tr><td><code>activeTab</code>, <code>scripting</code></td><td>Read the current page, only when you click Scan this page or the menu item</td></tr>
             <tr><td><code>contextMenus</code></td><td>Add Inspect certificate with Cert Tool to the right-click menu</td></tr>
+            <tr><td><code>debugger</code></td><td>Read the certificate of the site in the current tab, only when you click Show this site’s certificate</td></tr>
           </tbody>
         </table>
       </div>
