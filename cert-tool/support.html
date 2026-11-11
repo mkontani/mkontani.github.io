@@ -25,6 +25,8 @@
     <h2>Common questions</h2>
     <h3>Cert Tool says it can’t read the page</h3>
     <p>Chrome doesn’t let extensions read its own pages, such as <code>chrome://</code> pages, the Chrome Web Store, and other extensions’ pages. <strong>Show this site’s certificate</strong> also needs a page loaded over HTTPS. Copy the certificate into the Inspector tab instead.</p>
+    <h3>Cert Tool says another extension has added its own frame to the page</h3>
+    <p>Some extensions add their own frame to pages, such as the bar Vimium shows once you use it, and Chrome then keeps other extensions’ debuggers off the tab. In that case <strong>Show this site’s certificate</strong> reads the certificate over Cert Tool’s own connection to the site instead, and the summary says so. A few sites refuse that request. On those, reload the page and click the button again before using the other extension, or turn that extension off for the site.</p>
     <h3>Why does Chrome say Cert Tool “started debugging this browser”?</h3>
     <p><strong>Show this site’s certificate</strong> reads the certificate through Chrome’s debugger, the only way Chrome lets extensions read it. The bar shows while Cert Tool reads it, and Cert Tool detaches right after. This is also why Chrome asks you to approve “Access the page debugger backend” when you install or update Cert Tool.</p>
     <h3>A certificate on the page has no badge</h3>
