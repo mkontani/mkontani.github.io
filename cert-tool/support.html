@@ -15,7 +15,7 @@
 
     <h2>Using Cert Tool</h2>
     <ul>
-      <li>Install Cert Tool from the <a href="https://chromewebstore.google.com/detail/cert-tool/ojgmjpfknnlfcfjcljkdcfpbpgciefkk" target="_blank" rel="noopener">Chrome Web Store</a>.</li>
+      <li>Install Cert Tool from the <a href="https://chromewebstore.google.com/detail/cert-tool/ojgmjpfknnlfcfjcljkdcfpbpgciefkk" target="_blank" rel="noopener">Chrome Web Store</a>. It needs Chrome 137 or later.</li>
       <li>Click the toolbar icon to open the popup. It opens on the <strong>Inspector</strong> tab; the other tabs are <strong>Gen KeyPair</strong>, <strong>Gen CSR</strong>, <strong>Derive PubKey</strong> and <strong>Lint</strong>.</li>
       <li>To see the certificate chain of the site you’re on, click <strong>Show this site’s certificate</strong> on the Inspector tab.</li>
       <li>To check the certificates on a page, click <strong>Scan this page</strong> on the Inspector tab. Hover over or click a badge for details.</li>
@@ -27,6 +27,8 @@
     <p>Chrome doesn’t let extensions read its own pages, such as <code>chrome://</code> pages, the Chrome Web Store, and other extensions’ pages. <strong>Show this site’s certificate</strong> also needs a page loaded over HTTPS. Copy the certificate into the Inspector tab instead.</p>
     <h3>Cert Tool says another extension has added its own frame to the page</h3>
     <p>Some extensions add their own frame to pages, such as the bar Vimium shows once you use it, and Chrome then keeps other extensions’ debuggers off the tab. In that case <strong>Show this site’s certificate</strong> reads the certificate over Cert Tool’s own connection to the site instead, and the summary says so. A few sites refuse that request. On those, reload the page and click the button again before using the other extension, or turn that extension off for the site.</p>
+    <h3>Why doesn’t the chain of youtube.com reach a root?</h3>
+    <p>Chrome trusts a few intermediate certificates directly, not only roots. Its root store includes, for example, Google Trust Services’ WE1 and WE2 and several Let’s Encrypt intermediates. For a site whose certificate one of them issued, the chain Chrome verifies ends at that intermediate. <strong>Show this site’s certificate</strong> shows the chain Chrome verified, so it stops there too, and the diagram says Chrome trusts that certificate directly. For youtube.com, the chain is the site’s certificate and WE2.</p>
     <h3>Why does Chrome say Cert Tool “started debugging this browser”?</h3>
     <p><strong>Show this site’s certificate</strong> reads the certificate through Chrome’s debugger, the only way Chrome lets extensions read it. The bar shows while Cert Tool reads it, and Cert Tool detaches right after. This is also why Chrome asks you to approve “Access the page debugger backend” when you install or update Cert Tool.</p>
     <h3>A certificate on the page has no badge</h3>
