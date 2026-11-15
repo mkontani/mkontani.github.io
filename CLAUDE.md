@@ -51,7 +51,11 @@ There are **three page styles** — don't mix them:
   - The card text was copied from the extension's own output for that certificate, so a visitor who runs Scan this page sees the same thing.
   - Days left are computed live in the page's JS, mirroring `src/page/validity.ts` in the extension repo.
   - If you change the certificate, regenerate the card text from the extension.
-- **"And the site you're on" card** (third card in the ways section): an HTML replica of the Inspector after *Show this site's certificate*, for the same fictional `shop.example.com` → Example Issuing CA R1 → Example Root CA chain as store screenshot 7. Its summary text and Leaf / Intermediate / Root tags copy the extension's `SiteSummary` and `ChainSelector`; update them if those change.
+- **"And the site you're on" card** (the third card in the ways section) is an HTML replica of the Inspector after *Show this site's certificate*.
+  - It uses the same fictional chain as store screenshot 7: `shop.example.com` → Example Issuing CA R1 → Example Root CA.
+  - Its summary copies the extension's `SiteSummary`.
+  - Its chain diagram copies `ChainDiagram` and its `.chain-*` styles in `src/index.css`: numbered nodes with role, name, key and a days-left pill, joined by "issued by" links. Update the replica if those change.
+  - The pills are worked out live by inline JS from each certificate's notAfter, the same way the hero's are. All three certificates start 2026-11-10; the leaf ends 2027-02-08.
 - **`cert-tool/privacy.html`** mirrors `PRIVACY.md` in `mkontani/cert-tool-extension`. Keep the two in sync.
 - **`cert-tool/screens/*.webp`** are WebP copies of that repo's `screenshots/store/*.png`.
 - **The `/cert-tool-extension/` path** belongs to that repo's own Pages site, a live demo of the popup. Never add a folder with that name here.

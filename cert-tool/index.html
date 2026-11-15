@@ -194,19 +194,26 @@
     .way.wide { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; }
     .way.wide .shot { grid-row: 1 / span 2; margin-bottom: 0; }
     .way.wide h3 { align-self: end; }
-    /* A replica of the Inspector after Show this site’s certificate: the summary and the chain with its roles. */
+    /* A replica of the Inspector after Show this site’s certificate: the summary, then the chain diagram (ChainDiagram in the extension). */
     .site { width: min(400px, 100%); padding: 14px; border-radius: 10px; background: var(--ov-bg); color: var(--ov-fg); font: 13px/1.45 var(--ui); }
     .site-sum { padding: 10px 12px; border: 1px solid rgba(6, 182, 212, .35); border-radius: 8px; background: rgba(6, 182, 212, .08); }
     .site-host { display: flex; align-items: center; gap: 6px; font-weight: 600; color: #fff; }
     .site-host svg { color: #06b6d4; }
     .site-tls { margin-top: 2px; color: #cbd5e1; }
     .site-note { margin-top: 4px; color: var(--ov-muted); font-size: 12px; }
-    .site-chain { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; }
-    .site-chain li { display: flex; align-items: baseline; gap: 6px; padding: 4px 8px; border: 1px solid transparent; border-radius: 6px; color: #cbd5e1; font-size: 12px; }
-    .site-chain li.on { border-color: rgba(139, 92, 246, .45); background: rgba(139, 92, 246, .18); color: #c4b5fd; }
-    .site-chain .n { color: var(--ov-muted); }
-    .site-chain .role { color: var(--ov-muted); font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
-    .site-chain li.on .n, .site-chain li.on .role { color: #c4b5fd; }
+    .site-chain { margin: 12px 0 0; padding: 0; list-style: none; }
+    .site-chain .node { display: grid; grid-template-columns: 17px minmax(0, 1fr) auto; align-items: baseline; column-gap: 8px; padding: 7px 11px; border: 1px solid rgba(148, 163, 184, .1); border-radius: 8px; background: rgba(15, 23, 42, .55); font-size: 12.5px; }
+    .site-chain .node.on { border-color: rgba(139, 92, 246, .7); background: rgba(139, 92, 246, .15); }
+    .site-chain .n { font-weight: 700; color: #64748b; }
+    .site-chain .name { display: flex; align-items: baseline; gap: 6px; min-width: 0; }
+    .site-chain .role { flex: none; color: #06b6d4; font-size: 10.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+    .site-chain .label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #fff; font-weight: 600; }
+    .site-chain .days { --tone: #34d399; padding: 0 7px; border-radius: 999px; background: color-mix(in srgb, var(--tone) 14%, transparent); color: var(--tone); font-size: 11px; font-weight: 600; white-space: nowrap; }
+    .site-chain .days[data-state="expiring"] { --tone: #fbbf24; }
+    .site-chain .days[data-state="expired"], .site-chain .days[data-state="not-yet-valid"] { --tone: #f87171; }
+    .site-chain .key { grid-column: 2 / -1; margin-top: 1px; color: var(--ov-muted); font-size: 11.5px; }
+    .site-chain .link { display: flex; align-items: center; gap: 5px; margin-left: 17px; padding: 4px 0 4px 9px; border-left: 2px solid rgba(6, 182, 212, .45); color: var(--ov-muted); font-size: 11px; }
+    .site-chain .link svg { color: #06b6d4; }
     .way b { color: var(--ink); font-weight: 600; }
     .legend { display: grid; gap: 12px; justify-items: start; }
     .legend li { display: flex; align-items: center; gap: 14px; }
@@ -403,21 +410,29 @@ lE04fNybj+gu+smLAjASawg4lQd3Efqh5BJ1LHZyZf3qsV2wBX4RxlsnZXBZ0V8H
           </div>
           <div class="way wide">
             <div class="shot">
-              <div class="site" role="img" aria-label="The Inspector after Show this site’s certificate: shop.example.com over TLS 1.3, verified by Chrome, with its chain labeled leaf, intermediate and root.">
+              <div class="site" role="img" aria-label="The Inspector after Show this site’s certificate: shop.example.com over TLS 1.3, verified by Chrome, with its chain drawn from the leaf through the intermediate to the root, each with its key and days left.">
                 <div class="site-sum">
                   <div class="site-host"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>shop.example.com</div>
                   <div class="site-tls">TLS 1.3 · X25519MLKEM768 · AES_128_GCM</div>
                   <div class="site-note">Verified by Chrome, from the leaf up to a root it trusts.</div>
                 </div>
-                <ul class="site-chain">
-                  <li class="on"><span class="n">1</span><span class="role">Leaf</span>shop.example.com</li>
-                  <li><span class="n">2</span><span class="role">Intermediate</span>Example Issuing CA R1</li>
-                  <li><span class="n">3</span><span class="role">Root</span>Example Root CA</li>
-                </ul>
+                <ol class="site-chain">
+                  <li>
+                    <div class="node on"><span class="n">1</span><span class="name"><span class="role">Leaf</span><span class="label">shop.example.com</span></span><span class="days" data-not-after="2027-02-08T23:15:23Z">86d left</span><span class="key">ECDSA (P-256)</span></div>
+                    <div class="link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg> issued by</div>
+                  </li>
+                  <li>
+                    <div class="node"><span class="n">2</span><span class="name"><span class="role">Intermediate</span><span class="label">Example Issuing CA R1</span></span><span class="days" data-not-after="2031-11-09T23:15:23Z">1821d left</span><span class="key">ECDSA (P-384)</span></div>
+                    <div class="link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg> issued by</div>
+                  </li>
+                  <li>
+                    <div class="node"><span class="n">3</span><span class="name"><span class="role">Root</span><span class="label">Example Root CA</span></span><span class="days" data-not-after="2046-11-05T23:15:23Z">7296d left</span><span class="key">ECDSA (P-384) · self-issued</span></div>
+                  </li>
+                </ol>
               </div>
             </div>
             <h3>And the site you’re on</h3>
-            <p>Click <b>Show this site’s certificate</b> on the Inspector tab. Cert Tool loads the chain Chrome verified for the site, from the leaf up to the root, with the TLS version and cipher. Chrome shows a “started debugging this browser” bar while Cert Tool reads it.</p>
+            <p>Click <b>Show this site’s certificate</b> on the Inspector tab. Cert Tool loads the chain Chrome verified for the site and draws it from the leaf up to the root, each certificate with its key and days left, along with the TLS version and cipher. Chrome shows a “started debugging this browser” bar while Cert Tool reads it.</p>
           </div>
         </div>
 
@@ -452,13 +467,14 @@ lE04fNybj+gu+smLAjASawg4lQd3Efqh5BJ1LHZyZf3qsV2wBX4RxlsnZXBZ0V8H
         </div>
 
         <div class="panel" role="tabpanel" id="panel-inspector" aria-labelledby="tab-inspector" hidden>
-          <img src="/cert-tool/screens/2-inspector.webp" width="1280" height="800" alt="The Inspector tab showing a decoded certificate with its SANs, authority information access and SCTs." loading="lazy" />
+          <img src="/cert-tool/screens/2-inspector.webp" width="1280" height="800" alt="The Inspector tab showing a decoded certificate: its validity, key and signature, its fingerprints and public key pin, and its SANs and authority information access." loading="lazy" />
           <div>
             <h3>Decode a certificate, chain or CSR</h3>
             <ul>
               <li>Subject, issuer, validity, key, signature and serial number</li>
+              <li>SHA-256 and SHA-1 fingerprints and the public key pin, ready to copy</li>
               <li>SANs, key usage, CRL and OCSP URLs, policies, SCTs and other extensions, decoded</li>
-              <li>Paste a full chain and switch between the leaf and intermediates</li>
+              <li>Paste a full chain to see it drawn from the leaf to the root, with any issuer that is out of order or missing named</li>
             </ul>
           </div>
         </div>
@@ -476,12 +492,12 @@ lE04fNybj+gu+smLAjASawg4lQd3Efqh5BJ1LHZyZf3qsV2wBX4RxlsnZXBZ0V8H
         </div>
 
         <div class="panel" role="tabpanel" id="panel-csr" aria-labelledby="tab-csr" hidden>
-          <img src="/cert-tool/screens/4-csr.webp" width="1280" height="800" alt="The CSR tab with subject fields and subject alternative names filled in." loading="lazy" />
+          <img src="/cert-tool/screens/4-csr.webp" width="1280" height="800" alt="The CSR tab with subject fields and subject alternative names filled in, and the CSR it made." loading="lazy" />
           <div>
             <h3>Build a certificate signing request</h3>
             <ul>
               <li>Subject fields and SANs: DNS names, IP addresses, emails and URIs</li>
-              <li>Signed with your own private key</li>
+              <li>Signed with your own RSA, ECDSA or Ed25519 key, in PKCS#8, PKCS#1 or SEC1 PEM</li>
             </ul>
           </div>
         </div>
@@ -491,8 +507,8 @@ lE04fNybj+gu+smLAjASawg4lQd3Efqh5BJ1LHZyZf3qsV2wBX4RxlsnZXBZ0V8H
           <div>
             <h3>Get the public key</h3>
             <ul>
-              <li>From a private key, a certificate or a CSR</li>
-              <li>The input type and algorithm are detected for you</li>
+              <li>From a private key, a certificate, a CSR or a public key</li>
+              <li>The input type is detected for you, and the key comes out as SPKI PEM</li>
             </ul>
           </div>
         </div>
@@ -578,6 +594,23 @@ lE04fNybj+gu+smLAjASawg4lQd3Efqh5BJ1LHZyZf3qsV2wBX4RxlsnZXBZ0V8H
       });
       document.querySelector('[data-short]').textContent = short[state];
       document.querySelector('[data-long]').textContent = long[state];
+    })();
+
+    // Days left on each certificate of the site chain, worked out the same way (src/page/validity.ts). All three start 2026-11-10.
+    (function showChainValidity() {
+      var NOT_BEFORE = Date.UTC(2026, 10, 10, 23, 15, 23), DAY = 86400000, now = Date.now();
+      document.querySelectorAll('.site-chain [data-not-after]').forEach(function (el) {
+        var notAfter = Date.parse(el.getAttribute('data-not-after')), state, text;
+        if (now < NOT_BEFORE) { state = 'not-yet-valid'; text = 'not yet valid'; }
+        else if (now > notAfter) { state = 'expired'; text = 'expired'; }
+        else {
+          var days = Math.floor((notAfter - now) / DAY);
+          state = notAfter - now < 30 * DAY ? 'expiring' : 'valid';
+          text = days === 0 ? '<1d left' : days + 'd left';
+        }
+        el.setAttribute('data-state', state);
+        el.textContent = text;
+      });
     })();
 
     // The example badge: click to open or close the card, like the real one.
