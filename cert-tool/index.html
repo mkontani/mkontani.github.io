@@ -503,12 +503,13 @@ lE04fNybj+gu+smLAjASawg4lQd3Efqh5BJ1LHZyZf3qsV2wBX4RxlsnZXBZ0V8H
         </div>
 
         <div class="panel" role="tabpanel" id="panel-derive" aria-labelledby="tab-derive" hidden>
-          <img src="/cert-tool/screens/5-derive.webp" width="1280" height="800" alt="The Public Key tab showing the public key taken from a pasted private key." loading="lazy" />
+          <img src="/cert-tool/screens/5-public-key.webp" width="1280" height="800" alt="The Public Key tab’s Match view: a private key and a fullchain.pem found to be for the same key pair, with what was compared and each key’s public key pin." loading="lazy" />
           <div>
-            <h3>Get the public key</h3>
+            <h3>Get the public key, or check a key pair</h3>
             <ul>
-              <li>From a private key, a certificate, a CSR or a public key</li>
-              <li>The input type is detected for you, and the key comes out as SPKI PEM</li>
+              <li>Derive: the public key of a private key, certificate, CSR or public key, as SPKI PEM</li>
+              <li>Match: whether two PEMs are for the same key pair, such as a private key and its certificate, or a CSR and the certificate issued from it</li>
+              <li>Paste a fullchain.pem as it is; the result shows what was compared and each key’s pin</li>
             </ul>
           </div>
         </div>
