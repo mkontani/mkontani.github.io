@@ -5,37 +5,80 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>サクラ診断 — サポート</title>
   <link rel="stylesheet" href="/assets/style.css" />
+  <style>
+    h3 { font-size: 17px; margin: 20px 0 6px; }
+    ol { padding-left: 24px; }
+  </style>
 </head>
 <body>
   <div class="wrap">
     <header class="site"><a href="/">mkontani</a> · <a href="/sakura-grade/">サクラ診断</a></header>
     <h1>サクラ診断 — サポート</h1>
-    <p class="muted">Amazon レビューの評価分布を端末内で診断する Chrome 拡張。</p>
+    <p class="muted">Amazon.co.jp のレビューのサクラ傾向を A〜F で診断する、Chrome と Safari（Mac）の拡張機能。</p>
+
+    <h2>インストール</h2>
+    <h3>Chrome</h3>
+    <ol>
+      <li><a href="https://chromewebstore.google.com/detail/kjdodbkbkkncabkdgjapbioggmgnielo" target="_blank" rel="noopener">Chrome ウェブストア</a>で「Chrome に追加」を押します。</li>
+      <li>Amazon.co.jp の商品ページを開きます。</li>
+    </ol>
+    <h3>Safari（Mac）</h3>
+    <ol>
+      <li><a href="https://apps.apple.com/jp/app/id6777699996" target="_blank" rel="noopener">Mac App Store</a> から「サクラ診断」をインストールし、アプリを起動します。</li>
+      <li>アプリの「終了して Safari の機能拡張の環境設定を開く…」を押します。</li>
+      <li>Safari の設定の「機能拡張」で「サクラ診断」をオンにします。</li>
+      <li>Safari で Amazon.co.jp の商品ページを開きます。初めてのときは、サイトでの実行を許可してください（「常に許可」を選べます）。</li>
+    </ol>
 
     <h2>使い方</h2>
     <ul>
-      <li>拡張を <a href="https://chromewebstore.google.com/detail/kjdodbkbkkncabkdgjapbioggmgnielo" target="_blank" rel="noopener">Chrome ウェブストア</a>からインストールし、Amazon.co.jp の商品ページを開きます。</li>
-      <li>商品の評価(★)の近くに <strong>A〜F のバッジ</strong>が表示されます。</li>
-      <li>バッジをクリックするとパネルが開き、評価分布のグラフと判定理由が見られます。</li>
-      <li>対応端末では、パネル内に<strong>端末内AI</strong>による文面解析（サクラ度・不自然な点・低評価の要点）も表示されます。</li>
+      <li>商品の評価（★）の近くに <strong>A〜F のバッジ</strong>が表示されます。</li>
+      <li>バッジをクリックするとパネルが開きます。「診断」タブでは判定の理由・評価分布・週ごとの投稿タイムライン、「レビュー」タブでは取り込んだレビューの一覧が見られます。</li>
+      <li>Amazon に<strong>ログインしていると</strong>、新しい順のレビューを読み込んで、短期間の高評価の集中・「Amazonで購入」の付かない★5の多さ・中国語簡体字が混じる高評価も判定し、グレードに反映します。ログインしていないときは、評価分布だけで判定します。</li>
+      <li>「レビュー」タブでは、低評価・集中期間・購入確認なし・簡体字で絞り込めます。一覧の下までスクロールすると続きを読み込みます（続きの分は表示するだけで、判定には使いません）。</li>
+      <li>対応端末では、パネルを開いたときに<strong>端末内AI</strong>がレビュー文を解析し、サクラ度・不自然な点・低評価の要点を表示します。</li>
+    </ul>
+
+    <h2>設定</h2>
+    <p>パネルの「診断」タブの下で変えられます。</p>
+    <ul>
+      <li><strong>レビューの取り込み</strong>: 「自動」は商品ページを開いたときに、「パネルを開いたとき」はバッジを押してパネルを開いたときに、レビューを読み込みます。</li>
+      <li><strong>読み込む量</strong>: 「標準（50件）」か「多め（100件）」。多めにすると、レビューの多い人気商品でも集中投稿を判定しやすくなります。変更は次回の読み込みから適用されます。</li>
+    </ul>
+
+    <h2>CSV の書き出し</h2>
+    <ul>
+      <li>「レビュー」タブの<strong>「CSV で書き出す」</strong>を押すと、新しい順と低評価のレビューを、それぞれ一覧の最後まで読み込んで CSV ファイルに保存します。</li>
+      <li>列は ASIN・レビューID・日付・国・評価・タイトル・本文・購入確認・Vine・参考になった数・取得元・URL です。<strong>投稿者名は含めません。</strong></li>
+      <li>Excel などでそのまま開けるように、UTF-8（BOM 付き）で保存します。保存先は、ブラウザのダウンロードの設定に従います。</li>
+      <li>Amazon のレビュー一覧は、1つの並べ方につき100件までしか表示されません。そのため、書き出せるのは新しい順と低評価それぞれ最大100件です。</li>
+      <li>Amazon にログインしていて、レビューを取り込めたときだけ書き出せます。</li>
     </ul>
 
     <h2>端末内AIについて</h2>
     <ul>
-      <li>AI解析は Chrome の組み込みAI（Prompt API / Gemini Nano）に対応した端末でのみ動作します。</li>
-      <li>モデル（約2GB）が未ダウンロードの場合は、パネルの<strong>準備ボタン</strong>からダウンロードを開始できます。</li>
-      <li>AIに対応していない端末でも、評価分布による <strong>A〜F 診断</strong>は問題なく利用できます。</li>
+      <li><strong>Chrome</strong>: Chrome の組み込みAI（Prompt API / Gemini Nano）に対応した端末で動作します。モデル（約2GB）が未ダウンロードの場合は、パネルの<strong>準備ボタン</strong>からダウンロードを始められます。</li>
+      <li><strong>Safari（Mac）</strong>: Apple Intelligence に対応した Mac で、macOS 26 以降かつ Apple Intelligence をオンにしている場合に動作します。</li>
+      <li>AIに対応していない端末でも、<strong>A〜F の診断</strong>は問題なく利用できます。</li>
     </ul>
 
     <h2>バッジが表示されないとき</h2>
     <ul>
       <li>商品ページ（<code>/dp/</code> を含むURL）であることを確認してください。レビューが無い商品では表示されません。</li>
       <li>ページを再読み込みしてみてください。Amazon のページ構成変更により一時的に表示されない場合があります。</li>
-      <li>拡張が有効になっているか、<code>chrome://extensions</code> で確認してください。</li>
+      <li>Chrome: 拡張が有効になっているか、<code>chrome://extensions</code> で確認してください。</li>
+      <li>Safari: Safari の設定の「機能拡張」で「サクラ診断」がオンになっているか、Amazon.co.jp での実行を許可しているかを確認してください。</li>
+    </ul>
+
+    <h2>レビューが取り込まれないとき</h2>
+    <ul>
+      <li>Amazon にログインしているか確認してください。ログインしていないときは、パネルに「Amazon にログインすると、新しい順のレビューを取り込んで集中投稿も診断します」と表示され、評価分布だけで判定します。</li>
+      <li>「Amazon から確認画面が返されたため、レビューの取り込みを中止しました」と表示されたときは、しばらく時間をおいてから商品ページを開き直してください。</li>
+      <li>「レビューの取り込みに失敗したため…」と表示されたときは、ページを再読み込みしてください。直らない場合は、Amazon にログインし直してからお試しください。</li>
     </ul>
 
     <h2>プライバシー</h2>
-    <p>すべての処理はあなたの端末内で完結します。レビュー内容も診断結果も外部に送信されません。詳しくは<a href="/sakura-grade/privacy.html">プライバシーポリシー</a>をご覧ください。</p>
+    <p>診断もAI解析も、すべてあなたの端末内で完結します。通信は Amazon.co.jp のレビュー一覧ページの読み込みだけで、レビュー内容も診断結果も外部に送信されません。詳しくは<a href="/sakura-grade/privacy.html">プライバシーポリシー</a>をご覧ください。</p>
 
     <h2>お問い合わせ</h2>
     <p>ご質問・不具合報告・機能要望は <a href="mailto:itoama@gmail.com">itoama@gmail.com</a> までお寄せください。</p>

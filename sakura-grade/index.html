@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>サクラ診断 — レビューの評価分布を端末内で診断する Chrome 拡張</title>
-  <meta name="description" content="Amazon.co.jp の商品レビューの評価分布からサクラ傾向を A〜F で診断し、対応端末では端末内AIで文面も解析する Chrome 拡張。データは一切外部送信しません。" />
+  <title>サクラ診断 — レビューのサクラ傾向を A〜F で診断する Chrome・Safari 拡張</title>
+  <meta name="description" content="Amazon.co.jp の商品ページで、レビューのサクラ傾向を A〜F で診断する Chrome・Safari（Mac）拡張。ログイン中は集中投稿や購入確認なしの多さも検出し、対応端末では端末内AIで文面も解析。データは外部に送信しません。" />
   <link rel="icon" type="image/png" href="/sakura-grade/icon.png" />
 
   <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="サクラ診断 — レビューの評価分布を端末内で診断" />
-  <meta property="og:description" content="評価分布から A〜F でサクラ傾向を診断。端末内AIで文面も解析。外部送信ゼロ。" />
+  <meta property="og:title" content="サクラ診断 — レビューのサクラ傾向を A〜F で診断" />
+  <meta property="og:description" content="評価分布と投稿の偏りから A〜F でサクラ傾向を診断。気になるレビューの確認や CSV の書き出しも商品ページのまま。端末内AIで文面も解析。Chrome・Safari（Mac）対応、外部送信ゼロ。" />
   <meta property="og:url" content="https://mkontani.github.io/sakura-grade/" />
   <meta property="og:image" content="https://mkontani.github.io/sakura-grade/icon.png" />
   <meta name="twitter:card" content="summary" />
@@ -78,6 +78,8 @@
 
     a { color: inherit; text-decoration: none; }
     .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+    @media (max-width: 480px) { .wrap { padding: 0 16px; } }
+    h1, h2, h3, .lede, .section-sub, .row p, .pill-note, .get-card p { word-break: auto-phrase; }
 
     /* ---------- Nav ---------- */
     nav {
@@ -105,7 +107,7 @@
     /* ---------- Hero ---------- */
     .hero { padding: 88px 0 64px; }
     .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center; }
-    @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 40px; } }
+    @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 40px; } .hero { padding-top: 56px; } }
 
     .eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
@@ -125,17 +127,17 @@
       background: linear-gradient(100deg, var(--sakura), var(--plum));
       -webkit-background-clip: text; background-clip: text; color: transparent;
     }
-    .lede { margin-top: 20px; font-size: 19px; color: var(--muted); max-width: 34ch; }
+    .lede { margin-top: 20px; font-size: 19px; color: var(--muted); max-width: 36ch; }
     .lede strong { color: var(--fg); font-weight: 600; }
 
-    .cta-row { display: flex; align-items: center; gap: 14px; margin-top: 32px; flex-wrap: wrap; }
+    .cta-row { display: flex; align-items: center; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
     .btn-store {
       display: inline-flex; align-items: center; gap: 11px;
       background: var(--fg); color: #100a0c; padding: 13px 20px; border-radius: 14px;
       font-weight: 600; transition: transform .18s ease, box-shadow .18s ease;
     }
     .btn-store:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(255,255,255,.16); }
-    .btn-store svg { width: 22px; height: 22px; }
+    .btn-store svg { width: 22px; height: 22px; flex: none; }
     .btn-store .small { display: block; font-size: 10px; font-weight: 500; opacity: .7; line-height: 1; margin-bottom: 2px; }
     .btn-store .big { display: block; font-size: 17px; line-height: 1; font-family: var(--font-display); font-weight: 700; }
     .btn-ghost { color: var(--muted); font-weight: 600; padding: 13px 6px; }
@@ -145,7 +147,7 @@
     .trust span { display: inline-flex; align-items: center; gap: 7px; }
     .trust .tick { color: var(--leaf); }
 
-    /* ---------- Hero visual: a product card with the grade badge ---------- */
+    /* ---------- Hero visual: a product card with the grade badge and panel ---------- */
     .scene { position: relative; }
     .glasspane {
       background: linear-gradient(180deg, var(--surface), var(--bg-2));
@@ -171,10 +173,16 @@
       width: 38px; height: 38px; border-radius: 9px; flex: none; display: grid; place-items: center;
       background: var(--red); color: #fff; font: 800 22px/1 var(--font-mono); letter-spacing: -1px;
     }
-    .sg-meta .t { font-size: 13px; font-weight: 700; color: #ff9a9a; }
-    .sg-meta .s { font-size: 11px; color: var(--muted); }
+    .sg-meta .t { display: block; font-size: 13px; font-weight: 700; color: #ff9a9a; }
+    .sg-meta .s { display: block; font-size: 11px; color: var(--muted); }
 
-    .bars { margin-top: 16px; display: grid; gap: 6px; }
+    .ptabs { margin-top: 16px; display: flex; gap: 20px; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--faint); }
+    .ptabs span { padding: 0 2px 8px; }
+    .ptabs .on { color: #ff9a9a; font-weight: 600; box-shadow: inset 0 -2px 0 var(--red); }
+    .reasons { list-style: none; margin-top: 12px; display: grid; gap: 4px; font-size: 12.5px; color: #ffb38a; line-height: 1.45; }
+    .reasons li::before { content: "▲ "; }
+
+    .bars { margin-top: 14px; display: grid; gap: 6px; }
     .bar-row { display: flex; align-items: center; gap: 9px; font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
     .bar-row .lab { width: 22px; }
     .bar-track { flex: 1; height: 8px; background: #2a1c22; border-radius: 4px; overflow: hidden; }
@@ -196,22 +204,52 @@
       background: rgba(247,131,172,.08); border: 1px solid rgba(247,131,172,.3);
       padding: 5px 11px; border-radius: 999px; transform: rotate(3deg);
     }
+    @media (max-width: 480px) { .scene .float { right: 0; } }
 
     /* ---------- Sections ---------- */
     section.band { padding: 80px 0; border-top: 1px solid var(--line); }
     .kicker { font-family: var(--font-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--plum); }
-    h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 4vw, 40px); letter-spacing: -.03em; margin: 12px 0 0; }
+    h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 4vw, 40px); letter-spacing: -.03em; margin: 12px 0 0; line-height: 1.25; }
     .section-sub { color: var(--muted); margin-top: 12px; max-width: 60ch; }
 
     /* Grade scale strip */
-    .scale { margin-top: 40px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .scale { margin-top: 36px; display: flex; gap: 10px; flex-wrap: wrap; }
     .scale .g { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; background: var(--surface); }
-    .scale .g b { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; font-family: var(--font-mono); font-weight: 800; color: #fff; }
+    .scale .g b { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; flex: none; font-family: var(--font-mono); font-weight: 800; color: #fff; }
     .scale .g span { font-size: 14px; color: var(--muted); }
     .scale .g.a b { background: var(--leaf); } .scale .g.c b { background: var(--amber); } .scale .g.f b { background: var(--red); }
 
-    .features { margin-top: 44px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    @media (max-width: 860px) { .features { grid-template-columns: 1fr; } }
+    /* Feature rows: text + real screen */
+    .rows { margin-top: 72px; display: grid; gap: 88px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+    .row.flip .row-text { order: 2; }
+    @media (max-width: 860px) {
+      .rows { margin-top: 56px; gap: 64px; }
+      .row { grid-template-columns: 1fr; gap: 28px; }
+      .row.flip .row-text { order: 0; }
+    }
+    .tag {
+      display: inline-block; font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .08em;
+      color: var(--sakura); border: 1px solid rgba(247,131,172,.3); background: rgba(247,131,172,.07);
+      border-radius: 999px; padding: 3px 11px;
+    }
+    .row h3 { font-family: var(--font-display); font-weight: 700; font-size: clamp(23px, 3vw, 30px); letter-spacing: -.02em; line-height: 1.3; margin-top: 14px; }
+    .row p { color: var(--muted); margin-top: 12px; }
+    .points { list-style: none; margin-top: 18px; display: grid; gap: 9px; font-size: 15.5px; }
+    .points li { display: grid; grid-template-columns: 18px 1fr; gap: 8px; color: #e4d6dc; }
+    .points li::before { content: "✓"; color: var(--sakura); font-weight: 700; }
+    .points .sub { display: block; color: var(--faint); font-size: 14px; }
+    .shot {
+      border-radius: 16px; overflow: hidden; background: #fff;
+      border: 1px solid var(--line-bright);
+      box-shadow: 0 30px 80px -34px rgba(0, 0, 0, .9), 0 0 0 6px rgba(247, 131, 172, .05);
+    }
+    .shot img { display: block; width: 100%; height: auto; }
+    .shot.fade { -webkit-mask-image: linear-gradient(180deg, #000 80%, transparent); mask-image: linear-gradient(180deg, #000 80%, transparent); }
+    .shot-cap { margin-top: 10px; font-size: 12.5px; color: var(--faint); text-align: center; }
+
+    .features { margin-top: 88px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 860px) { .features { grid-template-columns: 1fr; margin-top: 64px; } }
     .feat {
       background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px;
       position: relative; overflow: hidden; transition: transform .2s ease, border-color .2s ease;
@@ -221,7 +259,6 @@
     .feat .ic { width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; font-size: 19px; background: var(--surface-2); border: 1px solid var(--line); margin-bottom: 16px; }
     .feat h3 { font-family: var(--font-display); font-weight: 700; font-size: 19px; letter-spacing: -.01em; }
     .feat p { color: var(--muted); font-size: 15px; margin-top: 7px; }
-    .feat code { font-family: var(--font-mono); font-size: .85em; color: var(--sakura); background: rgba(247,131,172,.08); padding: 1px 6px; border-radius: 5px; }
 
     /* Privacy band */
     .privacy { text-align: center; }
@@ -230,12 +267,28 @@
     .pills { margin-top: 32px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
     .pill { font-family: var(--font-mono); font-size: 13px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 9px 16px; background: var(--surface); }
     .pill b { color: var(--fg); font-weight: 700; }
+    .pill-note { margin: 18px auto 0; max-width: 60ch; font-size: 13px; color: var(--faint); }
+    .pill-note code { font-family: var(--font-mono); font-size: .92em; color: var(--muted); }
+
+    /* Get band */
+    .get-grid { margin-top: 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 760px) { .get-grid { grid-template-columns: 1fr; } }
+    .get-card {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 26px;
+      display: flex; flex-direction: column; align-items: flex-start; gap: 12px;
+    }
+    .get-card h3 { font-family: var(--font-display); font-weight: 700; font-size: 21px; letter-spacing: -.01em; }
+    .get-card p { color: var(--muted); font-size: 15px; flex: 1; }
+    .get-card .btn-store { margin-top: 6px; }
+    .get-foot { margin-top: 22px; color: var(--muted); font-size: 15px; }
+    .get-foot a { color: var(--sakura); }
+    .get-foot a:hover { text-decoration: underline; }
 
     /* Footer */
     footer { border-top: 1px solid var(--line); padding: 40px 0 60px; color: var(--faint); }
     footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
     footer a { color: var(--muted); } footer a:hover { color: var(--fg); }
-    .foot-links { display: flex; gap: 22px; font-size: 15px; }
+    .foot-links { display: flex; gap: 22px; font-size: 15px; flex-wrap: wrap; }
     .disclaimer { margin-top: 18px; font-size: 12px; color: var(--faint); max-width: 70ch; }
 
     /* Motion */
@@ -252,7 +305,7 @@
     <div class="wrap">
       <a class="brand" href="/sakura-grade/"><img class="mark" src="/sakura-grade/icon.png" alt="" /> サクラ診断</a>
       <div class="nav-links">
-        <a href="#how">仕組み</a>
+        <a href="#features">できること</a>
         <a href="#privacy">プライバシー</a>
         <a href="/sakura-grade/support.html">サポート</a>
         <a href="/sakura-grade/privacy.html">プライバシーポリシー</a>
@@ -264,16 +317,19 @@
   <header class="hero">
     <div class="wrap hero-grid">
       <div>
-        <span class="eyebrow reveal d1"><span class="pulse"></span> Chrome 拡張 · 端末内で完結</span>
+        <span class="eyebrow reveal d1"><span class="pulse"></span> Chrome · Safari（Mac） · 端末内で完結</span>
         <h1 class="reveal d2">そのレビュー、<br /><span class="grad">サクラかも？</span></h1>
-        <p class="lede reveal d3">Amazon の商品レビューの<strong>評価分布</strong>から不自然さを見抜き、<strong>A〜F</strong>で診断。対応端末では<strong>端末内AI</strong>がレビュー文も解析します。</p>
+        <p class="lede reveal d3">Amazon.co.jp の商品ページで、レビューのサクラ傾向を<strong>A〜F</strong>でひと目で診断。ログイン中は<strong>集中投稿</strong>や<strong>購入確認なし</strong>の多さも検出し、対応端末では<strong>端末内AI</strong>が文面も解析します。</p>
 
-        <div class="cta-row reveal d4" id="get">
+        <div class="cta-row reveal d4">
           <a class="btn-store" href="https://chromewebstore.google.com/detail/kjdodbkbkkncabkdgjapbioggmgnielo" target="_blank" rel="noopener" aria-label="Chrome ウェブストアで入手">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.66 5l4.4 7.63A4 4 0 0 1 12 8h9.5A10 10 0 0 0 12 2zm10.13 7H14a4 4 0 0 1 1.86 5.34l-4.6 7.62A10 10 0 0 0 22.13 9zM9.4 14.94 4.7 7.3A10 10 0 0 0 11.62 22l1.96-3.38A4 4 0 0 1 9.4 14.94z"/></svg>
-            <span><span class="small">無料 ·</span><span class="big">Chrome&nbsp;ウェブストア</span></span>
+            <span><span class="small">無料 · Chrome 版</span><span class="big">Chrome&nbsp;ウェブストア</span></span>
           </a>
-          <a class="btn-ghost" href="#how">仕組みを見る ↓</a>
+          <a class="btn-store" href="https://apps.apple.com/jp/app/id6777699996" target="_blank" rel="noopener" aria-label="Mac App Store で入手">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.36 1.43c.05 1.02-.34 2.02-1 2.77-.69.78-1.84 1.38-2.94 1.29-.07-1 .39-2.04 1.02-2.74.71-.79 1.94-1.36 2.92-1.32zM20.6 17.13c-.55 1.27-.82 1.84-1.53 2.97-.99 1.57-2.39 3.53-4.12 3.54-1.54.02-1.94-1-4.03-.99-2.09.01-2.52 1.01-4.06.99-1.73-.02-3.06-1.79-4.05-3.36-2.77-4.4-3.06-9.56-1.35-12.31 1.21-1.94 3.13-3.08 4.93-3.08 1.84 0 2.99 1.01 4.51 1.01 1.47 0 2.37-1.01 4.5-1.01 1.6 0 3.3.87 4.51 2.38-3.96 2.17-3.32 7.82.74 9.86z"/></svg>
+            <span><span class="small">無料 · Safari 版</span><span class="big">Mac&nbsp;App&nbsp;Store</span></span>
+          </a>
         </div>
 
         <div class="trust reveal d5">
@@ -283,37 +339,43 @@
         </div>
       </div>
 
-      <div class="scene reveal d4">
-        <div class="float">分布から自動判定</div>
+      <div class="scene reveal d4" aria-hidden="true">
+        <div class="float">ログイン中は集中投稿も判定</div>
         <div class="glasspane">
           <div class="pane-bar"><i></i><i></i><i></i><span class="t">amazon.co.jp / dp</span></div>
           <div class="pane-body">
-            <div class="prod-title">USB急速充電器 65W GaN（新規出品・レビュー急増）</div>
-            <div class="stars">★★★★★ 4.6 <span class="cnt">203件の評価</span></div>
+            <div class="prod-title">モバイルバッテリー 10000mAh 小型 軽量 急速充電</div>
+            <div class="stars">★★★★☆ 4.3 <span class="cnt">92件の評価</span></div>
 
             <div class="badge-inject">
               <div class="sg-badge">
                 <span class="sg-grade">F</span>
                 <span class="sg-meta">
-                  <span class="t">サクラ診断: F</span>
-                  <span class="s">分布から自動判定 · 203件</span>
+                  <span class="t">レビュー診断: F</span>
+                  <span class="s">分布＋直近31件から判定 · 92件</span>
                 </span>
               </div>
             </div>
 
+            <div class="ptabs"><span class="on">診断</span><span>レビュー 41</span></div>
+            <ul class="reasons">
+              <li>11/10〜11/16の7日間に★4-5が12件集中</li>
+              <li>★5のうち購入確認なし 42%（10/24件）</li>
+              <li>中国語簡体字が混じる高評価が2件</li>
+            </ul>
+
             <div class="bars">
-              <div class="bar-row"><span class="lab">★5</span><span class="bar-track"><span class="bar-fill" style="width:88%"></span></span><span class="val">88%</span></div>
-              <div class="bar-row"><span class="lab">★4</span><span class="bar-track"><span class="bar-fill" style="width:3%"></span></span><span class="val">3%</span></div>
+              <div class="bar-row"><span class="lab">★5</span><span class="bar-track"><span class="bar-fill" style="width:80%"></span></span><span class="val">80%</span></div>
+              <div class="bar-row"><span class="lab">★4</span><span class="bar-track"><span class="bar-fill" style="width:2%"></span></span><span class="val">2%</span></div>
               <div class="bar-row"><span class="lab">★3</span><span class="bar-track"><span class="bar-fill" style="width:1%"></span></span><span class="val">1%</span></div>
-              <div class="bar-row"><span class="lab">★2</span><span class="bar-track"><span class="bar-fill" style="width:1%"></span></span><span class="val">1%</span></div>
-              <div class="bar-row"><span class="lab">★1</span><span class="bar-track"><span class="bar-fill" style="width:7%"></span></span><span class="val">7%</span></div>
+              <div class="bar-row"><span class="lab">★2</span><span class="bar-track"><span class="bar-fill" style="width:2%"></span></span><span class="val">2%</span></div>
+              <div class="bar-row"><span class="lab">★1</span><span class="bar-track"><span class="bar-fill" style="width:15%"></span></span><span class="val">15%</span></div>
             </div>
 
-            <div class="ai-line"><span class="k">サクラ度</span><span class="lv">高</span></div>
+            <div class="ai-line"><span class="k">端末内AI · サクラ度</span><span class="lv">高</span></div>
             <div class="chips">
               <span class="chip">機械翻訳調</span>
-              <span class="chip">絵文字・記号の多用</span>
-              <span class="chip">酷似した言い回しの重複</span>
+              <span class="chip">定型・紋切り型の称賛</span>
             </div>
           </div>
         </div>
@@ -321,47 +383,101 @@
     </div>
   </header>
 
-  <section class="band" id="how">
+  <section class="band" id="features">
     <div class="wrap">
       <div class="reveal">
-        <span class="kicker">仕組み</span>
-        <h2>2つのシグナルで、別々に見る。</h2>
-        <p class="section-sub">「評価分布」と「レビュー文」は別の観点。サクラ診断はこれを混ぜず、独立した2軸として示します。だから片方が分からなくても、もう片方は信頼できます。</p>
+        <span class="kicker">できること</span>
+        <h2>商品ページのまま、レビューの偏りを見抜く。</h2>
+        <p class="section-sub">評価（★）の近くに A〜F のバッジを出すだけ。バッジを押すと、判定の理由や評価分布、取り込んだレビューの一覧をその場で確かめられます。別のサイトを開く必要はありません。</p>
       </div>
 
       <div class="scale reveal">
-        <div class="g a"><b>A</b><span>★5から自然に減衰する健全な分布</span></div>
-        <div class="g c"><b>C</b><span>二極化や中間評価の空洞がやや見られる</span></div>
-        <div class="g f"><b>F</b><span>★5への極端な集中など強い不自然さ</span></div>
+        <div class="g a"><b>A</b><span>自然な分布で、目立った偏りなし</span></div>
+        <div class="g c"><b>C</b><span>二極化や集中投稿など、気になる兆候あり</span></div>
+        <div class="g f"><b>F</b><span>★5への極端な集中など、強い不自然さ</span></div>
+      </div>
+
+      <div class="rows">
+        <div class="row">
+          <div class="row-text">
+            <span class="tag">ログイン中</span>
+            <h3>集中投稿・購入確認なし・不自然な日本語を検出</h3>
+            <p>Amazon にログインしていれば、新しい順のレビューを読み込んで深掘りします。見つかった兆候は、評価分布と合わせてグレードに反映します。</p>
+            <ul class="points">
+              <li><span>短期間に集中した高評価<span class="sub">週ごとの投稿タイムラインでも確認できます</span></span></li>
+              <li><span>「Amazonで購入」の付かない★5の多さ</span></li>
+              <li><span>中国語簡体字が混じる高評価</span></li>
+              <li><span>取り込むタイミングと読み込む量を選べます<span class="sub">「自動」か「パネルを開いたとき」、「標準（50件）」か「多め（100件）」</span></span></li>
+            </ul>
+          </div>
+          <div>
+            <div class="shot fade"><img src="/sakura-grade/screenshots/02-signals.webp" width="1020" height="1110" loading="lazy" alt="パネルの「診断」タブ。集中投稿・購入確認なし・簡体字などの判定理由と、週ごとの投稿タイムライン" /></div>
+            <p class="shot-cap">架空の商品で表示した例です</p>
+          </div>
+        </div>
+
+        <div class="row flip">
+          <div class="row-text">
+            <span class="tag">レビュー タブ</span>
+            <h3>気になるレビューを、商品ページのまま確認</h3>
+            <p>取り込んだレビューを、低評価・集中期間・購入確認なし・簡体字で絞り込んで読めます。一覧の下までスクロールすると、続きもその場で読み込めます。</p>
+            <ul class="points">
+              <li><span>「CSV で書き出す」で表にして保存<span class="sub">新しい順と低評価のレビューを、それぞれ最大100件</span></span></li>
+              <li><span>日付・★・タイトル・本文などの列で、Excel などで自由に分析できます</span></li>
+              <li><span>投稿者名は書き出しません</span></li>
+            </ul>
+          </div>
+          <div>
+            <div class="shot"><img src="/sakura-grade/screenshots/03-reviews.webp" width="1020" height="1110" loading="lazy" alt="パネルの「レビュー」タブ。絞り込みのボタン、CSV で書き出すボタン、低評価のレビュー一覧" /></div>
+            <p class="shot-cap">架空の商品で表示した例です</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="row-text">
+            <span class="tag">対応端末</span>
+            <h3>端末内AIが、文面の不自然さと低評価の要点をまとめる</h3>
+            <p>パネルを開くと、端末内のAIがレビュー本文を解析し、サクラ度・不自然な点・低評価の要点を表示します。結果はグレードに混ぜず、別の観点として示します。</p>
+            <ul class="points">
+              <li><span>Chrome: 組み込みAI（Gemini Nano）<span class="sub">モデル（約2GB）が未ダウンロードなら、パネルのボタンから準備できます</span></span></li>
+              <li><span>Mac: Apple Intelligence<span class="sub">macOS 26 以降で Apple Intelligence をオンにしている場合</span></span></li>
+              <li><span>AIに対応していない端末でも、A〜F の診断はそのまま使えます</span></li>
+            </ul>
+          </div>
+          <div>
+            <div class="shot"><img src="/sakura-grade/screenshots/04-ai.webp" width="1020" height="1110" loading="lazy" alt="評価分布と、端末内AIによるレビュー文の解析（サクラ度・不自然な点・低評価の要点）" /></div>
+            <p class="shot-cap">架空の商品で表示した例です</p>
+          </div>
+        </div>
       </div>
 
       <div class="features">
-        <div class="feat" style="--accent: var(--sakura)">
-          <div class="ic">📊</div>
-          <h3>評価分布シグナル（全端末）</h3>
-          <p>★1〜5の分布からJ字カーブ・二極化・中間空洞を検出し、<code>A〜F</code>のグレードで即座に可視化。JS計算のみで全端末対応。</p>
-        </div>
-        <div class="feat" style="--accent: var(--plum)">
-          <div class="ic">🧠</div>
-          <h3>文面シグナル（端末内AI）</h3>
-          <p>対応端末では Chrome の組み込みAIが、表示中レビューから<code>サクラ度</code>・不自然な点・低評価の要点を解析。クラウド送信は一切なし。</p>
-        </div>
-        <div class="feat" style="--accent: var(--leaf)">
-          <div class="ic">🔒</div>
-          <h3>端末内で完結</h3>
-          <p>分布計算もAI解析も、すべてあなたのパソコンの中だけ。外部サーバーを持たないので、サービス終了でデータが失われる心配もありません。</p>
-        </div>
-        <div class="feat" style="--accent: var(--sakura)">
+        <div class="feat reveal" style="--accent: var(--sakura)">
           <div class="ic">🪶</div>
           <h3>邪魔をしない</h3>
-          <p>評価(★)の近くに小さなバッジを置くだけ。クリックで詳細パネルが開きます。普段の買い物の動線を崩しません。</p>
+          <p>評価（★）の近くに小さなバッジを置くだけ。クリックで詳細パネルが開きます。普段の買い物の動線を崩しません。</p>
         </div>
-        <div class="feat" style="--accent: var(--plum)">
-          <div class="ic">🈁</div>
+        <div class="feat reveal" style="--accent: var(--plum)">
+          <div class="ic">🔗</div>
+          <h3>外部サイトに誘導しない</h3>
+          <p>診断も、レビューを読むのも商品ページの中で完結。広告やアフィリエイトリンクはなく、リンクは amazon.co.jp の中だけです。</p>
+        </div>
+        <div class="feat reveal" style="--accent: var(--leaf)">
+          <div class="ic">🗾</div>
           <h3>日本語のサクラに最適化</h3>
-          <p>機械翻訳調・定型的な称賛・絵文字の多用・酷似した言い回しなど、日本語レビュー特有のシグナルを見ます。</p>
+          <p>機械翻訳調・定型的な称賛・絵文字の多用・酷似した言い回し、簡体字の混入など、日本語レビュー特有のシグナルを見ます。</p>
         </div>
-        <div class="feat" style="--accent: var(--amber)">
+        <div class="feat reveal" style="--accent: var(--amber)">
+          <div class="ic">🐢</div>
+          <h3>Amazon に負担をかけない</h3>
+          <p>レビュー一覧は間隔を空けて順番に読み込み、確認画面が出たらすぐに止めます。ログインしていないと分かるときは読み込みません。</p>
+        </div>
+        <div class="feat reveal" style="--accent: var(--sakura)">
+          <div class="ic">🧭</div>
+          <h3>Chrome と Mac の Safari に</h3>
+          <p>どちらでも、診断・レビューの一覧・CSV の書き出しが使えます。端末内AIは、Chrome は Gemini Nano、Mac は Apple Intelligence を使います。</p>
+        </div>
+        <div class="feat reveal" style="--accent: var(--plum)">
           <div class="ic">⚖️</div>
           <h3>断定しない</h3>
           <p>表示するのは「参考情報」。サクラの有無を断定するものではありません。最終判断はあなた自身で。</p>
@@ -379,8 +495,38 @@
         <span class="pill"><b>0</b> 外部送信</span>
         <span class="pill"><b>0</b> トラッカー</span>
         <span class="pill"><b>0</b> 拡張内でのレビュー保存</span>
-        <span class="pill">要求する権限：<b>storage のみ</b></span>
+        <span class="pill">要求する権限：<b>storage</b></span>
       </div>
+      <p class="pill-note">Safari 版は、Mac の端末内AI（Apple Intelligence）とやり取りするために <code>nativeMessaging</code> も使います。このやり取りは Mac の中だけで完結します。</p>
+    </div>
+  </section>
+
+  <section class="band" id="get">
+    <div class="wrap">
+      <div class="reveal">
+        <span class="kicker">入手する</span>
+        <h2>いつものブラウザに、無料で。</h2>
+        <p class="section-sub">Chrome 版と Safari（Mac）版の機能は同じです。端末内AIの仕組みだけが異なります。</p>
+      </div>
+      <div class="get-grid reveal">
+        <div class="get-card">
+          <h3>Chrome</h3>
+          <p>パソコン版の Chrome に追加します。端末内AIは、Chrome の組み込みAIに対応した端末で使えます。</p>
+          <a class="btn-store" href="https://chromewebstore.google.com/detail/kjdodbkbkkncabkdgjapbioggmgnielo" target="_blank" rel="noopener" aria-label="Chrome ウェブストアで入手">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.66 5l4.4 7.63A4 4 0 0 1 12 8h9.5A10 10 0 0 0 12 2zm10.13 7H14a4 4 0 0 1 1.86 5.34l-4.6 7.62A10 10 0 0 0 22.13 9zM9.4 14.94 4.7 7.3A10 10 0 0 0 11.62 22l1.96-3.38A4 4 0 0 1 9.4 14.94z"/></svg>
+            <span><span class="small">無料</span><span class="big">Chrome&nbsp;ウェブストア</span></span>
+          </a>
+        </div>
+        <div class="get-card">
+          <h3>Safari（Mac）</h3>
+          <p>App Store からアプリを入れて起動し、Safari の設定の「機能拡張」で「サクラ診断」をオンにします。端末内AIは、Apple Intelligence に対応した Mac（macOS 26 以降）で使えます。</p>
+          <a class="btn-store" href="https://apps.apple.com/jp/app/id6777699996" target="_blank" rel="noopener" aria-label="Mac App Store で入手">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.36 1.43c.05 1.02-.34 2.02-1 2.77-.69.78-1.84 1.38-2.94 1.29-.07-1 .39-2.04 1.02-2.74.71-.79 1.94-1.36 2.92-1.32zM20.6 17.13c-.55 1.27-.82 1.84-1.53 2.97-.99 1.57-2.39 3.53-4.12 3.54-1.54.02-1.94-1-4.03-.99-2.09.01-2.52 1.01-4.06.99-1.73-.02-3.06-1.79-4.05-3.36-2.77-4.4-3.06-9.56-1.35-12.31 1.21-1.94 3.13-3.08 4.93-3.08 1.84 0 2.99 1.01 4.51 1.01 1.47 0 2.37-1.01 4.5-1.01 1.6 0 3.3.87 4.51 2.38-3.96 2.17-3.32 7.82.74 9.86z"/></svg>
+            <span><span class="small">無料</span><span class="big">Mac&nbsp;App&nbsp;Store</span></span>
+          </a>
+        </div>
+      </div>
+      <p class="get-foot reveal">インストールの手順や、うまく動かないときは<a href="/sakura-grade/support.html">サポート</a>をご覧ください。</p>
     </div>
   </section>
 
@@ -395,7 +541,7 @@
       <div>© 2026 mkontani</div>
     </div>
     <div class="wrap">
-      <p class="disclaimer">※「サクラ診断」は Amazon 非公式の拡張機能であり、Amazon.com, Inc. およびその関連会社とは一切関係がありません。Amazon および関連するロゴは各権利者の商標です。診断は評価分布とレビュー文に基づく参考情報です。</p>
+      <p class="disclaimer">※「サクラ診断」は Amazon 非公式の拡張機能であり、Amazon.com, Inc. およびその関連会社とは一切関係がありません。Amazon および関連するロゴは各権利者の商標です。Apple、Mac、Safari、App Store は Apple Inc. の商標です。Chrome は Google LLC の商標です。診断は評価分布とレビューに基づく参考情報です。</p>
     </div>
   </footer>
 
