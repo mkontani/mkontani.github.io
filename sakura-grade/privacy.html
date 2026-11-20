@@ -10,7 +10,7 @@
   <div class="wrap">
     <header class="site"><a href="/">mkontani</a> · <a href="/sakura-grade/">サクラ診断</a></header>
     <h1>サクラ診断 — プライバシーポリシー</h1>
-    <p class="muted">最終更新: 2026-11-20</p>
+    <p class="muted">最終更新: 2026-11-21</p>
 
     <p>「サクラ診断」は、Amazon.co.jp の商品レビューの評価分布を診断するブラウザ拡張（Chrome 版・Safari 版）です。プライバシー保護を設計の中心に据えています。</p>
 
@@ -27,7 +27,7 @@
     <p>対応端末では、Chrome 版は Chrome の組み込みAI（Prompt API / Gemini Nano）、Safari 版は Apple Intelligence（Foundation Models）を用いてレビュー文を解析します。この処理は完全に端末内で実行され、レビュー内容が外部に送信されることはありません。AIモデルのダウンロードはブラウザや OS の機能によるものであり、本拡張がデータを送信するわけではありません。</p>
 
     <h2>権限</h2>
-    <p>本拡張が要求するブラウザ権限は <code>storage</code> だけです。レビューを取り込むタイミングと読み込む量の設定を保存するためだけに使います。<code>host_permissions</code> は要求しません。Amazon.co.jp のページ上で動作し、読み取る対象は商品ページの評価分布・レビューと、同じサイトのレビュー一覧ページのみです。</p>
+    <p>本拡張が要求するブラウザ権限は、Chrome 版は <code>storage</code> だけ、Safari 版は <code>storage</code> と <code>nativeMessaging</code> です。<code>storage</code> は、レビューを取り込むタイミングと読み込む量の設定を保存するためだけに使います。<code>nativeMessaging</code> は、端末内AI（Apple Intelligence）が使えるかの確認と、解析するレビューの抜粋を、拡張から同じアプリの中の処理へ渡すためだけに使います。このやり取りは Mac の中だけで完結し、外部には送信しません。<code>host_permissions</code> は要求しません。Amazon.co.jp のページ上で動作し、読み取る対象は商品ページの評価分布・レビューと、同じサイトのレビュー一覧ページのみです。</p>
 
     <h2>お子様のプライバシー</h2>
     <p>サクラ診断は、お子様を含むいかなる利用者からもデータを収集しません。</p>
