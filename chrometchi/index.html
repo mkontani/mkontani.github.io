@@ -227,6 +227,9 @@
     .chips img { width: 48px; height: 48px; flex: none; }
     .chips img.x2 { width: 64px; height: 64px; margin: -8px; }
     .chips .desc { display: block; font-family: var(--font-body); font-size: 15px; color: var(--sub); line-height: 1.5; }
+    .diary { padding: 14px 20px 16px; }
+    .diary-head { font-family: var(--font-dot); font-size: 18px; padding: 0 4px 10px; margin-bottom: 8px; border-bottom: 3px dashed #eadfcb; }
+    .diary .chips { padding: 0 4px; }
 
     .flow { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px 14px; padding: 18px 16px; }
     .flow .group { display: grid; grid-template-columns: repeat(2, 64px); gap: 6px; justify-items: center; align-items: center; }
@@ -401,8 +404,8 @@
       <div class="wrap split">
         <div>
           <h2 id="care-title"><span lang="ja">お世話するほど、<br />すくすく育つ</span><span lang="en">A little care<br />goes a long way</span></h2>
-          <p class="body" lang="ja">ごはんとおやつ、うんちのおそうじ、びょうきのときのくすり、夜の消灯。すきま時間のお世話で、ペットは元気に育ちます。なでると、うれしそうに笑います。病気でないときは「しんさつ」で、お医者さんに育ちぐあいを診てもらえます。上のバーには、いまの育ちの段階と「何時間目」かも出ます。</p>
-          <p class="body" lang="en">Meals and treats, cleaning up, medicine when it is sick and lights out at bedtime. A moment of care between tabs keeps your pet healthy, and a pat makes it light up. When it is not sick, a Checkup shows how it is growing. The top bar shows its stage and the hour within it.</p>
+          <p class="body" lang="ja">ごはんとおやつ、うんちのおそうじ、びょうきのときのくすり、夜の消灯。すきま時間のお世話で、ペットは元気に育ちます。なでると、うれしそうに笑います。病気でないときは「しんさつ」で、お医者さんに育ちぐあいを診てもらえます。おとなの子なら、そろそろたびだちそうかどうかも教えてくれます。上のバーには、いまの育ちの段階と「何時間目」かも出ます。大事に育てた子ほど、おとなになってから長くいっしょにいられます。</p>
+          <p class="body" lang="en">Meals and treats, cleaning up, medicine when it is sick and lights out at bedtime. A moment of care between tabs keeps your pet healthy, and a pat makes it light up. When it is not sick, a Checkup shows how it is growing and, for an adult, whether it may set off on its journey soon. The top bar shows its stage and the hour within it. The better you look after it, the longer it stays with you as an adult.</p>
         </div>
         <div class="stack">
           <ol class="card plain growth" aria-label="育ち方" data-label-ja="育ち方" data-label-en="Life stages">
@@ -543,12 +546,33 @@
       </div>
     </section>
 
+    <section class="band t-yellow" id="days" aria-labelledby="days-title">
+      <div class="wrap split">
+        <div>
+          <h2 id="days-title"><span lang="ja">その子だけの、<br />毎日がある</span><span lang="en">A life<br />all its own</span></h2>
+          <p class="body" lang="ja">生まれたら、なまえをつけてあげましょう。起きているあいだには、ときどき小さなできごとが起きます。きのみやコインを見つけたり、ごきげんになったり、おねがいごとをしたり。ポップアップを開くと、その子が話して教えてくれます。</p>
+          <p class="body" lang="en">Give it a name once it hatches. While it is awake, little things happen: it finds nuts or coins, cheers up or makes a wish, and tells you all about it when you open the popup.</p>
+          <p class="body" lang="ja">ごくまれに、「どうする?」ときいてくる、ものがたりも。こたえによってそのあとが変わり、おへやにおもいでの品が残ります。できごとはにっきに残り、「おもいで」で、いまの子とこれまでの子のにっきを読めます。</p>
+          <p class="body" lang="en">Once in a while it asks you, "What should we do?" Your answer changes what happens next and leaves a keepsake in its room. Everything goes into its diary, and in Memories you can read the diary of your current pet and of every pet before it.</p>
+        </div>
+        <div class="card diary">
+          <div class="diary-head"><span lang="ja">ポチの にっき</span><span lang="en">Pochi's diary</span></div>
+          <ul class="plain chips">
+            <li><img class="px x2" src="/chrometchi/art/ui/happening/rainbow.png" alt="" width="64" height="64" /><span><span lang="ja">にじを みた</span><span lang="en">Saw a rainbow.</span></span></li>
+            <li><img class="px x2" src="/chrometchi/art/ui/happening/seed.png" alt="" width="64" height="64" /><span><span lang="ja">ふしぎな たねを ひろった</span><span lang="en">Found a strange seed.</span><span class="desc" lang="ja">「どうする?」▸ うえる</span><span class="desc" lang="en">"What should we do?" ▸ Plant it</span></span></li>
+            <li><img class="px x2" src="/chrometchi/art/ui/happening/seeda1.png" alt="" width="64" height="64" /><span><span lang="ja">はちから めが でた</span><span lang="en">A sprout came up in the pot.</span></span></li>
+            <li><img class="px x2" src="/chrometchi/art/ui/happening/seeda3.png" alt="" width="64" height="64" /><span><span lang="ja">ひかる はなが さいた</span><span lang="en">A glowing flower bloomed.</span></span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <section class="band t-pink" id="walk" aria-labelledby="walk-title">
       <div class="wrap split">
         <div>
           <h2 id="walk-title"><span lang="ja">Web ページの上を、<br />おさんぽ</span><span lang="en">Out for a walk<br />on your web pages</span></h2>
-          <p class="body" lang="ja">「せってい」でオンにすると、ペットが見ているページの下をてくてく歩きます。クリックすると、なでられてハートを出してよろこび、吹き出しで様子を話してくれます。「会いにいく」を押すと、ポップアップが開きます。ドラッグでよけたり、じゃまなサイトでは隠れてもらったりもできます。</p>
-          <p class="body" lang="en">Turn it on in Settings and your pet strolls along the bottom of the pages you browse. Click it to give it a pat: hearts pop out, it tells you how it is doing, and Visit opens the popup. Drag it out of the way, or have it hide on a site.</p>
+          <p class="body" lang="ja">「せってい」でオンにすると、ペットが見ているページの下をてくてく歩きます。クリックすると、なでられてハートを出してよろこび、吹き出しで様子やできごとを話してくれます。「会いにいく」を押すと、ポップアップが開きます。ドラッグでよけたり、じゃまなサイトでは隠れてもらったりもできます。</p>
+          <p class="body" lang="en">Turn it on in Settings and your pet strolls along the bottom of the pages you browse. Click it to give it a pat: hearts pop out, it tells you how it is doing and what has happened, and Visit opens the popup. Drag it out of the way, or have it hide on a site.</p>
           <p class="body" lang="ja">サイトへのアクセス許可は、この機能をオンにしたときだけお願いします。オフにすると、許可をお返しします。</p>
           <p class="body" lang="en">Site access is asked for only when you turn this on, and given back when you turn it off.</p>
           <p class="try" id="try">
